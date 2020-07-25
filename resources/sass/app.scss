@@ -1,0 +1,74 @@
+// Fonts
+@import url('https://fonts.googleapis.com/css?family=Open+Sans:400,700');
+
+// Variables
+@import 'variables';
+
+// Bootstrap
+@import '~bootstrap/scss/bootstrap';
+
+.navbar-laravel {
+    background-color:$blue;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
+}
+
+.btn-my{
+    background-color:$blue;
+    color:white;
+}
+
+body{
+    background-color:#d1d0d6;
+}
+
+.post_img{
+    border-radius: 8px;
+}
+
+.profile_img {
+    border: 1px solid #fff;
+    padding: 5px;
+    position: relative;
+    bottom: -30%;
+    width: 150px;
+}
+
+a:hover{
+    opacity: 90%;
+}
+
+a{
+    font-size: small;
+}
+
+nav {
+    div{
+    color:white;
+    }
+}
+
+.white{
+    color:white;
+}
+
+.post_background{
+    background-color:$blue;
+}
+
+.white{
+    color:white;
+}
+
+.white_bckgr{
+    background-color: white;
+}
+
+.grey{
+    background-color: #333;
+}
+
+.cover_img{
+    background-image:url('/svg/cover_img.jpg');
+    background-size: 100% 100%;
+    padding-top: 10%;
+}
