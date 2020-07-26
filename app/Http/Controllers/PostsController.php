@@ -18,11 +18,11 @@ class PostsController extends Controller
     public function index()
     {
 
-        $users = auth()->user()->following()->pluck('profiles.user_id');
+        $users = auth()->user()->following()->get()->pluck('profiles.user_id');
 
         $allUsers =  User::where('id', '!=', auth()->id())->get();
 
-        $posts = Post::whereIn('user_id', $users)->with('user')->latest()->paginate(5);
+        $posts = Post::whereIn('user_id', $users)->latest()->paginate(5);
 
 
         return view('posts.index', compact('posts','allUsers'));

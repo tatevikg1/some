@@ -4,6 +4,7 @@
 
 @section('content')
 <div class="container white_bckgr">
+
     <div class="row cover_img">
         <div class="col-3 ">
             <img src="{{ $user->profile->profileImage() }}" class="rounded-circle profile_img">
@@ -15,13 +16,7 @@
         <ul class="ml-auto" style="list-style-type:none;">
             <li style="display:inline; margin-right:7px;"
                 class="float-right">
-                @can('update', $user->profile)
 
-                @else
-                    <a  href="/message/{{ Auth::user()->id }}/{{ $user->id }}"
-                        class="btn btn-my"
-                        style="float:right;">Message</a>
-                @endcan
             </li>
             <li class="float-left" style="margin-right:7px;">
                 @can('update', $user->profile)
@@ -46,11 +41,11 @@
     </div>
 </div>
 
-<script>
-$(document).ready(function(){
-  $('[data-toggle="tooltip"]').tooltip();
-});
-</script>
+<!-- <script>
+    $(document).ready(function(){
+        $('[data-toggle="tooltip"]').tooltip();
+    });
+</script> -->
 
 <div class="container mt-4 d-flex">
     @foreach($user->posts as $post)
