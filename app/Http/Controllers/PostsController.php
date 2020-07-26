@@ -18,7 +18,7 @@ class PostsController extends Controller
     public function index()
     {
 
-        $users = auth()->user()->following()->get()->pluck('profiles.user_id');
+        $users = auth()->user()->following()->pluck('profiles.user_id');
 
         $allUsers =  User::where('id', '!=', auth()->id())->get();
 
