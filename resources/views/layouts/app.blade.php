@@ -18,7 +18,7 @@
 
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
-    <link rel="icon" type="image/png" href="/svg/image1.svg"/>
+    <link rel="icon" type="image/png" href="/svg/wings.svg"/>
     <link rel="stylesheet" href="/css/master.css">
 </head>
 <body>
@@ -26,8 +26,8 @@
         <nav class="navbar navbar-expand-md navbar-light navbar-laravel fixed-top">
             <div class="container" >
                 <a class="navbar-brand d-flex align-items-center" href="{{ url('/') }}" style="padding:0px">
-                    <div><img src="/svg/image1.svg" style="height: 30px; border-right: 1px solid #333;" class="pr-3"></div>
-                    <div class="pl-3">SoMe</div>
+                    <div><img src="/svg/wings.svg" style="height: 30px; border-right: 1px solid #333;" class="pr-3"></div>
+                    <div class="pl-3">Wings</div>
                 </a>
                 @auth
                 <form class="" action="/profile/find" method="post">
