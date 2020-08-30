@@ -19,21 +19,21 @@
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
     <link rel="icon" type="image/png" href="/svg/wings.svg"/>
-    <link rel="stylesheet" href="/css/master.css">
+    <link rel="stylesheet" href="/css/app.css">
 </head>
 <body>
     <div id="app">
         <nav class="navbar navbar-expand-md navbar-light navbar-laravel fixed-top">
             <div class="container" >
                 <a class="navbar-brand d-flex align-items-center" href="{{ url('/') }}" style="padding:0px">
-                    <div><img src="/svg/wings.svg" style="height: 30px; border-right: 1px solid #333;" class="pr-3"></div>
-                    <div class="pl-3">Wings</div>
+                    <div><img src="/svg/wings0.svg" style="height: 30px; border-right: 1px solid #aaa;" class="pr-3"></div>
+                    <div class="pl-3 app_name">Wings</div>
                 </a>
                 @auth
-                <form class="" action="/profile/find" method="post">
+                <form class="d-flex mr-3" action="/profile/find" method="post">
                     @csrf
                     <input type="text" name="username" placeholder="Search" style="padding-right: 50px;">
-                    <input type="submit"  value="Ok" style="margin-left: -50px;">
+                    <input type="submit"  value="Ok" style="margin-left: -47px;">
                 </form>
                 @endauth
 
@@ -66,6 +66,11 @@
                                 Add Post
                             </a>
                         </li>
+                        <li>
+                            <a class="dropdown-item white" href="/chats">
+                                Chat
+                            </a>
+                        </li>
                         @endguest
                     </ul>
 
@@ -74,11 +79,11 @@
                         <!-- Authentication Links -->
                         @guest
                             <li class="nav-item">
-                                <a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a>
+                                <a class="nav-link" href="{{ route('login') }}" style="color:white">{{ __('Login') }}</a>
                             </li>
                             @if (Route::has('register'))
                                 <li class="nav-item">
-                                    <a class="nav-link" href="{{ route('register') }}">{{ __('Register') }}</a>
+                                    <a class="nav-link" href="{{ route('register') }}" style="color:white">{{ __('Register') }}</a>
                                 </li>
                             @endif
                         @else
