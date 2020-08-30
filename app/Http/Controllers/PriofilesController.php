@@ -6,6 +6,8 @@ use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
 use Intervention\Image\Facades\Image;
+use Illuminate\Support\Facades\DB;
+
 
 class ProfilesController extends Controller
 {
@@ -95,7 +97,7 @@ class ProfilesController extends Controller
 
         $username =$request->input('username');
 
-        $users = User::where('username', 'like', '%'.$username.'%')->get();
+        $users = User::where('name', 'like', '%'.$username.'%')->get();
 
         return view('profiles.index', compact('users'));
     }
