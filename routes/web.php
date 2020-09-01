@@ -27,6 +27,9 @@ Route::patch('/profile/{user}',      'ProfilesController@update')->name('profile
 Route::delete('/profile/{user}',     'ProfilesController@destroy')->name('profile.destroy');
 Route::post ('/profile/find',        'ProfilesController@find')->name('profile.find');
 
-Route::get  ('/chats',           'ChatsController@index')->name('chat');
+Route::get  ('/chats',      'ChatsController@index')->name('chat');
 Route::get  ('messages',    'ChatsController@fetchMessages');
 Route::post ('messages',    'ChatsController@sendMessage');
+
+Route::get('/contacts', 'ChatsController@contacts');
+Route::get('/conversation/{id}', 'ChatsController@getMessagesWithContact');
