@@ -4,9 +4,9 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\User;
-use App\Profile;
 use Illuminate\Support\Facades\Auth;
 use App\Message;
+use App\Events\NewMessage;
 
 class ChatsController extends Controller
 {
@@ -25,12 +25,8 @@ class ChatsController extends Controller
 
     public function contacts()
     {
-        $contacts = User::all();
+        $contacts = User::where('id', '!=', auth()->id())->get();
 
-        // $profiles = Profile::all();
-        // $contacts = User::all()->pluck('profiles.user_id');
-
-        // return array($contacts, $profiles);
         return $contacts;
     }
 
@@ -39,5 +35,19 @@ class ChatsController extends Controller
         $messages = Message::where('from', $id)->orWhere('to', $id)->get();
 
         return $messages;
+    }
+
+    public function send(Request $request)
+    {
+        $message = Message::create([
+            'from' => Auth::id(),
+            'to' => $request->contact_id,
+            'text' => $request->text,
+        ]);
+
+        broadcast(new NewMessage($message));
+
+        return $message;
+
     }
 }

@@ -4,7 +4,7 @@
             <li v-for="contact  in contacts"
                 :key="contact.id"
                 @click="selectContact(index, contact)"
-                :class="{'selected': index ==  selected }">
+                :class="{ 'selected': contact == selected }">
                 <div class="image">
                     <img :src="contact"
                         class="rounded-circle"
@@ -36,13 +36,13 @@
 
         data(){
             return{
-                selected: 0
+                selected:0
             };
         },
 
         methods:{
             selectContact(index, contact){
-                this.selected = index;
+                this.selected = contact;
                 this.$emit('selected', contact);
             }
         }
@@ -62,6 +62,10 @@
             list-style-type: none; /* Remove bullets */
             padding-left:0px;
 
+            .selected{
+                background-color:#d1d0d6;
+            }
+
             li{
                 display:flex;
                 padding:2px;
@@ -70,9 +74,7 @@
                 height:80px;
                 position: relative;
 
-                .selected{
-                    background-color:#d1d0d6;
-                }
+
 
                 .image{
                     flex:1;
@@ -107,6 +109,7 @@
 
 
         }
+
     }
 
 
