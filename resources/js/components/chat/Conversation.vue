@@ -1,7 +1,10 @@
 <template>
     <div class="conversation">
+
         <h3>{{ contact ? contact.name : 'Select a contact.' }}</h3>
+
         <Messages :contact="contact" :messages='messages' />
+
         <MessageComposer @send="sendMessage" />
 
     </div>
@@ -26,7 +29,12 @@
 
         methods:{
             sendMessage(text){
-                console.log(text);
+                axios.post('/conversation/send',{
+                    contact_id: this.contact.id,
+                    text:text
+                }).then((response) => {
+                    this.$emit('new', response.data);
+                })
             }
         },
 

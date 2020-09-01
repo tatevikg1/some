@@ -31,5 +31,6 @@ Route::get  ('/chats',      'ChatsController@index')->name('chat');
 Route::get  ('messages',    'ChatsController@fetchMessages');
 Route::post ('messages',    'ChatsController@sendMessage');
 
-Route::get('/contacts', 'ChatsController@contacts');
-Route::get('/conversation/{id}', 'ChatsController@getMessagesWithContact');
+Route::get  ('/contacts',           'ChatsController@contacts');
+Route::get  ('/conversation/{id}',  'ChatsController@getMessagesWithContact');
+Route::post ('/conversation/send',  'ChatsController@send');

@@ -12,11 +12,11 @@ class Message extends Model
      *
      * @var array
      */
-    protected $fillable = ['message'];
+    protected $fillable = ['text','from', 'to'];
 
     public function user()
     {
       return $this->belongsTo(User::class);
     }
-    
+
 }

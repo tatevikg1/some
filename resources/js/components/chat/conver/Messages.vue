@@ -1,5 +1,5 @@
 <template>
-    <div class="fon">
+    <div class="fon" ref="fon">
         <ul v-if="contact">
             <li v-for='message in messages'
                 :key="message.id"
@@ -16,7 +16,7 @@
 
     export default {
 
-        props: {
+        props:{
 
             contact:{
                 type:Object
@@ -24,6 +24,23 @@
 
             messages: {
                 required:true
+            }
+        },
+
+        methods:{
+            scrollToBotttom(){
+                setTimeout(()=>{
+                    this.$refs.fon.scrollTop = this.$refs.fon.scrollHeight;
+                }, 50);
+            }
+        },
+
+        watch:{
+            contact(contact){
+                this.scrollToBotttom();
+            },
+            messages(){
+                this.scrollToBotttom();
             }
         }
     }
