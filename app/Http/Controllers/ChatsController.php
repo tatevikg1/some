@@ -3,9 +3,10 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Message;
+use App\User;
+use App\Profile;
 use Illuminate\Support\Facades\Auth;
-use App\Events\MessageSent;
+use App\Message;
 
 class ChatsController extends Controller
 {
@@ -16,30 +17,27 @@ class ChatsController extends Controller
         $this->middleware('auth');
     }
 
-
     public function index()
     {
-        // Message::truncate(); // deletes all the messages from the DB
         return view('chat.chat');
     }
 
 
-    public function fetchMessages()
+    public function contacts()
     {
-        return Message::with('user')->get();
+        $contacts = User::all();
+
+        // $profiles = Profile::all();
+        // $contacts = User::all()->pluck('profiles.user_id');
+
+        // return array($contacts, $profiles);
+        return $contacts;
     }
 
-
-    public function sendMessage(Request $request)
+    public function getMessagesWithContact($id)
     {
-        $user = Auth::user();
+        $messages = Message::where('from', $id)->orWhere('to', $id)->get();
 
-        $message = $user->messages()->create([
-            'message' => $request->input('message')
-        ]);
-
-        broadcast(new MessageSent($user, $message))->toOthers();
-
-        return ['status' => 'Message Sent!'];
+        return $messages;
     }
 }
