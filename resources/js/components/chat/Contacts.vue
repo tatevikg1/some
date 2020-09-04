@@ -1,9 +1,9 @@
 <template>
     <div class="contacts-list">
         <ul>
-            <li v-for="contact  in contacts"
+            <li v-for="contact  in sortedContacts"
                 :key="contact.id"
-                @click="selectContact(index, contact)"
+                @click="selectContact(contact)"
                 :class="{ 'selected': contact == selected }">
                 <div class="image">
                     <img src="http://via.placeholder.com/150x150"
@@ -16,6 +16,8 @@
                     <p class='name'>{{ contact.name  }}</p>
                     <p>{{ contact.email }}</p>
                 </div>
+                <span class="unread" v-if="contact.unread">{{ contact.unread }}</span>
+
             </li>
 
         </ul>
@@ -28,22 +30,30 @@
         props:{
             contacts:{
                 default:[]
-            },
-            index:{
-                default:0
             }
         },
 
         data(){
             return{
-                selected:0
+                selected: this.contacts.length ? this.contacts[0] : null
             };
         },
 
         methods:{
-            selectContact(index, contact){
+            selectContact(contact){
                 this.selected = contact;
                 this.$emit('selected', contact);
+            }
+        },
+
+        computed: {
+            sortedContacts() {
+                return _.sortBy(this.contacts, [(contact) => {
+                    if (contact == this.selected) {
+                        return Infinity;
+                    }
+                    return contact.unread;
+                }]).reverse();
             }
         }
 
@@ -103,8 +113,19 @@
                 .name{
                     font-weight:bold;
                 }
+            }
 
-
+            span.unread{
+                background-color: green;
+                color: white;
+                position: absolute;
+                right: 15px;
+                top: 20px;
+                min-width: 20px;
+                text-align: center;
+                font-weight: bold;
+                font-size: 12px;
+                border-radius: 50%;
             }
 
 

@@ -47,6 +47,7 @@
 
         methods:{
             startConversationWith(contact){
+                this.updateUnreadCount(contact, true);
                 axios.get(`/conversation/${contact.id}`)
                     .then((response) => {
                         this.messages = response.data;
@@ -63,12 +64,28 @@
             handleIncoming(message){
                 if(this.selectedContact && message.from == this.selectedContact.id){
                     this.saveNewMassage(message);
+                    axios.post(`/messages/${message.id}`)
                     return;
                 }
 
-                alert(`new message from ${this.selectedContact.name}`);
+                this.updateUnreadCount(message.from_contact, false);
 
-            }
+            },
+
+            updateUnreadCount(contact, zroyacnel){
+                this.contacts = this.contacts.map((single) =>{
+                    if (single.id != contact.id){
+                        return single;
+                    }
+
+                    if(zroyacnel)
+                        single.unread = 0;
+                    else
+                        single.unread += 1;
+
+                    return single;
+                }
+            )}
         },
 
         components:{ Conversation, Contacts }
