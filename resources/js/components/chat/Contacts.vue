@@ -6,7 +6,7 @@
                 @click="selectContact(index, contact)"
                 :class="{ 'selected': contact == selected }">
                 <div class="image">
-                    <img :src="contact"
+                    <img src="http://via.placeholder.com/150x150"
                         class="rounded-circle"
                         style="max-width:50px"
                         :key="contact.id">

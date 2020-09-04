@@ -22,7 +22,6 @@ class ChatsController extends Controller
         return view('chat.chat');
     }
 
-
     public function contacts()
     {
         $contacts = User::where('id', '!=', auth()->id())->get();
@@ -32,7 +31,16 @@ class ChatsController extends Controller
 
     public function getMessagesWithContact($id)
     {
-        $messages = Message::where('from', $id)->orWhere('to', $id)->get();
+        $messages = Message::where(function($q) use ($id){
+
+            $q->where('from' , auth()->id());
+            $q->where('to', $id);
+
+        })->orWhere(function($q) use ($id){
+
+            $q->where('to' , auth()->id());
+            $q->where('from', $id);
+        })->get();
 
         return $messages;
     }
@@ -47,7 +55,7 @@ class ChatsController extends Controller
 
         broadcast(new NewMessage($message));
 
-        return $message;
+        return response()->json($message);
 
     }
 }
