@@ -28,10 +28,10 @@
         },
 
         methods:{
-            sendMessage(text){
+            sendMessage(message){
                 axios.post('/conversation/send',{
                     contact_id: this.contact.id,
-                    text:text
+                    text:message
                 }).then((response) => {
                     this.$emit('new', response.data);
                 })

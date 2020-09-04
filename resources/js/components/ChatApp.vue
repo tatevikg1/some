@@ -31,8 +31,8 @@
 
         mounted(){
 
-            Echo.private(`messages${this.user.id}`)
-                .listen('NewMessage', (e) =>{
+            Echo.private(`messages.${this.user.id}`)
+                .listen("NewMessage", (e) => {
                     this.handleIncoming(e.message);
                 });
 
@@ -51,20 +51,22 @@
                     .then((response) => {
                         this.messages = response.data;
                         this.selectedContact = contact;
+
                     })
             },
 
-            saveNewMassage(text){
-                this.messages.push(text);
+            saveNewMassage(message){
+                this.messages.push(message);
+
             },
 
             handleIncoming(message){
-                if(message.from == this.selectedContact.id){
-                    saveNewMassage(message);
+                if(this.selectedContact && message.from == this.selectedContact.id){
+                    this.saveNewMassage(message);
                     return;
                 }
 
-                alert(message.text);
+                alert(`new message from ${this.selectedContact.name}`);
 
             }
         },
