@@ -32,6 +32,9 @@ class NewMessage implements ShouldBroadcast
 
     public function broadcastWith()
     {
+        //loading the contact who sent the message to use it in vue and update(+=1) unread messages count
+        $this->message->load('fromContact');
+
         return ['message' => $this->message ];
     }
 }
