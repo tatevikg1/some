@@ -44,7 +44,7 @@ class ChatsController extends Controller
             return $contact;
         });
 
-        return json_encode($contact);
+        return json_encode($contacts);
     }
 
     public function getMessagesWithContact($id)
