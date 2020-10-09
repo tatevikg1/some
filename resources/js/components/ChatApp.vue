@@ -42,6 +42,9 @@
                 .then((response) =>{
                     this.contacts = response.data;
                     this.startConversationWith(response.data[0]);
+                })
+                .catch(error => {
+                    console.log(error.response);
                 });
         },
 
