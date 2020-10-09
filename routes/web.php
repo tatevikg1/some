@@ -34,6 +34,6 @@ Route::get  ('/chats',     function(){
     return view('chat_app.chat');
 });
 Route::post ('/messages/{id}',      'ChatsController@setRead');
-Route::get  ('/contacts',           'ChatsController@contacts');
+Route::post ('/contacts',           'ChatsController@contacts');
 Route::get  ('/conversation/{id}',  'ChatsController@getMessagesWithContact');
 Route::post ('/conversation/send',  'ChatsController@send');

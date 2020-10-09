@@ -38,7 +38,7 @@
 
 
 
-            axios.get('/contacts')
+            axios.post('/contacts')
                 .then((response) =>{
                     this.contacts = response.data;
                     this.startConversationWith(response.data[0]);
