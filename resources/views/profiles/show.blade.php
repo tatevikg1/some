@@ -7,8 +7,7 @@
 
     <div class="row cover_img">
         <div class="col-3 ">
-            <img src="/svg/profile.jpeg" class="rounded-circle profile_img">
-            <!-- <img src="{{ $user->profile->profileImage() }}" class="rounded-circle profile_img"> -->
+            <img src="{{ $user->profile->profileImage() }}" class="rounded-circle profile_img">
         </div>
     </div>
     <div class="d-flex">
