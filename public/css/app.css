@@ -10952,6 +10952,7 @@ body {
   position: relative;
   bottom: -30%;
   width: 150px;
+  background-image: url("/svg/profile.jpeg");
 }
 
 a:hover {
