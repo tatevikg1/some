@@ -25,24 +25,24 @@ class ChatsController extends Controller
         //get all contacts
         $contacts = User::where('id', '!=', auth()->id())->get();
 
-        //get the count of unread messages group by contact
-        $unreadMessagesId = Message::select(DB::raw(" `from` as sender_id, count(`from`) as messages_count "))
-            ->where('to', auth()->user()->id)
-            ->where('read', false)
-            ->groupBy('from')
-            ->get();
+        // //get the count of unread messages group by contact
+        // $unreadMessagesId = Message::select(DB::raw(" `from` as sender_id, count(`from`) as messages_count "))
+        //     ->where('to', auth()->user()->id)
+        //     ->where('read', false)
+        //     ->groupBy('from')
+        //     ->get();
 
-        //add the unread messages_count to contacts
-        $contacts = $contacts->map(function($contact) use ($unreadMessagesId) {
+        // //add the unread messages_count to contacts
+        // $contacts = $contacts->map(function($contact) use ($unreadMessagesId) {
 
-            // if the contact sent message that is unread,  get the message count
-            $contactUnread = $unreadMessagesId->where('sender_id', $contact->id)->first();
+        //     // if the contact sent message that is unread,  get the message count
+        //     $contactUnread = $unreadMessagesId->where('sender_id', $contact->id)->first();
 
-            // if the contact is one of unread messages senders, unread = messages_count, else = 0
-            $contact->unread = $contactUnread ? $contactUnread->messages_count : 0;
+        //     // if the contact is one of unread messages senders, unread = messages_count, else = 0
+        //     $contact->unread = $contactUnread ? $contactUnread->messages_count : 0;
 
-            return $contact;
-        });
+        //     return $contact;
+        // });
 
         return $contacts;
     }
