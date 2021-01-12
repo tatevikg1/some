@@ -37,7 +37,7 @@ class ChatsController extends Controller
         return  $contacts->map(function($contact) use ($unreadMessagesId) {
 
             // if the contact sent message that is unread,  get the message count
-            $contactUnread = $unreadMessagesId->where('from', $contact->id)->first();
+            $contactUnread = $unreadMessagesId->where('sender_id', $contact->id)->first();
 
             // if the contact is one of unread messages senders, unread = messages_count, else = 0
             $contact->unread = $contactUnread ? $contactUnread->messages_count : 0;
@@ -45,7 +45,6 @@ class ChatsController extends Controller
             return $contact;
         });
 
-        // return $contacts;
     }
 
     public function getMessagesWithContact($id)
