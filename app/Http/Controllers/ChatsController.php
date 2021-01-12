@@ -31,10 +31,8 @@ class ChatsController extends Controller
             ->where('read', false)
             ->groupBy('from')
             ->get();
-
-
         //add the unread messages_count to contacts
-        return  $contacts->map(function($contact) use ($unreadMessagesId) {
+       $returncontacts = $contacts->map(function($contact) use ($unreadMessagesId) {
 
             // if the contact sent message that is unread,  get the message count
             $contactUnread = $unreadMessagesId->where('sender_id', $contact->id)->first();
@@ -45,6 +43,8 @@ class ChatsController extends Controller
             return $contact;
         });
 
+        return $returncontacts;
+        // return view('profiles.test', compact('returncontacts'));
     }
 
     public function getMessagesWithContact($id)
