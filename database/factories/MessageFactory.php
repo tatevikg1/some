@@ -17,8 +17,8 @@ $factory->define(Message::class, function (Faker $faker) {
     }while($from == $to);
 
     return [
-        'from' => $from,
-        'to' => $to,
+        'sender' => $from,
+        'receiver' => $to,
         'text' => $faker->sentence,
     ];
 });

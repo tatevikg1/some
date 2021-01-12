@@ -51,7 +51,7 @@
     justify-content:space-between;
 
     h3{
-        paddind:10px;
+        padding:10px;
         margin:0;
         border-bottom:1px dashed #d1d0d6;;
     }
