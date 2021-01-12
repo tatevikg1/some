@@ -1,8 +1,9 @@
 <?php
 
-
-
 use App\Mail\NewUserWelcomeMail;
+use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Auth;
+
 
 Auth::routes();
 
@@ -37,3 +38,5 @@ Route::post ('/messages/{id}',      'ChatsController@setRead');
 Route::post ('/contacts',           'ChatsController@contacts');
 Route::get  ('/conversation/{id}',  'ChatsController@getMessagesWithContact');
 Route::post ('/conversation/send',  'ChatsController@send');
+
+Route::get('/test', 'ChatsController@contacts');
