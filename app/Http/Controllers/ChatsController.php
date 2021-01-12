@@ -26,7 +26,7 @@ class ChatsController extends Controller
         $contacts = User::where('id', '!=', auth()->id())->get();
 
         //get the count of unread messages group by contact
-        $unreadMessagesId = Message::select(DB::raw(" `from` as sender_id, count(`from`) as messages_count "))
+        $unreadMessagesId = Message::select(DB::raw("`from` as sender_id, count(`from`) as messages_count "))
             ->where('to', auth()->user()->id)
             ->where('read', false)
             ->groupBy('from')
