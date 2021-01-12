@@ -13,7 +13,7 @@ class Message extends Model
      *
      * @var array
      */
-    protected $fillable = ['text','from', 'to', 'read'];
+    protected $fillable = ['text','sender', 'receiver', 'read'];
 
     public function user()
     {
@@ -23,6 +23,6 @@ class Message extends Model
     public function fromContact()
     {
         // it is for loading the user object from the message object
-        return $this->hasOne(User::class, 'id', 'from');
+        return $this->hasOne(User::class, 'id', 'sender');
     }
 }
