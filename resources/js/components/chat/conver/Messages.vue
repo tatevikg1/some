@@ -3,7 +3,7 @@
         <ul v-if="contact">
             <li v-for='message in messages'
                 :key="message.id"
-                :class="`message${message.reveiver == contact.id ? ' sent' : ' received'}`">
+                :class="`message${message.receiver == contact.id ? ' sent' : ' received'}`">
                 <div class="text">
                     {{message.text }}
                 </div>
