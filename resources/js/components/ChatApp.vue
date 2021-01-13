@@ -65,7 +65,7 @@
             },
 
             handleIncoming(message){
-                if(this.selectedContact && message.from == this.selectedContact.id){
+                if(this.selectedContact && message.sender == this.selectedContact.id){
                     this.saveNewMassage(message);
                     axios.post(`/messages/${message.id}`)
                     return;

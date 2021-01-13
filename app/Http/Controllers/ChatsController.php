@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Message;
 use App\Events\NewMessage;
 use Illuminate\Support\Facades\DB;
-
+use Illuminate\Support\Facades\Crypt;
 
 
 class ChatsController extends Controller
@@ -63,6 +63,10 @@ class ChatsController extends Controller
             $q->where('receiver' , auth()->id());
         })->get();
 
+        // foreach($messages as $message){
+        //     $message->text = Crypt::decryptString($message->text);
+        // }
+        
         return $messages;
     }
 
@@ -72,11 +76,13 @@ class ChatsController extends Controller
         $message = Message::create([
             'sender' => Auth::id(),
             'receiver' => $request->contact_id,
+            // 'text' => Crypt::encryptString($request->text),
             'text' => $request->text,
         ]);
         //broadcast for reciever(create newMessage event)
         broadcast(new NewMessage($message));
-
+        // $message->text = Crypt::decryptString($message->text);
+        
         return response()->json($message);
     }
 
