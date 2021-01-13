@@ -2,9 +2,7 @@
     <div class="chat-app">
 
         <Conversation :contact="selectedContact" :messages="messages" @new="saveNewMassage"/>
-        <Contacts
-            :contacts="contacts"
-            @selected="startConversationWith"/>
+        <Contacts :contacts="contacts" @selected="startConversationWith"/>
 
     </div>
 </template>
@@ -41,7 +39,7 @@
             axios.post('/contacts')
                 .then((response) =>{
                     this.contacts = response.data;
-                    this.startConversationWith(response.data[0]);
+                    // this.startConversationWith(response.data[0]);
                 })
                 .catch(error => {
                     console.log(error.response);
@@ -70,9 +68,8 @@
                     axios.post(`/messages/${message.id}`)
                     return;
                 }
-
+                // from_contact is the fromContact method in message class
                 this.updateUnreadCount(message.from_contact, false);
-
             },
 
             updateUnreadCount(contact, zroyacnel){
