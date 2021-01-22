@@ -18,7 +18,7 @@
                         <p>
                             <span class="font-weight-bold">
                                 <a href="/profile/{{ $user->id }}">
-                                    <span class="text-dark">{{ $user->name }}</span>
+                                    <span class="text-dark">{{ Str::ucfirst($user->name) }}</span>
                                 </a>
                             </span>
                         </p>
