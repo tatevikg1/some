@@ -6,9 +6,7 @@ use Illuminate\Support\Facades\Auth;
 
 Auth::routes();
 
-// Route::get('/email', function () {
-//     return new NewUserWelcomeMail();
-// });
+// Route::get('/email', function () { return new NewUserWelcomeMail(); });
 
 // follow and like buttons routes
 Route::post('follow/{user}',    'FollowsController@store');
@@ -21,13 +19,20 @@ Route::post  ('/p',             'PostsController@store');
 Route::get   ('/p/{post}',      'PostsController@show');
 Route::get('/delete/{post}',    'PostsController@destroy')->name('posts.destroy');
 
+// Route::get   ('/post',             'PostsController@index')  ->name('posts.index');
+// Route::get   ('/popt/create',      'PostsController@create') ->name('posts.create');
+// Route::post  ('/post',             'PostsController@store')  ->name('posts.store');
+// Route::get   ('/post/{post}',      'PostsController@show')   ->name('posts.show');
+// Route::delete('/post/{post}',      'PostsController@destroy')->name('posts.destroy');
+
+
 // profile
-Route::get  ('/profile',             'ProfilesController@index')->name('profile.index');
-Route::get  ('/profile/{user}',      'ProfilesController@show')->name('profile.show');
-Route::get  ('/profile/{user}/edit', 'ProfilesController@edit')->name('profile.edit');
-Route::patch('/profile/{user}',      'ProfilesController@update')->name('profile.update');
-Route::delete('/profile/{user}',     'ProfilesController@destroy')->name('profile.destroy');
-Route::post ('/profile/find',        'ProfilesController@find')->name('profile.find');
+Route::get  ('/profile',             'ProfilesController@index')    ->name('profile.index');
+Route::get  ('/profile/{user}',      'ProfilesController@show')     ->name('profile.show');
+Route::get  ('/profile/{user}/edit', 'ProfilesController@edit')     ->name('profile.edit');
+Route::patch('/profile/{user}',      'ProfilesController@update')   ->name('profile.update');
+Route::delete('/profile/{user}',     'ProfilesController@destroy')  ->name('profile.destroy');
+Route::post ('/profile/find',        'ProfilesController@find')     ->name('profile.find');
 
 // routes for the chat part of the app
 Route::get  ('/chats',     function(){

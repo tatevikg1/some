@@ -11,7 +11,7 @@
         </div>
     </div>
     <div class="d-flex">
-        <div class="h4" style="margin-left:150px;">{{ $user->name }}</div>
+        <div class="h4" style="margin-left:150px;">{{ Str::ucfirst($user->name) }}</div>
 
         <ul class="ml-auto" style="list-style-type:none;">
             <li style="display:inline; margin-right:7px;"
@@ -46,16 +46,18 @@
         $('[data-toggle="tooltip"]').tooltip();
     });
 </script> -->
-
-<div class="container mt-4 d-flex">
-    @foreach($user->posts as $post)
-        <div class="col-4 pt-4 pb-4 post_background" style="display: table-cell">
-            <a href="/p/{{ $post->id }}">
-                <img src="/storage/{{ $post->image }}" class="w-100"
-                    data-toggle="tooltip" title="{{$post->created_at}}">
-            </a>
-        </div>
-    @endforeach
+<div class="container">
+    <div class="d-flex mt-4  flex-wrap">
+        @foreach($user->posts as $post)
+            <div class="col-4 pt-4 pb-4 post_background">
+                <a href="/p/{{ $post->id }}">
+                    <img src="/storage/{{ $post->image }}" class="w-100"
+                        data-toggle="tooltip" title="{{$post->created_at}}">
+                </a>
+            </div>
+        @endforeach
+    </div>
 </div>
+
 
 @endsection
