@@ -10,19 +10,19 @@
             @foreach($users as $user)
                 <div class="col-3">
 
-                    <a href="/profile/{{ $user->id }}">
+                    <a href="{{ route('profile.show', $user->id) }}">
                         <img src="{{ $user->profile->profileImage() }}" class="w-100">
+
+                        <div>
+                            <p>
+                                <span class="font-weight-bold">
+                                    <span class="text-dark">{{ Str::ucfirst($user->name) }}</span>
+                                </span>
+                            </p>
+                        </div>
                     </a>
 
-                    <div>
-                        <p>
-                            <span class="font-weight-bold">
-                                <a href="/profile/{{ $user->id }}">
-                                    <span class="text-dark">{{ Str::ucfirst($user->name) }}</span>
-                                </a>
-                            </span>
-                        </p>
-                    </div>
+                    
 
                 </div>
             @endforeach

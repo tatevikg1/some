@@ -21,7 +21,7 @@
             <li class="float-left" style="margin-right:7px;">
                 @can('update', $user->profile)
                     <a class="btn btn-my ml-3"
-                        href="/profile/{{ $user->id }}/edit"
+                        href="{{ route('profile.edit', $user->id) }}"
                         >Edit Profile</a>
                 @else
                     <follow-button user-id="{{ $user->id }}" follows="{{ $follows }}"></follow-button>
@@ -50,7 +50,7 @@
     <div class="d-flex mt-4  flex-wrap">
         @foreach($user->posts as $post)
             <div class="col-4 pt-4 pb-4 post_background">
-                <a href="/p/{{ $post->id }}">
+                <a href="{{ route('post.show', $post->id) }}">
                     <img src="/storage/{{ $post->image }}" class="w-100"
                         data-toggle="tooltip" title="{{$post->created_at}}">
                 </a>

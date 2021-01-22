@@ -5,7 +5,7 @@
 
 @section('content')
 <div class="container a" style="margin-top:50px;">
-    <form action="/p" enctype="multipart/form-data" method="post">
+    <form action="{{ route('post.store') }}" enctype="multipart/form-data" method="post">
         @csrf
 
         <div class="row">

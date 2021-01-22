@@ -5,7 +5,7 @@
 
 @section('content')
 <div class="container a" style="margin-top:50px;">
-    <form action="/profile/{{ $user->id }}" enctype="multipart/form-data" method="post">
+    <form action="{{ route('profile.update', $user->id) }}" enctype="multipart/form-data" method="post">
         @csrf
         @method('PATCH')
 
@@ -84,7 +84,7 @@
             </div>
         </div>
         <div class="row">
-            <form id="edit" class="row pt-4" action="/profile/{{ $user->id }}" method="post">
+            <form id="edit" class="row pt-4" action="{{ route('profile.update', $user->id) }}" method="post">
                 @csrf
                 @method('PATCH')
             </form>
