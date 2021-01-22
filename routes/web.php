@@ -3,9 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 
-
 Auth::routes();
-
 // Route::get('/email', function () { return new NewUserWelcomeMail(); });
 
 // follow and like buttons routes
@@ -13,17 +11,11 @@ Route::post('follow/{user}',    'FollowsController@store');
 Route::post('like/{post}',      'LikesController@store');
 
 // post routes
-Route::get   ('/',              'PostsController@index');
-Route::get   ('/p/create',      'PostsController@create');
-Route::post  ('/p',             'PostsController@store');
-Route::get   ('/p/{post}',      'PostsController@show');
-Route::get('/delete/{post}',    'PostsController@destroy')->name('posts.destroy');
-
-// Route::get   ('/post',             'PostsController@index')  ->name('posts.index');
-// Route::get   ('/popt/create',      'PostsController@create') ->name('posts.create');
-// Route::post  ('/post',             'PostsController@store')  ->name('posts.store');
-// Route::get   ('/post/{post}',      'PostsController@show')   ->name('posts.show');
-// Route::delete('/post/{post}',      'PostsController@destroy')->name('posts.destroy');
+Route::get   ('/',             'PostsController@index')  ->name('post.index');
+Route::get   ('/popt/create',      'PostsController@create') ->name('post.create');
+Route::post  ('/post',             'PostsController@store')  ->name('post.store');
+Route::get   ('/post/{post}',      'PostsController@show')   ->name('post.show');
+Route::delete('/post/{post}',      'PostsController@destroy')->name('post.destroy');
 
 
 // profile
@@ -35,9 +27,7 @@ Route::delete('/profile/{user}',     'ProfilesController@destroy')  ->name('prof
 Route::post ('/profile/find',        'ProfilesController@find')     ->name('profile.find');
 
 // routes for the chat part of the app
-Route::get  ('/chats',     function(){
-    return view('chat_app.chat');
-});
+Route::get  ('/chats',     function(){ return view('chat_app.chat'); })->name('chat');
 Route::post ('/messages/{id}',      'ChatsController@setRead');
 Route::post ('/contacts',           'ChatsController@contacts');
 Route::get  ('/conversation/{id}',  'ChatsController@getMessagesWithContact');

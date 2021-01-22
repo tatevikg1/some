@@ -16,13 +16,13 @@
                 </div>
                 <div style="position:absolute; right:0;">
                     <div class="font-weight-bold">
-                            <a href="/profile/{{ $post->user->id }}">
+                            <a href="{{ route('profile.show', $post->user->id) }}">
                                 <span class="text-dark" >{{ Str::ucfirst($post->user->username) }}</span>
                             </a>
                         <div class="">
                             @if ($post->user->id == Auth::user()->id)
                                 <div class="mr-4">
-                                        <a href="/delete/{{ $post->id }}">Delete</a>
+                                    <a href="{{ route('post.destroy', $post->id) }}">Delete</a>
                                 </div>
 
                             @else

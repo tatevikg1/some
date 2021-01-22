@@ -13,7 +13,7 @@
 
                     <small class="white">{{ $post->created_at }}</small>
 
-                    <a href="/p/{{ $post->id }}">
+                    <a href="{{ route('post.show', $post) }}">
                         <img src="/storage/{{ $post->image }}" class="w-100 post_img">
                     </a>
                 </div>
@@ -27,20 +27,17 @@
                 @foreach($allUsers as $user)
                     <div class="col-3">
 
-                        <a href="/profile/{{ $user->id }}">
+                        <a href="{{ route('profile.show', $user->id) }}">
                             <img src="{{ $user->profile->profileImage() }}" class="w-100">
-                        </a>
-
-                        <div>
-                            <p>
-                                <span class="font-weight-bold">
-                                    <a href="/profile/{{ $user->id }}">
+                            <div>
+                                <p>
+                                    <span class="font-weight-bold">
                                         <span class="text-dark">{{ $user->name }}</span>
-                                    </a>
-                                </span>
-                            </p>
-                        </div>
-
+                                    </span>
+                                </p>
+                            </div>
+                        </a>
+            
                     </div>
                 @endforeach
             @endif

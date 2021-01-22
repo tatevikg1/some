@@ -47,27 +47,27 @@
                         @guest
                         @else
                         <li>
-                            <a class="dropdown-item white" href="/profile/{{ Auth::user()->id }} ">
+                            <a class="dropdown-item white" href="{{ route('profile.show',  Auth::user()->id) }} ">
                                 {{ __('My Profile') }}
                             </a>
                         </li>
                         <li>
-                            <a class="dropdown-item white" href="/profile">
+                            <a class="dropdown-item white" href="{{ route('profile.index') }}">
                                 {{ __('All Users') }}
                             </a>
                         </li>
                         <li>
-                            <a class="dropdown-item white" href="/">
+                            <a class="dropdown-item white" href="{{ route('post.index') }}">
                                 {{ __('Posts') }}
                             </a>
                         </li>
                         <li>
-                            <a class="dropdown-item white" href="/p/create">
+                            <a class="dropdown-item white" href="{{ route('post.create') }}">
                                 Add Post
                             </a>
                         </li>
                         <li>
-                            <a class="dropdown-item white" href="/chats">
+                            <a class="dropdown-item white" href="{{ route('chat') }}">
                                 Chat
                             </a>
                         </li>
