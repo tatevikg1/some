@@ -15,10 +15,10 @@ class PostsController extends Controller
         $this->middleware('auth');
     }
 
-    public function index()
+    public function index(Request $request)
     {
 
-        $users = auth()->user()->following()->pluck('profiles.user_id');
+        $users = $request->user()->following()->pluck('profiles.user_id');
 
         $allUsers =  User::where('id', '!=', auth()->id())->get();
 
@@ -34,9 +34,9 @@ class PostsController extends Controller
         return view('posts.create');
     }
 
-    public function store()
+    public function store(Request $request)
     {
-        $data = request()->validate([
+        $data = $request->validate([
             'caption' => 'required',
             'image' => ['required', 'image'],
         ]);
@@ -45,7 +45,7 @@ class PostsController extends Controller
         $image = Image::make(public_path("storage/{$imagePath}"))->fit(1200, 1200);
         $image->save();
 
-        auth()->user()->posts()->create([
+        $request->user()->posts()->create([
             'caption' => $data['caption'],
             'image' => $imagePath,
         ]);
