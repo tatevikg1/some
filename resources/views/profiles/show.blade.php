@@ -1,12 +1,11 @@
 @extends('layouts.app')
-
 @section('title', 'Profile')
 
 @section('content')
 <div class="container white_bckgr">
 
     <div class="row cover_img">
-        <div class="col-3 ">
+        <div class="col-3 " onclick="location.href='newurl.html';">
             <img src="{{ $user->profile->profileImage() }}" class="rounded-circle profile_img">
         </div>
     </div>
@@ -20,17 +19,15 @@
             </li>
             <li class="float-left" style="margin-right:7px;">
                 @can('update', $user->profile)
-                    <a class="btn btn-my ml-3"
-                        href="{{ route('profile.edit', $user->id) }}"
-                        >Edit Profile</a>
+                    <a class="btn btn-my ml-3" href="{{ route('profile.edit', $user->id) }}">Edit Profile</a>
                 @else
                     <follow-button user-id="{{ $user->id }}" follows="{{ $follows }}"></follow-button>
                 @endcan
             </li>
         </ul>
-
     </div>
 </div>
+
 <div class="container white_bckgr mt-3 p-3">
     <div class="col-12">
         <div class="col-6 d-flex">
@@ -41,23 +38,17 @@
     </div>
 </div>
 
-<!-- <script>
-    $(document).ready(function(){
-        $('[data-toggle="tooltip"]').tooltip();
-    });
-</script> -->
+
 <div class="container">
     <div class="d-flex mt-4  flex-wrap">
         @foreach($user->posts as $post)
             <div class="col-4 pt-4 pb-4 post_background">
                 <a href="{{ route('post.show', $post->id) }}">
-                    <img src="/storage/{{ $post->image }}" class="w-100"
-                        data-toggle="tooltip" title="{{$post->created_at}}">
+                    <img src="/storage/{{ $post->image }}" class="w-100" data-toggle="tooltip" title="{{$post->created_at}}">
                 </a>
             </div>
         @endforeach
     </div>
 </div>
-
 
 @endsection

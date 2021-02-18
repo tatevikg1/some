@@ -45,30 +45,20 @@
                     <ul class="navbar-nav mr-auto">
                         @guest
                         @else
-                        <li>
-                            <a class="dropdown-item white" href="{{ route('profile.show',  Auth::user()->id) }} ">
-                                {{ __('My Profile') }}
-                            </a>
+                        <li class="nav-item">
+                            <a class="dropdown-item white" href="{{ route('profile.show',  Auth::user()->id) }} "> {{ __('My Profile') }}</a>
                         </li>
-                        <li>
-                            <a class="dropdown-item white" href="{{ route('profile.index') }}">
-                                {{ __('All Users') }}
-                            </a>
+                        <li class="nav-item">
+                            <a class="dropdown-item white" href="{{ route('profile.index') }}"> {{ __('All Users') }} </a>
                         </li>
-                        <li>
-                            <a class="dropdown-item white" href="{{ route('post.index') }}">
-                                {{ __('Posts') }}
-                            </a>
+                        <li class="nav-item">
+                            <a class="dropdown-item white" href="{{ route('post.index') }}"> {{ __('Posts') }} </a>
                         </li>
-                        <li>
-                            <a class="dropdown-item white" href="{{ route('post.create') }}">
-                                Add Post
-                            </a>
+                        <li class="nav-item">
+                            <a class="dropdown-item white" href="{{ route('post.create') }}">  Add Post </a>
                         </li>
-                        <li>
-                            <a class="dropdown-item white" href="{{ route('chat') }}">
-                                Chat
-                            </a>
+                        <li class="nav-item">
+                            <a class="dropdown-item white" href="{{ route('chat') }}"> Chat </a>
                         </li>
                         @endguest
                     </ul>
