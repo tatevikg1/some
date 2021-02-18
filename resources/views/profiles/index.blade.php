@@ -1,7 +1,5 @@
 @extends('layouts.app')
-
-@section('title', 'Posts')
-
+@section('title', 'All Profiles')
 
 @section('content')
 <div class="container a" style="margin-top:50px">
@@ -16,7 +14,7 @@
                         <div>
                             <p>
                                 <span class="font-weight-bold">
-                                    <span class="text-dark">{{ Str::ucfirst($user->name) }}</span>
+                                    <span class="text-dark">{{ Str::ucfirst($user->profile->title) }}</span>
                                 </span>
                             </p>
                         </div>
