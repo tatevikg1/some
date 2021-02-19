@@ -9,8 +9,8 @@ Auth::routes();
 // follow and like buttons routes
 Route::post('follow/{user}',    'FollowsController@store');
 Route::post('like/{post}',      'LikesController@store');
-Route::post('addfriend/{user}', 'FriendsController@send_friend_request');
-Route::post('confirm/{friendship}',      'FriendsController@confirm_friend_request');
+Route::post('addfriend/{user}',         'FriendsController@send_friend_request');
+Route::post('confirm/{friendship}',     'FriendsController@confirm_friend_request');
 Route::post('delete/{friendship}',      'FriendsController@delete_friend_request');
 // Route::post('block/{user}',      'FriendController@block');
 

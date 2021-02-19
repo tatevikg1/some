@@ -49,9 +49,7 @@ class ProfilesController extends Controller
         }
 
         $friendship = Friendship::recordReletedTo($user);
-        if ($friendship == null){
-            $friendship = "";
-        }
+
         // dd($friendship);
 
         return view('profiles.show', compact( 
