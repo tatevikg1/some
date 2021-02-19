@@ -8,21 +8,21 @@ use Illuminate\Database\Eloquent\Model;
 class Message extends Model
 {
 
-    /**
-     * Fields that are mass assignable
-     *
-     * @var array
-     */
-    protected $fillable = ['text','sender', 'receiver', 'read'];
+  /**
+   * Fields that are mass assignable
+   *
+   * @var array
+   */
+  protected $fillable = ['text','sender', 'receiver', 'read'];
 
-    public function user()
-    {
-      return $this->belongsTo(User::class);
-    }
+  public function user()
+  {
+    return $this->belongsTo(User::class);
+  }
 
-    public function fromContact()
-    {
-        // it is for loading the user object from the message object
-        return $this->hasOne(User::class, 'id', 'sender');
-    }
+  public function fromContact()
+  {
+    // it is for loading the user object from the message object
+    return $this->hasOne(User::class, 'id', 'sender');
+  }
 }

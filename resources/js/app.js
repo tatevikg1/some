@@ -10,6 +10,10 @@ Vue.component('follow-button', require('./components/FollowButton.vue').default)
 
 Vue.component('like-button', require('./components/LikeButton.vue').default);
 
+Vue.component('block-button', require('./components/BlockButton.vue').default);
+
+Vue.component('friend-button', require('./components/FriendButton.vue').default);
+
 Vue.component('chat-app', require('./components/ChatApp.vue').default);
 
 

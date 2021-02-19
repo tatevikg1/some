@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\User;
+use Illuminate\Http\Request;
 
 
 class FollowsController extends Controller
@@ -13,9 +13,9 @@ class FollowsController extends Controller
         $this->middleware('auth');
     }
 
-    public function store(User $user)
+    public function store(User $user, Request $request)
     {
-        return auth()->user()->following()->toggle($user->profile);
+        return $request->user()->following()->toggle($user->profile);
     }
 
 }
