@@ -15,14 +15,22 @@
     export default {
         props: {
             userId:String,
-            friendship:Object
+            friendship:String
+        },
+
+        data(){
+            if(this.friendship != ''){
+                return { obj: JSON.parse(this.friendship) }
+            }else{
+                return { obj: '' };
+            }
         },
 
         methods: {
             addFriend() {
                 axios.post('/addfriend/' + this.userId)
                     .then(response => {
-                        this.status = response.data.status;
+                        this.obj = response.data;
                     })
                     .catch(errors => {
                         if (errors.response.status == 401) {
@@ -32,9 +40,9 @@
             },
 
             confirm() {
-                axios.post('/confirm/' + this.friendship.id)
+                axios.post('/confirm/' + this.obj.id)
                     .then(response => {
-                        this.status = response.data.status;
+                        this.obj = response.data;
                     })
                     .catch(errors => {
                         if (errors.response.status == 401) {
@@ -44,9 +52,9 @@
             },
 
             deleteRe() {
-                axios.post('/delete/' + this.friendship.id)
+                axios.post('/delete/' + this.obj.id)
                     .then(response => {
-                        this.status = response.data;
+                        this.obj = response.data;
                     })
                     .catch(errors => {
                         if (errors.response.status == 401) {
@@ -58,28 +66,28 @@
 
         computed: {
             status(){
-                if(this.friendship){
+                if(this.obj != ''){
                     return true;
                 }
                 return false;
-            },
+            }, 
 
             confirmed(){
-                if(this.friendship.status == 'confirmed'){
+                if(this.obj.status == 'confirmed'){
                     return true;
                 }
                 return false;
             },
 
             pending(){
-                if(this.friendship.status == 'pending'){
+                if(this.obj.status == 'pending'){
                     return true;
                 }
                 return false;
             },
 
             toMe(){
-                if(this.friendship.acted_user == this.userId){
+                if(this.obj.acted_user == this.userId){
                     return true;
                 }
                 return false;
