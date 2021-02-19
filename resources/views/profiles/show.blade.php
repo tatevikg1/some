@@ -21,8 +21,10 @@
                 @can('update', $user->profile)
                     <a class="btn btn-my ml-3" href="{{ route('profile.edit', $user->id) }}">Edit Profile</a>
                 @else
-                    <follow-button user-id="{{ $user->id }}" follows="{{ $follows }}"></follow-button>
-                    <friend-button user-id="{{ $user->id }}" friendship="{{ $friendship }}"></friend-button>
+                    <div class="row">
+                        <follow-button user-id="{{ $user->id }}" follows="{{ $follows }}"></follow-button>
+                        <friend-button user-id="{{ $user->id }}" friendship="{{ $friendship }}"></friend-button>
+                    </div>
                 @endcan
             </li>
         </ul>

@@ -9,17 +9,19 @@
 @import '~bootstrap/scss/bootstrap';
 
 .navbar-laravel {
-    background-color:$blue;
+    background-color:$theam;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
 }
 
 .btn-my{
-    background-color:$blue;
+    background-color:$theam;
     color:white;
+    margin:2px;
+    padding:3px 10px; 
 }
 
 body{
-    background-color:#d1d0d6;
+    background-color:$background;
 }
 
 .post_img{
@@ -54,7 +56,7 @@ nav {
 }
 
 .post_background{
-    background-color:$blue;
+    background-color:$theam;
 }
 
 .white{
