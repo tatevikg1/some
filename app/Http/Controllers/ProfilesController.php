@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Friendship;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
@@ -43,7 +44,21 @@ class ProfilesController extends Controller
                 return $user->following->count();
             });
 
-        return view('profiles.show', compact('user', 'follows', 'postCount', 'followersCount', 'followingCount'));
+        if(auth()->user()->id == $user->id){
+            return view('profiles.show', compact( 'user', 'follows', 'postCount', 'followersCount', 'followingCount'));
+        }
+
+        $friendship = Friendship::recordReletedTo($user);
+        if ($friendship == null){
+            $friendship = "";
+        }
+        // dd($friendship);
+
+        return view('profiles.show', compact( 
+            'user', 'follows', 
+            'postCount', 'followersCount', 'followingCount',
+            'friendship'
+        ));
     }
 
     public function edit(User $user)

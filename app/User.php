@@ -2,13 +2,17 @@
 
 namespace App;
 
-use Illuminate\Contracts\Auth\MustVerifyEmail;
+// use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use App\Traits\Friend;
+use App\Traits\BlockUser;
 
 class User extends Authenticatable
 {
     use Notifiable;
+    use Friend; // allowing to call $user->friends
+    use BlockUser; // allowing to call $user->blocked_friends
 
 
     protected $fillable = ['name', 'email', 'username', 'password',];
@@ -55,6 +59,11 @@ class User extends Authenticatable
     public function messages()
     {
       return $this->hasMany(Message::class);
+    }
+
+    public function friend_requests()
+    {
+        return $this->hasMany(Friendship::class, 'second_user')->where('status', 'pending');
     }
 
 }
