@@ -14,6 +14,14 @@ class FriendsController extends Controller
         $this->middleware('auth');
     }
 
+    public function index()
+    {
+        $user = auth()->user();
+
+        $users = $user->friends;
+        return view('profiles.index', compact('users'));
+    }
+
     public function send_friend_request(User $user)
     {
         $friendship = Friendship::create([
@@ -54,4 +62,5 @@ class FriendsController extends Controller
 
         return $friendship;
     }
+
 }

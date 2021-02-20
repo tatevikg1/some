@@ -12,6 +12,8 @@ Vue.component('like-button', require('./components/LikeButton.vue').default);
 
 Vue.component('friend-button', require('./components/FriendButton.vue').default);
 
+Vue.component('like-count', require('./components/LikeCount.vue').default);
+
 Vue.component('chat-app', require('./components/ChatApp.vue').default);
 
 

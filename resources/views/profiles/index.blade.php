@@ -1,5 +1,6 @@
 @extends('layouts.app')
-@section('title', 'All Profiles')
+
+@section('title', 'Users')
 
 @section('content')
 <div class="container a" style="margin-top:50px">
@@ -19,8 +20,6 @@
                             </p>
                         </div>
                     </a>
-
-                    
 
                 </div>
             @endforeach

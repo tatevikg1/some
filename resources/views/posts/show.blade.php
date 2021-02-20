@@ -27,7 +27,7 @@
 
                             @else
                             <div class="mr-4">
-                                <like-button post-id="{{ $post->id }}" likes="{{ $likes }}"></like-button>
+                                <like-button post-id="{{ $post->id }}" user-id="{{ auth()->user()->id }}"></like-button>
                             </div>
                             @endif
                         </div>
