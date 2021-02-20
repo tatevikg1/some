@@ -2,7 +2,6 @@
 
 @section('title', 'Edit profile')
 
-
 @section('content')
 <div class="container a" style="margin-top:50px;">
     <form action="{{ route('profile.update', $user->id) }}" enctype="multipart/form-data" method="post">

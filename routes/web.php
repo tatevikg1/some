@@ -9,10 +9,14 @@ Auth::routes();
 // follow and like buttons routes
 Route::post('follow/{user}',    'FollowsController@store');
 Route::post('like/{post}',      'LikesController@store');
+
+// friendship system routes
 Route::post('addfriend/{user}',         'FriendsController@send_friend_request');
 Route::post('confirm/{friendship}',     'FriendsController@confirm_friend_request');
 Route::post('delete/{friendship}',      'FriendsController@delete_friend_request');
 // Route::post('block/{user}',      'FriendController@block');
+Route::get  ('/friend',              'FriendsController@index')     ->name('friend.index');
+
 
 // post routes
 Route::get   ('/',                 'PostsController@index')  ->name('post.index');
@@ -20,6 +24,7 @@ Route::get   ('/popt/create',      'PostsController@create') ->name('post.create
 Route::post  ('/post',             'PostsController@store')  ->name('post.store');
 Route::get   ('/post/{post}',      'PostsController@show')   ->name('post.show');
 Route::delete('/post/{post}',      'PostsController@destroy')->name('post.destroy');
+Route::get   ('/post',             'PostsController@liked')  ->name('post.liked');
 
 
 // profile

@@ -24,9 +24,9 @@ body{
     background-color:$background;
 }
 
-.post_img{
-    border-radius: 8px;
-}
+// .post_img{
+//     border-radius: 5px;
+// }
 
 .profile_img {
     border: 1px solid #fff;
@@ -80,4 +80,20 @@ nav {
 .app_name{
     font-family: 'Dancing Script', cursive;
     font-size: 20px;
+}
+// for coloring icons
+.theam-color{
+    color:$theam;
+}
+
+.bordercolor{
+    border: solid 1px $theam;
+}
+.bordercolor:hover{
+    background-color: lighten($theam, 30%);
+    cursor: pointer;
+}
+
+.light-background{
+    background-color:$background;
 }

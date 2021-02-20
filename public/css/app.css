@@ -10929,23 +10929,19 @@ a.text-dark:focus {
 }
 
 .navbar-laravel {
-  background-color: #7a1c1c;
+  background-color: #1d3813;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
 }
 
 .btn-my {
-  background-color: #7a1c1c;
+  background-color: #1d3813;
   color: white;
   margin: 2px;
   padding: 3px 10px;
 }
 
 body {
-  background-color: #f7e6e6;
-}
-
-.post_img {
-  border-radius: 8px;
+  background-color: #ddf7d1;
 }
 
 .profile_img {
@@ -10974,7 +10970,7 @@ nav div {
 }
 
 .post_background {
-  background-color: #7a1c1c;
+  background-color: #1d3813;
 }
 
 .white {
@@ -10998,5 +10994,22 @@ nav div {
 .app_name {
   font-family: "Dancing Script", cursive;
   font-size: 20px;
+}
+
+.theam-color {
+  color: #1d3813;
+}
+
+.bordercolor {
+  border: solid 1px #1d3813;
+}
+
+.bordercolor:hover {
+  background-color: #58aa3a;
+  cursor: pointer;
+}
+
+.light-background {
+  background-color: #ddf7d1;
 }
 
