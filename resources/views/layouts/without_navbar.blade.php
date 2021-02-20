@@ -2,9 +2,9 @@
 
 @section('layout')
 
-<div style="position:absolute; right:10px;">
+<div class="close-button">
     <a href="javascript:history.back()">
-        <i class="fa fa-window-close" style="color:#fff"></i>
+        <i class="far fa-times-circle fa-3x white"></i>
     </a>
 </div>
 <div>

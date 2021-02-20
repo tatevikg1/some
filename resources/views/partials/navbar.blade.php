@@ -22,20 +22,20 @@
                 @guest
                 @else
                 <li class="nav-item">
-                    <a class="dropdown-item white" href="{{ route('post.index') }}"> <i class="fas fa-home"></i> </a>
+                    <a class="dropdown-item topnav-item" href="{{ route('post.index') }}"> <i class="fas fa-home white"></i> </a>
                 </li>
                 <li class="nav-item">
-                    <a class="dropdown-item white" href="{{ route('profile.show',  Auth::user()->id) }} "> <i class="far fa-user"></i></a>
+                    <a class="dropdown-item topnav-item" href="{{ route('profile.show',  Auth::user()->id) }} "> <i class="far fa-user white"></i></a>
                 </li>
                 <li class="nav-item">
-                    <a class="dropdown-item white" href="{{ route('friend.index') }}"> <i class="fas fa-user-friends"></i></a>
+                    <a class="dropdown-item topnav-item" href="{{ route('friend.index') }}"> <i class="fas fa-user-friends white"></i></a>
                 </li>
 
                 <li class="nav-item">
-                    <a class="dropdown-item white" href="{{ route('post.create') }}"> <i class="fas fa-plus"></i> </a>
+                    <a class="dropdown-item topnav-item" href="{{ route('post.create') }}"> <i class="fas fa-plus white"></i> </a>
                 </li>
                 <li class="nav-item">
-                    <a class="dropdown-item white" href="{{ route('chat') }}"> <i class="fab fa-facebook-messenger"></i> </a>
+                    <a class="dropdown-item topnav-item" href="{{ route('chat') }}"> <i class="fab fa-facebook-messenger white"></i> </a>
                 </li>
                 @endguest
             </ul>
@@ -60,8 +60,7 @@
 
                         <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
                             <a class="dropdown-item" href="{{ route('logout') }}"
-                                onclick="event.preventDefault();
-                                                document.getElementById('logout-form').submit();">
+                                onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
                                 {{ __('Logout') }}
                             </a>
 

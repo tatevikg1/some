@@ -27,7 +27,7 @@
                 axios.post('/like/' + this.postId)
                     .then(response => {
                         this.status = ! this.status;
-                        console.log(response.data);
+                        // console.log(response.data);
                     })
                     .catch(errors => {
                         if (errors.response.status == 401) {
@@ -40,7 +40,7 @@
                 axios.get('/api/get-likes/' + this.postId + '/' + this.userId)
                     .then(response => {
                         this.status = response.data;
-                        console.log(response.data);
+                        // console.log(response.data);
                     })
                     .catch(errors => {
                         if (errors.response.status == 401) {
@@ -52,7 +52,7 @@
 
         computed: {
             buttonText() {
-                return (this.status) ? 'Unlike' : 'Like';
+                return (this.status) ? 'Like' : 'Like';
             },
 
             classStatus(){
