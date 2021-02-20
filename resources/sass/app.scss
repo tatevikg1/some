@@ -2,8 +2,11 @@
 @import url('https://fonts.googleapis.com/css?family=Open+Sans:400,700');
 @import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400&display=swap');
 
-// Variables
+// partials
 @import 'variables';
+@import 'colors';
+@import 'buttons';
+@import 'images';
 
 // Bootstrap
 @import '~bootstrap/scss/bootstrap';
@@ -13,87 +16,33 @@
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
 }
 
-.btn-my{
-    background-color:$theam;
-    color:white;
-    margin:2px;
-    padding:3px 10px; 
+nav {
+    div{
+        color:white;
+    }
 }
 
 body{
     background-color:$background;
 }
 
-// .post_img{
-//     border-radius: 5px;
-// }
-
-.profile_img {
-    border: 1px solid #fff;
-    padding: 5px;
-    position: relative;
-    bottom: -30%;
-    width: 150px;
-    background-image:url('/svg/profile.jpeg');
-}
-
 a:hover{
-    opacity: 90%;
+    opacity: 80%;
 }
 
 a{
     font-size: small;
 }
 
-nav {
-    div{
-    color:white;
-    }
-}
-
-.white{
-    color:white;
-}
-
-.post_background{
-    background-color:$theam;
-}
-
-.white{
-    color:white;
-}
-
-.white_bckgr{
-    background-color: white;
-}
-
-.grey{
-    background-color: #333;
-}
-
-.cover_img{
-    background-image:url('/svg/cover_img.jpg');
-    background-size: 100% 100%;
-    padding-top: 10%;
-}
-
 .app_name{
     font-family: 'Dancing Script', cursive;
     font-size: 20px;
 }
-// for coloring icons
-.theam-color{
-    color:$theam;
-}
 
-.bordercolor{
-    border: solid 1px $theam;
-}
-.bordercolor:hover{
-    background-color: lighten($theam, 30%);
-    cursor: pointer;
-}
-
-.light-background{
-    background-color:$background;
+.topnav-item:hover{
+    background-color: $background;
+    border-radius: 50%;
+    i{
+        color:$theam;
+    }
 }

@@ -2,7 +2,6 @@
 
 @section('title', 'Post')
 
-
 @section('content')
 <div class="container a">
     <div class="row">
@@ -24,7 +23,6 @@
                                 <div class="mr-4">
                                     <a href="{{ route('post.destroy', $post->id) }}">Delete</a>
                                 </div>
-
                             @else
                             <div class="mr-4">
                                 <like-button post-id="{{ $post->id }}" user-id="{{ auth()->user()->id }}"></like-button>
@@ -35,7 +33,7 @@
                 </div>
             </div>
             <div class="mt-3">
-                <i class="fa fa-thumbs-up" style="font-size:30px;color:#444085;"></i>{{ $likesCount }}
+                <i class="fa fa-thumbs-up" style="font-size:20px;color:#444085;"></i>{{ $likesCount }}
             </div>
         </div>
     </div>

@@ -1,0 +1,18 @@
+.profile_img {
+    border: 1px solid #fff;
+    padding: 5px;
+    position: relative;
+    bottom: -30%;
+    width: 150px;
+    background-image:url('/svg/profile.jpeg');
+}
+
+// .post_img{
+//     border-radius: 5px;
+// }
+
+.cover_img{
+    background-image:url('/svg/cover_img.jpg');
+    background-size: 100% 100%;
+    padding-top: 10%;
+}
