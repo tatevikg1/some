@@ -19,9 +19,12 @@
         </a>
 
         <div class="light-background">
-            <div class="mx-3 row align-items-center justify-content-between p-1 mb-1">
-                <like-count post-id="{{ $post->id }}"></like-count>
-                <like-button post-id="{{ $post->id }}" user-id="{{ auth()->user()->id }}"></like-button>
+            <div class="mx-3">
+                @guest
+                    <like-count post-id="{{ $post->id }}"></like-count>
+                @else
+                    <like-button post-id="{{ $post->id }}" user-id="{{ auth()->user()->id }}"></like-button>
+                @endguest
             </div>
         </div>
 

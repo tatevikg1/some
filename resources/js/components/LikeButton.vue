@@ -1,5 +1,8 @@
 <template>
-    <div>
+    <div class="row align-items-center justify-content-between p-1 mb-1">
+        <div  class="row ml-1">
+            {{ likeCount }}  <div class=" ml-2">likes</div>
+        </div>
         <i :class="classStatus" @click="likePost">{{ this.buttonText }} </i>
     </div>
 </template>
@@ -15,11 +18,13 @@
         data: function () {
             return {
                 status: false,
+                likeCount: 0,
             }
         },
 
-        beforeMount() {
+        beforeMount()  {
             this.getLikes();
+            this.getLikesCount();
         },
 
         methods: {
@@ -47,12 +52,20 @@
                             window.location = '/login';
                         }
                     });
+            },
+
+            getLikesCount(){
+                axios.get('/api/get-like-count/' + this.postId)
+                    .then(response => {
+                        this.likeCount = response.data;
+                        console.log(response.data);
+                    })
             }
         },
 
         computed: {
             buttonText() {
-                return (this.status) ? 'Like' : 'Like';
+                return  'Like';
             },
 
             classStatus(){

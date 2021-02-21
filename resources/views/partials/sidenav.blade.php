@@ -1,3 +1,4 @@
+@auth
 <div class="container">
 
     <div class="row align-items-center  pl-3 bordercolor" onclick="location.href=`{{ route('profile.show',  Auth::user()->id) }} `">
@@ -15,3 +16,4 @@
         <div class="m-3 font-weight-bold">Liked Posts</div>
     </div>
 </div>
+@endauth

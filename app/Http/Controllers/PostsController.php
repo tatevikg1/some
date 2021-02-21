@@ -3,31 +3,34 @@
 namespace App\Http\Controllers;
 
 use App\Post;
+use App\User;
 // use App\User;
 use Illuminate\Http\Request;
 use Intervention\Image\Facades\Image;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Auth;
 
 class PostsController extends Controller
 {
-    public function __construct()
-    {
-        $this->middleware('auth');
-    }
+    // public function __construct()
+    // {
+    //     $this->middleware('auth');
+    // }
 
     public function index(Request $request)
     {
-        // dd(auth()->user()->id);
-
-        $users = $request->user()->following()->pluck('profiles.user_id');
+        if(!Auth::check()){
+            // for not authenticated users show posts of random users
+            $users = User::inRandomOrder()->limit(5)->get('id');
+        }else{
+            $users = $request->user()->following()->pluck('profiles.user_id');
+        }
 
         // $allUsers =  User::where('id', '!=', auth()->id())->get();
 
         $posts = Post::whereIn('user_id', $users)->latest()->paginate(5);
 
-
         return view('posts.index', compact('posts'));
-
     }
 
     public function create()

@@ -10,30 +10,28 @@
         </div>
         <div class="col-4 white_bckgr">
             <div class="d-flex align-items-center  mt-3 d-flex">
-                <div class="pr-3">
-                    <img src="{{ $post->user->profile->profileImage() }}" class="rounded-circle" style="max-width:70px">
+                <div class="row align-items-center  pl-3 " onclick="location.href=`{{ route('profile.show',  Auth::user()->id) }} `">
+                    <img src="{{ $post->user->profile->profileImage() }}" class="rounded-circle" style="max-width:40px">
+                    <div class="m-3 font-weight-bold"> {{ ucfirst($post->user->username) }}</div>
                 </div>
                 <div style="position:absolute; right:0;">
                     <div class="font-weight-bold">
-                            <a href="{{ route('profile.show', $post->user->id) }}">
-                                <span class="text-dark" >{{ Str::ucfirst($post->user->username) }}</span>
-                            </a>
                         <div class="">
                             @if ($post->user->id == Auth::user()->id)
-                                <div class="mr-4">
+                                <div class="mr-1">
                                     <a href="{{ route('post.destroy', $post->id) }}">Delete</a>
                                 </div>
-                            @else
-                            <div class="mr-4">
-                                <like-button post-id="{{ $post->id }}" user-id="{{ auth()->user()->id }}"></like-button>
-                            </div>
                             @endif
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="mt-3">
-                <i class="fa fa-thumbs-up" style="font-size:20px;color:#444085;"></i>{{ $likesCount }}
+            <div class="mt-3 pl-3">
+                @guest
+                    <like-count post-id="{{ $post->id }}"></like-count>
+                @else
+                    <like-button post-id="{{ $post->id }}" user-id="{{ auth()->user()->id }}"></like-button>
+                @endguest
             </div>
         </div>
     </div>
