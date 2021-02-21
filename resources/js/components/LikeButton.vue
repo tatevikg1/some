@@ -32,6 +32,11 @@
                 axios.post('/like/' + this.postId)
                     .then(response => {
                         this.status = ! this.status;
+                        if(this.status){
+                            this.likeCount +=1;
+                        }else{
+                            this.likeCount -=1;
+                        }
                         // console.log(response.data);
                     })
                     .catch(errors => {
