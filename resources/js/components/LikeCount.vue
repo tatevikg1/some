@@ -1,40 +1,33 @@
 <template>
     <div  class="row">
-        {{ this.likeCount }}  
+        {{ likeCount }}  
         <div class=" ml-2">likes</div>
         
     </div>
 </template>
 
 <script>
-    export default {
-        props: ['postId'],
+import { mapGetters, mapActions } from 'vuex';
 
-        data() {
-            return {
-                likeCount: 0
-            }
-        },
+export default {
+    props: ['postId'],
 
-        beforeMount() {
-            this.getLikeCount();
-        },
+    methods: {
+        ...mapActions(['getLikeCount']),
+    },
 
-        methods: {
-            getLikeCount() {
-                axios.get('/api/get-like-count/' + this.postId)
-                    .then(response => {
-                        this.likeCount = response.data;
-                        console.log(response.data);
-                    })
-                    .catch(errors => {
-                        if (errors.response.status == 401) {
-                            window.location = '/login';
-                        }
-                    });
+    computed: mapGetters([
+        'getLikeCount',
 
-            }
-        },
+    ]),
 
-    }
+    // beforeMount() {
+    //     getLikeCount(this.postId);
+    // }
+
+    created() {
+        this.getLikeCount(this.postId);
+    },
+
+}
 </script>
