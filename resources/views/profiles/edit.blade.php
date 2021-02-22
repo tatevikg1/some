@@ -76,7 +76,7 @@
                 </div>
 
                 <div class="row pt-4">
-                    <button for="edit" class="btn btn-my">Save Profile</button>
+                    <button for="edit" class="btn btn-secondary">Save Profile</button>
                     
                 </div>
 

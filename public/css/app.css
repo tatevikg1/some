@@ -9,15 +9,15 @@
 }
 
 .theam-color {
-  color: #0a0a0a;
+  color: #0e0d0d;
 }
 
 .light-background {
-  background-color: #aaaaad;
+  background-color: #8d8d91;
 }
 
 .post_background {
-  background-color: #242424;
+  background-color: #282626;
   border-radius: 10px;
 }
 
@@ -10977,7 +10977,7 @@ a.text-dark:focus {
 }
 
 .navbar-laravel {
-  background-color: #0a0a0a;
+  background-color: #0e0d0d;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
 }
 
@@ -10986,7 +10986,7 @@ nav div {
 }
 
 body {
-  background-color: #aaaaad;
+  background-color: #8d8d91;
 }
 
 a:hover {
@@ -11003,21 +11003,27 @@ a {
 }
 
 .topnav-item:hover {
-  background-color: #aaaaad;
+  background-color: #8d8d91;
   border-radius: 80%;
 }
 
 .topnav-item:hover i {
-  color: #0a0a0a;
+  color: #0e0d0d;
 }
 
 .sidenav {
   position: fixed;
-  max-width: 30%;
+  max-width: 20%;
+  color: #0e0d0d;
 }
 
 .sidenav div:hover {
-  background-color: #bdbdbd;
+  background-color: #c2bebe;
+  border-radius: 15px;
+  cursor: pointer;
+}
+
+.pointer {
   cursor: pointer;
 }
 

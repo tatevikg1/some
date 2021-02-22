@@ -43,32 +43,35 @@
 
 
 <div class="container  mt-3 p-3">
-    <div class="row ">
+    <div class="row">
         <div class="col-5 ">
             <div class="row mb-3">
                 <div class="col-10 mx-5 post_background">
 
-                   friends
+                   <random-4-friend user-id="{{ $user->id }}"></random-4-friend>
 
                 </div>
             </div>
         </div>
         
+        
         <div class="col-7 ">
-            <div class="row mb-3">
-                <div class="col-10 mx-5 post_background white">
+            @can('update', $user->profile)
+                <div class="row mb-3">
+                    <div class="col-10 mx-5 post_background white">
 
-                    <form action="/post" enctype="multipart/form-data" method="post" class="mt-3 mb-3">
-                        <input type="hidden" name="_token" value="{{ csrf_token() }}" />
-                        <input type="text" name="caption" class="form-control focus mb-2" placeholder="What is on your mind?" autofocus>
-                        <div class="row justify-content-between mx-1">
-                            <input type="file" name="image" class="btn btn-secondary" >
-                            <input type="submit" value="Add post" class="btn btn-secondary">
-                        </div>
-                    </form>
+                        <form action="/post" enctype="multipart/form-data" method="post" class="mt-3 mb-3">
+                            <input type="hidden" name="_token" value="{{ csrf_token() }}" />
+                            <input type="text" name="caption" class="form-control focus mb-2" placeholder="What is on your mind?" autofocus>
+                            <div class="row justify-content-between mx-1">
+                                <input type="file" name="image" class="btn btn-secondary" >
+                                <input type="submit" value="Add post" class="btn btn-secondary">
+                            </div>
+                        </form>
 
+                    </div>
                 </div>
-            </div>
+            @endcan
 
             @foreach($user->posts as $post)
                 @include('partials.post')

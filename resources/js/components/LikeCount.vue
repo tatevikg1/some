@@ -28,10 +28,5 @@ export default {
             console.error("Got nothing from server. Try again")
         })
     }
-
-    // created() {
-    //     this.getLikeCount(this.postId);
-    // },
-
 }
 </script>

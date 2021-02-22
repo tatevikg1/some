@@ -9,9 +9,9 @@
 export default {
     props: ['userId'],
 
-    mounted() {
-        console.log('friend request count component.')
-    },
+    // mounted() {
+    //     console.log('friend request count component.')
+    // },
 
     data: function () {
         return {
@@ -28,7 +28,7 @@ export default {
             axios.get('/api/get-friend-request-count/' + this.userId)
                 .then(response => {
                     this.friendRequestCount = response.data;
-                    console.log(response.data);
+                    // console.log(response.data);
                 })
         }
     },
