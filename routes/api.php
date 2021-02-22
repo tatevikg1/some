@@ -2,6 +2,7 @@
 
 use App\Message;
 use App\Post;
+use App\Profile;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -40,4 +41,14 @@ Route::get('/get-unread-message-count/{user}', function(User $user){
             ->groupBy('sender')
             ->get()
             ->count();
+});
+
+Route::post('/get-random-4-friend/{user}', function(User $user){
+    $friends = $user->friends->shuffle()->take(6);
+
+    foreach($friends as $f){
+        $f->profile = Profile::where('user_id', $f->id)->first();
+    }
+
+    return $friends;
 });

@@ -9,9 +9,9 @@
 export default {
     props: ['userId'],
 
-    mounted() {
-        console.log('unread message count component.')
-    },
+    // mounted() {
+    //     console.log('unread message count component.')
+    // },
 
     data: function () {
         return {
@@ -28,7 +28,7 @@ export default {
             axios.get('/api/get-unread-message-count/' + this.userId)
                 .then(response => {
                     this.unreadMessageCount = response.data;
-                    console.log(response.data);
+                    // console.log(response.data);
                 })
         }
     },
