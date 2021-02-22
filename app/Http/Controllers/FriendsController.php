@@ -17,9 +17,19 @@ class FriendsController extends Controller
     public function index()
     {
         $user = auth()->user();
+        $title = 'Friends';
 
         $users = $user->friends;
-        return view('profiles.index', compact('users'));
+        foreach($users as $u){
+            $u->friendship = Friendship::recordReletedTo($u);
+        }
+
+        $friend_requests = $user->friend_requests;
+        foreach($friend_requests as $f){
+            $f->creator = User::find($f->acted_user);
+        }
+
+        return view('profiles.index', compact('users', 'friend_requests', 'title'));
     }
 
     public function send_friend_request(User $user)

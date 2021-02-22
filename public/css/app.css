@@ -9,35 +9,20 @@
 }
 
 .theam-color {
-  color: #444085;
+  color: #0a0a0a;
 }
 
 .light-background {
-  background-color: #f4f4f8;
+  background-color: #aaaaad;
 }
 
 .post_background {
-  background-color: #444085;
+  background-color: #242424;
+  border-radius: 10px;
 }
 
 .grey {
   background-color: #333;
-}
-
-.bordercolor {
-  border: solid 1px #444085;
-}
-
-.bordercolor:hover {
-  background-color: white;
-  cursor: pointer;
-}
-
-.btn-my {
-  background-color: #444085;
-  color: white;
-  margin: 2px;
-  padding: 3px 10px;
 }
 
 .close-button {
@@ -10992,7 +10977,7 @@ a.text-dark:focus {
 }
 
 .navbar-laravel {
-  background-color: #444085;
+  background-color: #0a0a0a;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
 }
 
@@ -11001,7 +10986,7 @@ nav div {
 }
 
 body {
-  background-color: #f4f4f8;
+  background-color: #aaaaad;
 }
 
 a:hover {
@@ -11018,11 +11003,21 @@ a {
 }
 
 .topnav-item:hover {
-  background-color: #f4f4f8;
-  border-radius: 50%;
+  background-color: #aaaaad;
+  border-radius: 80%;
 }
 
 .topnav-item:hover i {
-  color: #444085;
+  color: #0a0a0a;
+}
+
+.sidenav {
+  position: fixed;
+  max-width: 30%;
+}
+
+.sidenav div:hover {
+  background-color: #bdbdbd;
+  cursor: pointer;
 }
 

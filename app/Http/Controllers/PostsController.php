@@ -19,6 +19,8 @@ class PostsController extends Controller
 
     public function index(Request $request)
     {
+        $title = 'Posts';
+
         if(!Auth::check()){
             // for not authenticated users show posts of random users
             $users = User::inRandomOrder()->limit(5)->get('id');
@@ -26,11 +28,9 @@ class PostsController extends Controller
             $users = $request->user()->following()->pluck('profiles.user_id');
         }
 
-        // $allUsers =  User::where('id', '!=', auth()->id())->get();
-
         $posts = Post::whereIn('user_id', $users)->latest()->paginate(5);
 
-        return view('posts.index', compact('posts'));
+        return view('posts.index', compact('posts', 'title'));
     }
 
     public function create()
@@ -46,7 +46,7 @@ class PostsController extends Controller
         ]);
 
         $imagePath = request('image')->store('uploads', 'public');
-        $image = Image::make(storage_path("storage/{$imagePath}"))->fit(1200, 1200);
+        $image = Image::make(public_path("storage/{$imagePath}"))->fit(1200, 1200);
         $image->save();
 
         $request->user()->posts()->create([
@@ -88,7 +88,8 @@ class PostsController extends Controller
         $user = auth()->user();
 
         $posts = $user->liking;
+        $title = 'Liked Posts';
         
-        return view('posts.liked', compact('posts'));
+        return view('posts.index', compact('posts', 'title'));
     }
 }

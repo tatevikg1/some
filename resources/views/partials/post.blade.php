@@ -9,7 +9,7 @@
             </div>
         </div>
 
-        <div class="white">
+        <div class="white mb-2">
             {{ $post->caption }}
         </div>
        
@@ -19,7 +19,7 @@
         </a>
 
         <div class="light-background">
-            <div class="mx-3">
+            <div class="mx-3 mb-3">
                 @guest
                     <like-count post-id="{{ $post->id }}"></like-count>
                 @else

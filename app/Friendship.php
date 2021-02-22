@@ -20,4 +20,9 @@ class Friendship extends Model
         }
         return null;
     }
+
+    // public function acted_user()
+    // {
+    //     return User::where('id', $this->acted_user);
+    // }
 }

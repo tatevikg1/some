@@ -25,17 +25,24 @@
                     <a class="dropdown-item topnav-item" href="{{ route('post.index') }}"> <i class="fas fa-home white"></i> </a>
                 </li>
                 <li class="nav-item">
-                    <a class="dropdown-item topnav-item" href="{{ route('profile.show',  Auth::user()->id) }} "> <i class="far fa-user white"></i></a>
-                </li>
-                <li class="nav-item">
-                    <a class="dropdown-item topnav-item" href="{{ route('friend.index') }}"> <i class="fas fa-user-friends white"></i></a>
+                    <a class="dropdown-item topnav-item" href="{{ route('profile.show',  Auth::user()->id) }} "> <i class="fas fa-user white"></i></a>
                 </li>
 
                 <li class="nav-item">
                     <a class="dropdown-item topnav-item" href="{{ route('post.create') }}"> <i class="fas fa-plus white"></i> </a>
                 </li>
+
                 <li class="nav-item">
-                    <a class="dropdown-item topnav-item" href="{{ route('chat') }}"> <i class="fab fa-facebook-messenger white"></i> </a>
+                    <a class="dropdown-item topnav-item" href="{{ route('friend.index') }}"> 
+                        <i class="fas fa-user-friends white"></i>
+                        <friend-request-count user-id="{{ Auth::user()->id }}"></friend-request-count>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="dropdown-item topnav-item" href="{{ route('chat') }}"> 
+                        <i class="fab fa-facebook-messenger white"></i> 
+                        <unread-message-count user-id="{{ Auth::user()->id }}"></unread-message-count>
+                    </a>
                 </li>
                 @endguest
             </ul>

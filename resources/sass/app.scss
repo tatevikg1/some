@@ -41,8 +41,17 @@ a{
 
 .topnav-item:hover{
     background-color: $background;
-    border-radius: 50%;
+    border-radius: 80%;
     i{
         color:$theam;
+    }
+}
+
+.sidenav {
+    position: fixed;
+    max-width: 30%;
+    div:hover{
+        background-color: lighten($theam, 70%);
+        cursor: pointer;
     }
 }

@@ -19,7 +19,7 @@
             </li>
             <li class="float-left" style="margin-right:7px;">
                 @can('update', $user->profile)
-                    <a class="btn btn-my ml-3" href="{{ route('profile.edit', $user->id) }}">Edit Profile</a>
+                    <a class="btn btn-secondary ml-3" href="{{ route('profile.edit', $user->id) }}">Edit Profile</a>
                 @else
                     <div class="row">
                         <follow-button user-id="{{ $user->id }}" follows="{{ $follows }}"></follow-button>
@@ -42,15 +42,38 @@
 </div>
 
 
-<div class="container">
-    <div class="d-flex mt-4  flex-wrap">
-        @foreach($user->posts as $post)
-            <div class="col-4 pt-4 pb-4 post_background">
-                <a href="{{ route('post.show', $post->id) }}">
-                    <img src="/storage/{{ $post->image }}" class="w-100" data-toggle="tooltip" title="{{$post->created_at}}">
-                </a>
+<div class="container  mt-3 p-3">
+    <div class="row ">
+        <div class="col-5 ">
+            <div class="row mb-3">
+                <div class="col-10 mx-5 post_background">
+
+                   friends
+
+                </div>
             </div>
-        @endforeach
+        </div>
+        
+        <div class="col-7 ">
+            <div class="row mb-3">
+                <div class="col-10 mx-5 post_background white">
+
+                    <form action="/post" enctype="multipart/form-data" method="post" class="mt-3 mb-3">
+                        <input type="hidden" name="_token" value="{{ csrf_token() }}" />
+                        <input type="text" name="caption" class="form-control focus mb-2" placeholder="What is on your mind?" autofocus>
+                        <div class="row justify-content-between mx-1">
+                            <input type="file" name="image" class="btn btn-secondary" >
+                            <input type="submit" value="Add post" class="btn btn-secondary">
+                        </div>
+                    </form>
+
+                </div>
+            </div>
+
+            @foreach($user->posts as $post)
+                @include('partials.post')
+            @endforeach
+        </div>
     </div>
 </div>
 
