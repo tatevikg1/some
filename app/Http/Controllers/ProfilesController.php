@@ -20,8 +20,9 @@ class ProfilesController extends Controller
     public function index(User $user)
     {
         $users = User::where('id', '!=', auth()->id())->get();
+        $title = 'All users';
 
-        return view('profiles.index', compact('users'));
+        return view('profiles.index', compact('users', 'title'));
     }
 
     public function show(User $user)

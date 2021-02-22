@@ -1,17 +1,18 @@
 <template>
     <div>
         <button v-if="!status" class="btn btn-my" @click="addFriend()">
-            <i class='fas fa-user-plus' style='font-size:17px;color:white'></i>
+            <i class='fas fa-user-plus' style='font-size:17px;color:black'></i>
             <!-- <img src="/svg/user-plus-solid.svg" alt="Add friend" width="25px"> -->
         </button>
         <div v-else>
-            <button v-if="confirmed" class="btn btn-my" @click="deleteRe()"> 
-                <i class='fas fa-user-times' style='font-size:17px;color:white'></i>
+            <button v-if="confirmed" class="btn " @click="deleteRe()"> 
+                <i class='fas fa-user-times'></i>
                 <!-- <img src="/svg/user-times-solid.svg" alt="Add friend" width="25px"> -->
             </button>
                 <div v-if="pending"> 
-                    <button v-if="toMe"     class="btn btn-my" @click="confirm()"> Confirm</button>
-                    <button                 class="btn btn-my" @click="deleteRe()">Delete Request</button>
+                    <button v-if="toMe"     class="btn btn-secondary" @click="confirm()"> Confirm</button>
+                    <button v-if="toMe"     class="btn btn-secondary" @click="deleteRe()">Delete Request</button>
+                    <button v-else          class="btn btn-secondary" @click="deleteRe()">Cancel Request</button>
                 </div>
         </div>
     </div>
@@ -103,3 +104,8 @@
 
     }
 </script>
+
+
+<style scoped>
+
+</style>

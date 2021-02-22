@@ -42,7 +42,7 @@
                 </div>
 
                 <div class="row pt-4">
-                    <button class="btn btn-my">Add New Post</button>
+                    <button class="btn btn-secondary">Add New Post</button>
                 </div>
 
             </div>

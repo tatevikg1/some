@@ -10,12 +10,13 @@ import  store from './store';
 Vue.component('follow-button', require('./components/FollowButton.vue').default);
 
 Vue.component('like-button', require('./components/LikeButton.vue').default);
-
-Vue.component('friend-button', require('./components/FriendButton.vue').default);
-
 Vue.component('like-count', require('./components/LikeCount.vue').default);
 
+Vue.component('friend-button', require('./components/FriendButton.vue').default);
+Vue.component('friend-request-count', require('./components/FriendRequestCount.vue').default);
+
 Vue.component('chat-app', require('./components/ChatApp.vue').default);
+Vue.component('unread-message-count', require('./components/chat/UnreadMessageCount.vue').default);
 
 
 const app = new Vue({
