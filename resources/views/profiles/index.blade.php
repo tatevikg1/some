@@ -24,7 +24,7 @@
         <hr>
 
         @if(@users)
-            <hr><h5>All friends</h5><hr>
+            <hr><h5>{{  $title }}</h5><hr>
             @foreach($users as $friend)
                 <div class="row justify-content-between">
                     <div class="row align-items-center pl-3 pointer" onclick="location.href=`{{ route('profile.show',  $friend->id) }} `">

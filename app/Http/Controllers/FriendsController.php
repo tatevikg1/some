@@ -25,9 +25,10 @@ class FriendsController extends Controller
         }
 
         $friend_requests = $user->friend_requests;
+
         foreach($friend_requests as $f){
             $f->creator = User::find($f->acted_user);
-        }
+        } 
 
         return view('profiles.index', compact('users', 'friend_requests', 'title'));
     }
