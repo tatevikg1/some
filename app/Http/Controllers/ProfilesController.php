@@ -7,7 +7,6 @@ use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
 use Intervention\Image\Facades\Image;
-// use Illuminate\Support\Facades\DB;
 
 
 class ProfilesController extends Controller
@@ -17,12 +16,32 @@ class ProfilesController extends Controller
         $this->middleware('auth');
     }
 
-    public function index(User $user)
+    public function index()
     {
-        $users = User::where('id', '!=', auth()->id())->get();
-        $title = 'All users';
+        $title = 'Find Friends';
+        $authUser = auth()->user();
 
-        return view('profiles.index', compact('users', 'title'));
+        $allUsers = User::where('id', '!=', $authUser->id)->get();
+        $users = $allUsers->reject(function ($user) {
+            // return users that has no friendship record related with auth user
+            return Friendship::recordReletedTo($user);
+            
+            // // return all users except auth users friends
+            // return Auth::user()->friends->contains($user->id);
+        });
+
+        $sent = $authUser->sent_friend_requests;
+        foreach($sent as $f){
+            $f->creator = User::find($f->second_user);
+        } 
+
+        $friend_requests = auth()->user()->friend_requests;
+        foreach($friend_requests as $f){
+            $f->creator = User::find($f->acted_user);
+        } 
+
+        $friend_requests = $sent->merge($friend_requests);
+        return view('profiles.index', compact('users', 'friend_requests', 'title'));
     }
 
     public function show(User $user)

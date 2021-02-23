@@ -21,8 +21,10 @@ class Friendship extends Model
         return null;
     }
 
-    // public function acted_user()
+    // public function creator()
     // {
-    //     return User::where('id', $this->acted_user);
+    //     return $this->belongsTo(User::class, 'first_user');
     // }
+
+
 }

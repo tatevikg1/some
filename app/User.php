@@ -66,4 +66,10 @@ class User extends Authenticatable
         return $this->hasMany(Friendship::class, 'second_user')->where('status', 'pending');
     }
 
+    public function sent_friend_requests()
+    {
+        return $this->hasMany(Friendship::class, 'first_user')->where('status', 'pending');
+    }
+
+
 }
