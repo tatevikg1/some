@@ -43,10 +43,7 @@ class ChatsController extends Controller
         });
 
         // mark read new message notifications of user
-        $user = auth()->user();
-        $user->unreadNotifications
-            ->where('type', 'App\Notifications\NewMessage')
-            ->markAsRead();
+        $this->markAsRead();
 
         return $returncontacts;
         // return view('profiles.test', compact('returncontacts'));
@@ -101,5 +98,15 @@ class ChatsController extends Controller
         $id->update(['read' => true]);
 
         return $id;
+    }
+
+    public function markAsRead()
+    {
+        // mark read new message notifications of user
+        $user = auth()->user();
+        $user->unreadNotifications
+            ->where('type', 'App\Notifications\NewMessage')
+            ->markAsRead();
+        return true;
     }
 }

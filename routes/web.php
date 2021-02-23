@@ -37,6 +37,7 @@ Route::post ('/profile/find',        'ProfilesController@find')     ->name('prof
 
 // routes for the chat part of the app
 Route::get  ('/chats',     function(){ return view('chat_app.chat'); })->name('chat');
+Route::post ('/chat/mark-as-read/', 'ChatsController@markAsRead');
 Route::post ('/messages/{id}',      'ChatsController@setRead');
 Route::post ('/contacts',           'ChatsController@contacts');
 Route::get  ('/conversation/{id}',  'ChatsController@getMessagesWithContact');

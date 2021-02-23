@@ -29,10 +29,20 @@ export default {
 
     methods: {
         getUnreadMessageNotification(){
-            axios.get('/api/get-message-notification/' + this.userId)
+            if(window.location.pathname == '/chats'){
+                this.markAsRead();
+            }else{
+                axios.get('/api/get-message-notification/' + this.userId)
+                    .then(response => {
+                        this.unreadMessageNotification = response.data;
+                    })
+            }
+        },
+
+        markAsRead(){
+            axios.post('/chat/mark-as-read/')
                 .then(response => {
-                    this.unreadMessageNotification = response.data;
-                    // console.log(response.data);
+                    this.unreadMessageNotification = 0;
                 })
         }
     },
