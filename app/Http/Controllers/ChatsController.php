@@ -91,7 +91,7 @@ class ChatsController extends Controller
         // notify the reciever of message
         $reciever = User::find($request->contact_id);
         $reciever->notify(new NotificationsNewMessage($message));
-        
+
         return response()->json($message);
     }
 

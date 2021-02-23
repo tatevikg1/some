@@ -1,11 +1,9 @@
 <?php
 
-use App\Message;
 use App\Post;
 use App\Profile;
 use App\User;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -33,7 +31,7 @@ Route::get('/get-friend-request-count/{user}', function(User $user){
     return $user->unreadNotifications->where('type', 'App\Notifications\NewFriendRequest')->count();
 });
 
-Route::get('/get-unread-message-count/{user}', function(User $user){
+Route::get('/get-message-notification/{user}', function(User $user){
     return $user->unreadNotifications->where('type', 'App\Notifications\NewMessage')->count();
 });
 

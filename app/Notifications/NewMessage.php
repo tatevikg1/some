@@ -4,10 +4,12 @@ namespace App\Notifications;
 
 use App\Message;
 use Illuminate\Bus\Queueable;
+use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Notification;
+use Illuminate\Notifications\Messages\BroadcastMessage;
 
-class NewMessage extends Notification implements ShouldQueue
+class NewMessage extends Notification implements ShouldQueue, ShouldBroadcast
 {
     use Queueable;
 
@@ -62,9 +64,27 @@ class NewMessage extends Notification implements ShouldQueue
         ];
     }
 
-    // public function deleteNotificationByType($type)
-    // {
-    //     return $this->
-    // }
+    /**
+     * Get the broadcastable representation of the notification.
+     *
+     * @param  mixed  $notifiable
+     * @return BroadcastMessage
+     */
+    public function toBroadcast($notifiable)
+    {
+        return new BroadcastMessage([
+            'id' => $this->message->id,
+        ]);
+    }
+
+    /**
+     * Get the type of the notification being broadcast.
+     *
+     * @return string
+     */
+    public function broadcastType()
+    {
+        return 'NewMessageNotification';
+    }
 
 }

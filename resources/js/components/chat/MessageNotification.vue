@@ -9,9 +9,13 @@
 export default {
     props: ['userId'],
 
-    // mounted() {
-    //     console.log('unread message count component.')
-    // },
+    mounted(){
+
+        Echo.private(`messages.${this.userId}`)
+            .listen("NewMessage", () => {
+                this.getUnreadMessageNotification();
+            });
+    },
 
     data: function () {
         return {
@@ -25,7 +29,7 @@ export default {
 
     methods: {
         getUnreadMessageNotification(){
-            axios.get('/api/get-unread-message-count/' + this.userId)
+            axios.get('/api/get-message-notification/' + this.userId)
                 .then(response => {
                     this.unreadMessageNotification = response.data;
                     // console.log(response.data);
