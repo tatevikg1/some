@@ -7,14 +7,13 @@ use App\User;
 use Illuminate\Support\Facades\Auth;
 use App\Message;
 use App\Events\NewMessage;
+use App\Notifications\NewMessage as NotificationsNewMessage;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Crypt;
 
 
 class ChatsController extends Controller
 {
-
-
     public function __construct()
     {
         $this->middleware('auth');
@@ -42,6 +41,12 @@ class ChatsController extends Controller
 
             return $contact;
         });
+
+        // mark read new message notifications of user
+        $user = auth()->user();
+        $user->unreadNotifications
+            ->where('type', 'App\Notifications\NewMessage')
+            ->markAsRead();
 
         return $returncontacts;
         // return view('profiles.test', compact('returncontacts'));
@@ -82,6 +87,10 @@ class ChatsController extends Controller
         //broadcast for reciever(create newMessage event)
         broadcast(new NewMessage($message));
         // $message->text = Crypt::decryptString($message->text);
+
+        // notify the reciever of message
+        $reciever = User::find($request->contact_id);
+        $reciever->notify(new NotificationsNewMessage($message));
         
         return response()->json($message);
     }
