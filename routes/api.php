@@ -30,17 +30,11 @@ Route::get('/get-likes/{post}/{user}', function(Post $post, User $user){
 });
 
 Route::get('/get-friend-request-count/{user}', function(User $user){
-    return $user->friend_requests->count();
+    return $user->unreadNotifications->where('type', 'App\Notifications\NewFriendRequest')->count();
 });
 
 Route::get('/get-unread-message-count/{user}', function(User $user){
-
-    return Message::select(DB::raw("sender as sender, count(sender) as messages_count "))
-            ->where('receiver', $user->id)
-            ->where('read', false)
-            ->groupBy('sender')
-            ->get()
-            ->count();
+    return $user->unreadNotifications->where('type', 'App\Notifications\NewMessage')->count();
 });
 
 Route::post('/get-random-4-friend/{user}', function(User $user){

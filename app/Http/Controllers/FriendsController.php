@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
-// use Illuminate\Http\Request;
 use App\Friendship;
+use App\Notifications\NewFriendRequest;
 use App\User;
 use Illuminate\Support\Facades\DB;
 
@@ -16,8 +16,10 @@ class FriendsController extends Controller
 
     public function index()
     {
-        $user = auth()->user();
         $title = 'Friends';
+        $user = auth()->user();
+        
+        $this->updateNotifications($user);
 
         $users = $user->friends;
         foreach($users as $u){
@@ -41,6 +43,8 @@ class FriendsController extends Controller
             'acted_user' => auth()->user()->id,
             'status' => 'pending',
         ]);
+        
+        $user->notify(new NewFriendRequest($friendship));
 
         return $friendship;
     }
@@ -57,9 +61,9 @@ class FriendsController extends Controller
 
     public function delete_friend_request(Friendship $friendship)
     {
-        $friendship->delete();
+        $this->deleteNotification($friendship->id);
         
-        return null;
+        return $friendship->delete();;
     }
 
     public function block(User $user)
@@ -72,6 +76,17 @@ class FriendsController extends Controller
         $friendship->update(['status' => 'blocked']);
 
         return $friendship;
+    }
+
+    public function updateNotifications(User $user)
+    {
+        $user->unreadNotifications->markAsRead();
+        return true;
+    }
+
+    protected function deleteNotification($friendship_id)
+    {
+        DB::table('notifications')->where('data', '{"id":'.$friendship_id.'}')->delete();
     }
 
 }
