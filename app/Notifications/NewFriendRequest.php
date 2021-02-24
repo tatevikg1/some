@@ -5,10 +5,13 @@ namespace App\Notifications;
 use App\Friendship;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
-// use Illuminate\Notifications\Messages\MailMessage;
+use Illuminate\Broadcasting\PrivateChannel;
 use Illuminate\Notifications\Notification;
+use Illuminate\Notifications\Messages\BroadcastMessage;
+use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 
-class NewFriendRequest extends Notification implements ShouldQueue
+
+class NewFriendRequest extends Notification implements ShouldQueue, ShouldBroadcast
 {
     use Queueable;
 
@@ -63,5 +66,30 @@ class NewFriendRequest extends Notification implements ShouldQueue
             'notifiable' => $notifiable
         ];
     }
+
+    /**
+     * Get the broadcastable representation of the notification.
+     *
+     * @param  mixed  $notifiable
+     * @return BroadcastMessage
+     */
+    public function toBroadcast($notifiable)
+    {
+        return new BroadcastMessage([
+            'id' => $this->friendship->id,
+        ]);
+
+    }
+
+    public function broadcastOn()
+    {
+        return new PrivateChannel('friendRequests.' . $this->friendship->second_user);
+    }
+
+    public function broadcastAs()
+    {
+        return "App\Events\NewFriendRequest";
+    }
+
 
 }

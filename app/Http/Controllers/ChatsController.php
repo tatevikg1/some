@@ -83,6 +83,7 @@ class ChatsController extends Controller
         ]);
         //broadcast for reciever(create newMessage event)
         broadcast(new NewMessage($message));
+        
         // $message->text = Crypt::decryptString($message->text);
 
         // notify the reciever of message

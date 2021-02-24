@@ -19,7 +19,7 @@ class FriendsController extends Controller
         $title = 'Friends';
         $user = auth()->user();
         
-        $this->updateNotifications($user);
+        $this->markAsRead();
 
         $users = $user->friends;
         foreach($users as $u){
@@ -44,7 +44,9 @@ class FriendsController extends Controller
             'status' => 'pending',
         ]);
         
-        $user->notify(new NewFriendRequest($friendship));
+        $noti = new NewFriendRequest($friendship);
+        $user->notify($noti);
+        broadcast($noti);
 
         return $friendship;
     }
@@ -78,9 +80,13 @@ class FriendsController extends Controller
         return $friendship;
     }
 
-    public function updateNotifications(User $user)
+    public function markAsRead()
     {
-        $user->unreadNotifications->markAsRead();
+        // mark read new friend request notifications of user
+        $user = auth()->user();
+        $user->unreadNotifications
+            ->where('type', 'App\Notifications\NewFriendRequest')
+            ->markAsRead();
         return true;
     }
 
