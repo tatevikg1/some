@@ -16,7 +16,7 @@ Route::post('confirm/{friendship}',     'FriendsController@confirm_friend_reques
 Route::post('delete/{friendship}',      'FriendsController@delete_friend_request');
 // Route::post('block/{user}',      'FriendController@block');
 Route::get  ('/friend',              'FriendsController@index')     ->name('friend.index');
-
+Route::post ('/friend',              'FriendsController@markAsRead');
 
 // post routes
 Route::get   ('/',                 'PostsController@index')  ->name('post.index');

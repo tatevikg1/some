@@ -9,9 +9,13 @@
 export default {
     props: ['userId'],
 
-    // mounted() {
-    //     console.log('friend request count component.')
-    // },
+    mounted() {
+        Echo.private(`friendRequests.${this.userId}`)
+            .listen("NewFriendRequest",(notification) => {
+                this.getFrindRequestNotification();
+            });
+
+    },
 
     data: function () {
         return {
@@ -20,17 +24,30 @@ export default {
     },
 
     beforeMount()  {
-        this.getFrindRequestCount();
+        this.getFrindRequestNotification();
     },
 
     methods: {
-        getFrindRequestCount(){
-            axios.get('/api/get-friend-request-count/' + this.userId)
+        getFrindRequestNotification(){
+            if(window.location.pathname == '/friend'){
+                this.markAsRead();
+                return;
+            }
+            axios.get('/api/get-friend-request-notification/' + this.userId)
                 .then(response => {
                     this.friendRequestCount = response.data;
                     // console.log(response.data);
                 })
+            
+        },
+
+        markAsRead(){
+            axios.post('/chat/mark-as-read/')
+                .then(response => {
+                    this.unreadMessageNotification = 0;
+                })
         }
+
     },
 }
 </script>
