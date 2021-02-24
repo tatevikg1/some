@@ -3,6 +3,9 @@
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 
+// DB clean
+Route::get('/clean', 'HomeController@index');
+
 Auth::routes();
 // Route::get('/email', function () { return new NewUserWelcomeMail(); });
 
