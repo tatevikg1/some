@@ -3,10 +3,10 @@
 @import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400&display=swap');
 
 // partials
-@import 'variables';
-@import 'colors';
-@import 'buttons';
-@import 'images';
+@import '_variables.scss';
+@import '_colors.scss';
+@import '_buttons.scss';
+@import '_images.scss';
 
 // Bootstrap
 @import '~bootstrap/scss/bootstrap';
