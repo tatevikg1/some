@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Support\Facades\DB;
+
 class HomeController extends Controller
 {
     /**
@@ -15,12 +17,16 @@ class HomeController extends Controller
     }
 
     /**
-     * Show the application dashboard.
+     * Clean up database from data that is not useful
      *
-     * @return \Illuminate\Contracts\Support\Renderable
+     * @return array
      */
     public function index()
     {
-        return view('home');
+        DB::table('notifications')->where('read', true)->delete();
+        return [
+            "Deleted read notifications from the database",
+        ];
     }
+
 }

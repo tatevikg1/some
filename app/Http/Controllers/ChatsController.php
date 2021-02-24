@@ -43,10 +43,9 @@ class ChatsController extends Controller
         });
 
         // mark read new message notifications of user
-        $this->markAsRead();
+        $this->markAsRead("App\Notifications\NewMessage");
 
         return $returncontacts;
-        // return view('profiles.test', compact('returncontacts'));
     }
 
     public function getMessagesWithContact($id)
@@ -101,13 +100,13 @@ class ChatsController extends Controller
         return $id;
     }
 
-    public function markAsRead()
-    {
-        // mark read new message notifications of user
-        $user = auth()->user();
-        $user->unreadNotifications
-            ->where('type', 'App\Notifications\NewMessage')
-            ->markAsRead();
-        return true;
-    }
+    // public function markAsRead()
+    // {
+    //     // mark read new message notifications of user
+    //     $user = auth()->user();
+    //     $user->unreadNotifications
+    //         ->where('type', 'App\Notifications\NewMessage')
+    //         ->markAsRead();
+    //     return true;
+    // }
 }

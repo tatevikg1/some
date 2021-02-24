@@ -19,7 +19,7 @@ class FriendsController extends Controller
         $title = 'Friends';
         $user = auth()->user();
         
-        $this->markAsRead();
+        $this->markAsRead("App\Notifications\NewFriendRequest");
 
         $users = $user->friends;
         foreach($users as $u){
@@ -80,15 +80,6 @@ class FriendsController extends Controller
         return $friendship;
     }
 
-    public function markAsRead()
-    {
-        // mark read new friend request notifications of user
-        $user = auth()->user();
-        $user->unreadNotifications
-            ->where('type', 'App\Notifications\NewFriendRequest')
-            ->markAsRead();
-        return true;
-    }
 
     protected function deleteNotification($friendship_id)
     {
