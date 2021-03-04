@@ -5,11 +5,11 @@
             <div class="pl-3 app_name">Wings</div>
         </a>
         @auth
-        <form class="d-flex mr-3" action="/profile/find" method="post">
+        <!-- <form class="d-flex mr-3" action="/profile/find" method="post">
             @csrf
             <input type="text" name="username" placeholder="Search" style="padding-right: 50px;">
             <input type="submit"  value="Ok" style="margin-left: -47px;">
-        </form>
+        </form> -->
         @endauth
 
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
