@@ -68,14 +68,14 @@ class PostsController extends Controller
 
         $likes = (auth()->user()) ? auth()->user()->liking->contains($post->id) : false;
 
-        $likesCount = Cache::remember(
-            'count.likes.' . $post->id,
-            now()->addSeconds(30),
-            function () use ($post) {
-                return $post->likers->count();
-            });
+        // $likesCount = Cache::remember(
+        //     'count.likes.' . $post->id,
+        //     now()->addSeconds(30),
+        //     function () use ($post) {
+        //         return $post->likers->count();
+        //     });
 
-        return view('posts.show', compact('post', 'likes', 'likesCount'));
+        return view('posts.show', compact('post', 'likes'));
     }
 
     public function destroy(Post $post)
