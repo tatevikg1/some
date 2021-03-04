@@ -5,7 +5,7 @@
 <div class="container white_bckgr">
 
     <div class="row cover_img">
-        <div class="col-3 " onclick="location.href='newurl.html';">
+        <div class="col-3 ">
             <img src="{{ $user->profile->profileImage() }}" class="rounded-circle profile_img">
         </div>
     </div>
@@ -18,6 +18,7 @@
 
             </li>
             <li class="float-left" style="margin-right:7px;">
+            @auth
                 @can('update', $user->profile)
                     <a class="btn btn-secondary ml-3" href="{{ route('profile.edit', $user->id) }}">Edit Profile</a>
                 @else
@@ -26,6 +27,7 @@
                         <friend-button user-id="{{ $user->id }}" friendship="{{ $friendship }}"></friend-button>
                     </div>
                 @endcan
+            @endauth
             </li>
         </ul>
     </div>
