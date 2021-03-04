@@ -42,12 +42,16 @@ class PostsController extends Controller
     {
         $data = $request->validate([
             'caption' => 'required',
-            'image' => ['required', 'image'],
+            'image' => ['image'],
         ]);
-
-        $imagePath = request('image')->store('uploads', 'public');
-        $image = Image::make(public_path("storage/{$imagePath}"))->fit(1200, 1200);
-        $image->save();
+        $imagePath = 'svg/profile.jpeg';
+        // if(!$request->image){
+        //     $imagePath = 'svg/profile.jpeg';
+        // }else{
+        //     $imagePath = request('image')->store('uploads', 'public');
+        //     $image = Image::make(public_path("storage/{$imagePath}"))->fit(1200, 1200);
+        //     $image->save();
+        // }
 
         $request->user()->posts()->create([
             'caption' => $data['caption'],
