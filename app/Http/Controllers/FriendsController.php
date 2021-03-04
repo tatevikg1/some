@@ -58,6 +58,8 @@ class FriendsController extends Controller
             'acted_user' => auth()->user()->id,
         ]);
 
+        $this->follow_each_other($friendship);
+
         return $friendship;
     }
 
@@ -94,6 +96,16 @@ class FriendsController extends Controller
     protected function deleteNotification($friendship_id)
     {
         DB::table('notifications')->where('data', '{"id":'.$friendship_id.'}')->delete();
+    }
+
+    protected function follow_each_other(Friendship $friendship)
+    {
+        $user1 = User::find($friendship->first_user);
+        $user2 = User::find($friendship->second_user);
+
+        $user1->following()->toggle($user2->profile);
+        $user2->following()->toggle($user1->profile);
+
     }
 
 }

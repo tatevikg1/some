@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Friendship;
 use App\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
 use Intervention\Image\Facades\Image;
 
@@ -13,7 +14,7 @@ class ProfilesController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('auth');
+        $this->middleware('auth', ['except' => ['show']]);
     }
 
     public function index()
@@ -46,8 +47,6 @@ class ProfilesController extends Controller
 
     public function show(User $user)
     {
-        $follows = (auth()->user()) ? auth()->user()->following->contains($user->id) : false;
-
         $postCount = Cache::remember(
             'count.posts.' . $user->id,
             now()->addSeconds(30),
@@ -69,13 +68,20 @@ class ProfilesController extends Controller
                 return $user->following->count();
             });
 
+        // if the user is not authenticated he is not folloing the profile he is visiting
+        if(!Auth::check()){
+            $follows = false;
+            return view('profiles.show', compact( 'user', 'follows', 'postCount', 'followersCount', 'followingCount'));
+        }
+        
+        $follows = (auth()->user()) ? auth()->user()->following->contains($user->id) : false;
+
         if(auth()->user()->id == $user->id){
             return view('profiles.show', compact( 'user', 'follows', 'postCount', 'followersCount', 'followingCount'));
         }
 
         $friendship = Friendship::recordReletedTo($user);
 
-        // dd($friendship);
 
         return view('profiles.show', compact( 
             'user', 'follows', 
