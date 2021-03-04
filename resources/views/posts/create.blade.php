@@ -5,6 +5,7 @@
 
 @section('content')
 <div class="container a" style="margin-top:50px;">
+
     <form action="{{ route('post.store') }}" enctype="multipart/form-data" method="post">
         @csrf
 
@@ -13,6 +14,8 @@
 
                 <div class="row">
                     <h1>Add New Post</h1>
+                    <small style="color:red">This feature is not working because administration(me) has not paid for simple file upload heroku add-on.</small>
+
                 </div>
                 <div class="form-group row">
                     <label for="caption" class="col-md-4 col-form-label">Post Caption</label>
