@@ -45,6 +45,13 @@ class ProfilesController extends Controller
         return view('profiles.index', compact('users', 'friend_requests', 'title'));
     }
 
+    /**
+     * @var int $postCount
+     * @var int $followersCount
+     * @var int $followingCount
+     * @var bool $follows
+     * @var App\Friendship $friendship
+    */
     public function show(User $user)
     {
         $postCount = Cache::remember(
@@ -68,24 +75,29 @@ class ProfilesController extends Controller
                 return $user->following->count();
             });
 
-        // if the user is not authenticated he is not folloing the profile he is visiting
+        // if the user is not authenticated he is not following the profile he is visiting
         if(!Auth::check()){
             $follows = false;
-            return view('profiles.show', compact( 'user', 'follows', 'postCount', 'followersCount', 'followingCount'));
+            return view('profiles.show', compact( 
+                'user',  'follows', 
+                'postCount',  'followersCount', 'followingCount'
+            ));
         }
         
         $follows = (auth()->user()) ? auth()->user()->following->contains($user->id) : false;
 
         if(auth()->user()->id == $user->id){
-            return view('profiles.show', compact( 'user', 'follows', 'postCount', 'followersCount', 'followingCount'));
+            return view('profiles.show', compact( 
+                'user',  'follows', 
+                'postCount',  'followersCount', 'followingCount'
+            ));
         }
 
         $friendship = Friendship::recordReletedTo($user);
 
-
         return view('profiles.show', compact( 
             'user', 'follows', 
-            'postCount', 'followersCount', 'followingCount',
+            'postCount', 'followersCount',  'followingCount',
             'friendship'
         ));
     }
@@ -132,6 +144,9 @@ class ProfilesController extends Controller
         return redirect('/register');
     }
 
+    /**
+     * @var App\user $users
+    */
     public function find(Request $request)
     {
         $data = request()->validate([
@@ -139,7 +154,7 @@ class ProfilesController extends Controller
             'username' => 'required',
         ]);
 
-        $username =$request->input('username');
+        $username = $request->input('username');
 
         $users = User::where('name', 'like', '%'.$username.'%')->get();
 

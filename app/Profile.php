@@ -15,11 +15,17 @@ class Profile extends Model
         return '/storage/' . $imagePath;
     }
 
+    /**
+     * returns users who follow this profile
+    */
     public function followers()
     {
         return $this->belongsToMany(User::class);
     }
 
+    /**
+     * returns the user who owns the profile
+    */
     public function user()
     {
         return $this->belongsTo(User::class);

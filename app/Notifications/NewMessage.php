@@ -41,7 +41,7 @@ class NewMessage extends Notification implements ShouldQueue, ShouldBroadcast
      * Get the mail representation of the notification.
      *
      * @param  mixed  $notifiable
-     * @return 
+     * @return array
      */
     public function toDatabase($notifiable)
     {

@@ -5,7 +5,9 @@ use App\User;
 
 trait BlockUser
 {
-	// friendship that this user started but now blocked
+	/**
+	 * friendship that this user started but now blocked
+	 */
 	protected function friendsOfThisUserBlocked()
 	{
 		return $this->belongsToMany(User::class, 'friendships', 'first_user', 'second_user')
@@ -14,7 +16,9 @@ trait BlockUser
 					->wherePivot('acted_user', 'first_user');
 	}
  
-	// friendship that this user was asked for but now blocked
+	/*
+	 * friendship that this user was asked for but now blocked 
+	 */ 
 	protected function thisUserFriendOfBlocked()
 	{
 		return $this->belongsToMany(User::class, 'friendships', 'second_user', 'first_user')
@@ -23,7 +27,9 @@ trait BlockUser
 					->wherePivot('acted_user', 'second_user');
 	}
  
-	// accessor allowing you call $user->blocked_friends
+	/**
+	 * accessor allowing to call $user->blocked_friends
+	 * */ 
 	public function getBlockedFriendsAttribute()
 	{
 		if ( ! array_key_exists('blocked_friends', $this->relations)) $this->loadBlockedFriends();

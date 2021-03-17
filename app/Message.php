@@ -3,7 +3,6 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
-// use App\User;
 
 class Message extends Model
 {
@@ -20,9 +19,11 @@ class Message extends Model
     return $this->belongsTo(User::class);
   }
 
+  /**
+   * loads the user object from the message object
+  */
   public function fromContact()
   {
-    // it is for loading the user object from the message object
     return $this->hasOne(User::class, 'id', 'sender');
   }
 }

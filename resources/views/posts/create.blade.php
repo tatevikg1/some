@@ -14,7 +14,7 @@
 
                 <div class="row">
                     <h1>Add New Post</h1>
-                    <small style="color:red">This feature is not working because administration(me) has not paid for simple file upload heroku add-on.</small>
+                    <!-- <small style="color:red">This feature is not working because administration(me) has not paid for simple file upload heroku add-on.</small> -->
 
                 </div>
                 <div class="form-group row">
