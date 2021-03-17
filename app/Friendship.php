@@ -9,6 +9,9 @@ class Friendship extends Model
 {
     protected $fillable = ['first_user', 'second_user', 'acted_user', 'status',];
 
+    /**
+     * returns all friendship records related to user (friend request, friend, blocked)
+    */
     public static function recordReletedTo($user)
     {
         $record =  DB::table('friendships')
@@ -20,11 +23,4 @@ class Friendship extends Model
         }
         return null;
     }
-
-    // public function creator()
-    // {
-    //     return $this->belongsTo(User::class, 'first_user');
-    // }
-
-
 }

@@ -14,6 +14,9 @@ class FriendsController extends Controller
         $this->middleware('auth');
     }
 
+    /**
+     * shows friends and friend_requests
+    */
     public function index()
     {
         $title = 'Friends';
@@ -35,6 +38,10 @@ class FriendsController extends Controller
         return view('profiles.index', compact('users', 'friend_requests', 'title'));
     }
 
+    /**
+     * creates friendship record, newFriendRequest notification and broadcasts it
+     * @return App\Friendship
+    */ 
     public function send_friend_request(User $user)
     {
         $friendship = Friendship::create([
@@ -67,9 +74,12 @@ class FriendsController extends Controller
     {
         $this->deleteNotification($friendship->id);
         
-        return $friendship->delete();;
+        return $friendship->delete();
     }
 
+    /**
+     * @return App\Friendship
+     */
     public function block(User $user)
     {
         $friendship = DB::table('friendships')
@@ -82,9 +92,11 @@ class FriendsController extends Controller
         return $friendship;
     }
 
+    /** 
+     * markAsRead newFriendRequest notifications of user
+    */
     public function markAsRead()
     {
-        // mark read new friend request notifications of user
         $user = auth()->user();
         $user->unreadNotifications
             ->where('type', "App\Notifications\NewFriendRequest")
@@ -92,7 +104,9 @@ class FriendsController extends Controller
         return true;
     }
 
-
+    /** 
+     * deletes from the database friendship notification
+    */ 
     protected function deleteNotification($friendship_id)
     {
         DB::table('notifications')->where('data', '{"id":'.$friendship_id.'}')->delete();
@@ -105,7 +119,6 @@ class FriendsController extends Controller
 
         $user1->following()->toggle($user2->profile);
         $user2->following()->toggle($user1->profile);
-
     }
 
 }
