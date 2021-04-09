@@ -18,15 +18,19 @@ services:
   # db:
   #   image: mysql:5.7
   #   container_name: some-db
-  #   restart: unless-stopped
+  #   command: --disable-partition-engine-check
+  #   ports:
+  #     - "8001:3306"
   #   environment:
-  #     MYSQL_DATABASE: ${DB_DATABASE}
+  #     restart: unless-stopped
+  #     MYSQL_DATABASE: some
   #     MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
-  #     MYSQL_PASSWORD: ${DB_PASSWORD}
-  #     MYSQL_USER: ${DB_USERNAME}
+  #     MYSQL_PASSWORD: password
+  #     MYSQL_USER: user
   #     SERVICE_TAGS: dev
   #     SERVICE_NAME: mysql
   #   volumes:
+  #     - dbdata:/var/lib/mysql/
   #     - ./docker-compose/mysql:/docker-entrypoint-initdb.d
   #   networks:
   #     - some
@@ -44,5 +48,8 @@ services:
 networks:
   some:
     driver: bridge
+volumes:
+  dbdata:
+    driver: local
 
     
