@@ -12,7 +12,7 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 });
 
 Route::get('/get-like-count/{post}', function(Post $post){
-    return $post->likers->count();
+    return $post->likers()->count();
 });
 
 Route::get('/get-likes/{post}/{user}', function(Post $post, User $user){

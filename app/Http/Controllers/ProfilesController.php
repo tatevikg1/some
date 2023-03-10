@@ -4,11 +4,15 @@ namespace App\Http\Controllers;
 
 use App\Friendship;
 use App\User;
+use Exception;
+use Illuminate\Auth\Access\AuthorizationException;
+use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Contracts\View\Factory;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\View\View;
 use Intervention\Image\Facades\Image;
-
 
 class ProfilesController extends Controller
 {
@@ -22,11 +26,11 @@ class ProfilesController extends Controller
         $title = 'Find Friends';
         $authUser = auth()->user();
 
-        $allUsers = User::where('id', '!=', $authUser->id)->get();
+        $allUsers = User::where('id', '!=', $authUser->getAuthIdentifier())->get();
         $users = $allUsers->reject(function ($user) {
             // return users that has no friendship record related with auth user
-            return Friendship::recordReletedTo($user);
-            
+            return Friendship::recordRelatedTo($user);
+
             // // return all users except auth users friends
             // return Auth::user()->friends->contains($user->id);
         });
@@ -34,74 +38,74 @@ class ProfilesController extends Controller
         $sent = $authUser->sent_friend_requests;
         foreach($sent as $f){
             $f->creator = User::find($f->second_user);
-        } 
+        }
 
         $friend_requests = auth()->user()->friend_requests;
         foreach($friend_requests as $f){
             $f->creator = User::find($f->acted_user);
-        } 
+        }
 
         $friend_requests = $sent->merge($friend_requests);
         return view('profiles.index', compact('users', 'friend_requests', 'title'));
     }
 
     /**
-     * @var int $postCount
-     * @var int $followersCount
-     * @var int $followingCount
-     * @var bool $follows
-     * @var App\Friendship $friendship
-    */
+     * @param User $user
+     * @return Application|Factory|View
+     */
     public function show(User $user)
     {
         $postCount = Cache::remember(
             'count.posts.' . $user->id,
             now()->addSeconds(30),
             function () use ($user) {
-                return $user->posts->count();
+                return $user->posts()->count();
             });
 
         $followersCount = Cache::remember(
             'count.followers.' . $user->id,
             now()->addSeconds(30),
             function () use ($user) {
-                return $user->profile->followers->count();
+                return $user->profile->followers()->count();
             });
 
         $followingCount = Cache::remember(
             'count.following.' . $user->id,
             now()->addSeconds(30),
             function () use ($user) {
-                return $user->following->count();
+                return $user->following()->count();
             });
 
         // if the user is not authenticated he is not following the profile he is visiting
         if(!Auth::check()){
             $follows = false;
-            return view('profiles.show', compact( 
-                'user',  'follows', 
+            return view('profiles.show', compact(
+                'user',  'follows',
                 'postCount',  'followersCount', 'followingCount'
             ));
         }
-        
+
         $follows = (auth()->user()) ? auth()->user()->following->contains($user->id) : false;
 
-        if(auth()->user()->id == $user->id){
-            return view('profiles.show', compact( 
-                'user',  'follows', 
+        if(auth()->user()->getAuthIdentifier() == $user->id){
+            return view('profiles.show', compact(
+                'user',  'follows',
                 'postCount',  'followersCount', 'followingCount'
             ));
         }
 
-        $friendship = Friendship::recordReletedTo($user);
+        $friendship = Friendship::recordRelatedTo($user);
 
-        return view('profiles.show', compact( 
-            'user', 'follows', 
+        return view('profiles.show', compact(
+            'user', 'follows',
             'postCount', 'followersCount',  'followingCount',
             'friendship'
         ));
     }
 
+    /**
+     * @throws AuthorizationException
+     */
     public function edit(User $user)
     {
         $this->authorize('update', $user->profile);
@@ -109,6 +113,9 @@ class ProfilesController extends Controller
         return view('profiles.edit', compact('user'));
     }
 
+    /**
+     * @throws AuthorizationException
+     */
     public function update(User $user)
     {
         $this->authorize('update', $user->profile);
@@ -129,7 +136,7 @@ class ProfilesController extends Controller
             $imageArray = ['image' => $imagePath];
         }
 
-        auth()->user()->profile->update(array_merge(
+        auth()->user()->profile()->update(array_merge(
             $data,
             $imageArray ?? []
         ));
@@ -137,6 +144,9 @@ class ProfilesController extends Controller
         return redirect("/profile/{$user->id}");
     }
 
+    /**
+     * @throws Exception
+     */
     public function destroy(User $user)
     {
         $user->delete();
@@ -145,19 +155,18 @@ class ProfilesController extends Controller
     }
 
     /**
-     * @var App\user $users
-    */
+     * @param Request $request
+     * @return Application|Factory|View
+     */
     public function find(Request $request)
     {
-        $data = request()->validate([
-
-            'username' => 'required',
+        $title = 'Search result';
+        $data = $request->validate([
+            'username' => 'required|min:2',
         ]);
 
-        $username = $request->input('username');
+        $users = User::where('name', 'like', '%'. $data['username'] .'%')->get();
 
-        $users = User::where('name', 'like', '%'.$username.'%')->get();
-
-        return view('profiles.index', compact('users'));
+        return view('profiles.index', compact('users', 'title'));
     }
 }

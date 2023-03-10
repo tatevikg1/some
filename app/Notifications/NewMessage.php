@@ -31,7 +31,7 @@ class NewMessage extends Notification implements ShouldQueue, ShouldBroadcast
      * @param  mixed  $notifiable
      * @return array
      */
-    public function via($notifiable)
+    public function via($notifiable): array
     {
         return ['database'];
     }
@@ -43,7 +43,7 @@ class NewMessage extends Notification implements ShouldQueue, ShouldBroadcast
      * @param  mixed  $notifiable
      * @return array
      */
-    public function toDatabase($notifiable)
+    public function toDatabase($notifiable): array
     {
         return [
             'id' => $this->message->id,
@@ -56,7 +56,7 @@ class NewMessage extends Notification implements ShouldQueue, ShouldBroadcast
      * @param  mixed  $notifiable
      * @return array
      */
-    public function toArray($notifiable)
+    public function toArray($notifiable): array
     {
         return [
             'id' => $this->message->id,
@@ -70,7 +70,7 @@ class NewMessage extends Notification implements ShouldQueue, ShouldBroadcast
      * @param  mixed  $notifiable
      * @return BroadcastMessage
      */
-    public function toBroadcast($notifiable)
+    public function toBroadcast($notifiable): BroadcastMessage
     {
         return new BroadcastMessage([
             'id' => $this->message->id,
@@ -82,7 +82,7 @@ class NewMessage extends Notification implements ShouldQueue, ShouldBroadcast
      *
      * @return string
      */
-    public function broadcastType()
+    public function broadcastType(): string
     {
         return 'NewMessageNotification';
     }

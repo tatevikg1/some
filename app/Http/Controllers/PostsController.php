@@ -4,17 +4,20 @@ namespace App\Http\Controllers;
 
 use App\Post;
 use App\User;
+use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Contracts\View\Factory;
 use Illuminate\Http\Request;
+use Illuminate\View\View;
 use Intervention\Image\Facades\Image;
-// use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Auth;
 
 class PostsController extends Controller
 {
 
     /**
-     * @var App\Post 
-    */
+     * @param Request $request
+     * @return Application|Factory|View
+     */
     public function index(Request $request)
     {
         $title = 'Posts';
@@ -63,8 +66,7 @@ class PostsController extends Controller
     public function show(Post $post)
     {
         $user = auth()->user();
-
-        $likes = (auth()->user()) ? auth()->user()->liking->contains($post->id) : false;
+        $likes = ($user) ? $user->liking->contains($post->id) : false;
 
         return view('posts.show', compact('post', 'likes'));
     }
@@ -81,11 +83,9 @@ class PostsController extends Controller
     */
     public function liked()
     {
-        $user = auth()->user();
-
-        $posts = $user->liking;
+        $posts = auth()->user()->liking;
         $title = 'Liked Posts';
-        
+
         return view('posts.index', compact('posts', 'title'));
     }
 }

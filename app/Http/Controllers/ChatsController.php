@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use App\User;
 use Illuminate\Support\Facades\Auth;
@@ -9,7 +10,6 @@ use App\Message;
 use App\Events\NewMessage;
 use App\Notifications\NewMessage as NotificationsNewMessage;
 use Illuminate\Support\Facades\DB;
-// use Illuminate\Support\Facades\Crypt;
 
 
 class ChatsController extends Controller
@@ -19,20 +19,28 @@ class ChatsController extends Controller
         $this->middleware('auth');
     }
 
+    public function chat()
+    {
+        return view('chat_app.chat');
+    }
+
     public function contacts()
     {
         // get all contacts
         $contacts = User::where('id', '!=', auth()->id())->get();
 
+        /** @var User $user */
+        $user = auth()->user();
+
         // get the count of unread messages group by contact
         $unreadMessagesId = Message::select(DB::raw("sender as sender, count(sender) as messages_count "))
-            ->where('receiver', auth()->user()->id)
+            ->where('receiver', $user->id)
             ->where('read', false)
             ->groupBy('sender')
             ->get();
 
         // add the unread messages_count to contacts
-        $returncontacts = $contacts->map(function($contact) use ($unreadMessagesId) {
+        $returnContacts = $contacts->map(function($contact) use ($unreadMessagesId) {
 
             // if the contact sent message that is unread,  get the message count
             $contactUnread = $unreadMessagesId->where('sender', $contact->id)->first();
@@ -44,9 +52,9 @@ class ChatsController extends Controller
         });
 
         // mark read new message notifications of user
-        $this->markAsRead("App\Notifications\NewMessage");
+        $this->markAsRead();
 
-        return $returncontacts;
+        return $returnContacts;
     }
 
     public function getMessagesWithContact($id)
@@ -54,7 +62,7 @@ class ChatsController extends Controller
         //make all messages from this contact as read
         Message::where('sender', $id)->where('receiver', auth()->id())->update(['read'=> true]);
 
-        $messages = Message::where(function($q) use ($id){
+        return Message::where(function($q) use ($id){
             // query for messages from auth user to selected contact
             $q->where('sender' , auth()->id());
             $q->where('receiver', $id);
@@ -64,15 +72,9 @@ class ChatsController extends Controller
             $q->where('sender', $id);
             $q->where('receiver' , auth()->id());
         })->get();
-
-        // foreach($messages as $message){
-        //     $message->text = Crypt::decryptString($message->text);
-        // }
-        
-        return $messages;
     }
 
-    public function send(Request $request)
+    public function send(Request $request): JsonResponse
     {
         // save message to the db
         $message = Message::create([
@@ -83,20 +85,18 @@ class ChatsController extends Controller
         ]);
         // broadcast for reciever(create newMessage event)
         broadcast(new NewMessage($message));
-        
-        // $message->text = Crypt::decryptString($message->text);
 
         // notify the reciever of message
-        $reciever = User::find($request->contact_id);
-        $reciever->notify(new NotificationsNewMessage($message));
+        $receiver = User::find($request->contact_id);
+        $receiver->notify(new NotificationsNewMessage($message));
 
         return response()->json($message);
     }
 
     /**
-     * set read messages from the corrently speaking contact 
+     * set read messages from the currently speaking contact
     */
-    public function setRead(Message $message)
+    public function setRead(Message $message): Message
     {
         $message->update(['read' => true]);
 
@@ -104,13 +104,14 @@ class ChatsController extends Controller
     }
 
     /**
-     * marks auth user's new message notifications as read 
+     * marks auth user's new message notifications as read
      */
-    public function markAsRead()
+    public function markAsRead(): bool
     {
+        /** @var User $user */
         $user = auth()->user();
         $user->unreadNotifications
-            ->where('type', 'App\Notifications\NewMessage')
+            ->where('type', NotificationsNewMessage::class)
             ->markAsRead();
         return true;
     }

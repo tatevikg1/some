@@ -3,12 +3,20 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
+/**
+ * @property int $user_id
+ * @property string $image
+ * @property User $user
+ * @property User[] $followers
+*/
 class Profile extends Model
 {
     protected $guarded = [];
 
-    public function profileImage()
+    public function profileImage(): string
     {
         $imagePath = ($this->image) ? $this->image : 'profile/profile.jpeg';
 
@@ -18,7 +26,7 @@ class Profile extends Model
     /**
      * returns users who follow this profile
     */
-    public function followers()
+    public function followers(): BelongsToMany
     {
         return $this->belongsToMany(User::class);
     }
@@ -26,7 +34,7 @@ class Profile extends Model
     /**
      * returns the user who owns the profile
     */
-    public function user()
+    public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
     }

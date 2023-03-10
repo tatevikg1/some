@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\NewFriendRequestEvent;
 use App\Friendship;
 use App\Notifications\NewFriendRequest;
 use App\User;
@@ -20,28 +21,26 @@ class FriendsController extends Controller
     public function index()
     {
         $title = 'Friends';
+        /** @var User $user */
         $user = auth()->user();
-        
-        $this->markAsRead("App\Notifications\NewFriendRequest");
+
+        $this->markAsRead();
 
         $users = $user->friends;
         foreach($users as $u){
-            $u->friendship = Friendship::recordReletedTo($u);
+            $u->friendship = Friendship::recordRelatedTo($u);
         }
 
-        $friend_requests = $user->friend_requests;
+        $friendRequests = $user->friend_requests;
 
-        foreach($friend_requests as $f){
-            $f->creator = User::find($f->acted_user);
-        } 
+        foreach($friendRequests as $friendRequest){
+            $friendRequest->creator = User::find($friendRequest->acted_user);
+        }
 
-        return view('profiles.index', compact('users', 'friend_requests', 'title'));
+        return view('profiles.index', compact('users', 'friendRequests', 'title'));
     }
 
-    /**
-     * creates friendship record, newFriendRequest notification and broadcasts it
-     * @return App\Friendship
-    */ 
+
     public function send_friend_request(User $user)
     {
         $friendship = Friendship::create([
@@ -50,16 +49,14 @@ class FriendsController extends Controller
             'acted_user' => auth()->user()->id,
             'status' => 'pending',
         ]);
-        
-        $noti = new NewFriendRequest($friendship);
-        $user->notify($noti);
-        broadcast($noti);
+
+        NewFriendRequestEvent::dispatch($friendship);
 
         return $friendship;
     }
 
-    public function confirm_friend_request(Friendship $friendship)
-    {            
+    public function confirm_friend_request(Friendship $friendship): Friendship
+    {
         $friendship->update([
             'status' => 'confirmed',
             'acted_user' => auth()->user()->id,
@@ -70,21 +67,25 @@ class FriendsController extends Controller
         return $friendship;
     }
 
-    public function delete_friend_request(Friendship $friendship)
+    public function delete_friend_request(Friendship $friendship): ?bool
     {
         $this->deleteNotification($friendship->id);
-        
+
         return $friendship->delete();
     }
 
-    /**
-     * @return App\Friendship
-     */
+
     public function block(User $user)
     {
         $friendship = DB::table('friendships')
-            ->where([['first_user', auth()->user()->id], ['second_user', $user->id]])
-            ->orWhere([['first_user', $user->id], ['second_user', auth()->user()->id ]])
+            ->where([
+                ['first_user', auth()->user()->id],
+                ['second_user', $user->id],
+            ])
+            ->orWhere([
+                ['first_user', $user->id],
+                ['second_user', auth()->user()->id],
+            ])
             ->first();
 
         $friendship->update(['status' => 'blocked']);
@@ -92,21 +93,21 @@ class FriendsController extends Controller
         return $friendship;
     }
 
-    /** 
+    /**
      * markAsRead newFriendRequest notifications of user
     */
-    public function markAsRead()
+    public function markAsRead(): bool
     {
         $user = auth()->user();
         $user->unreadNotifications
-            ->where('type', "App\Notifications\NewFriendRequest")
+            ->where('type', NewFriendRequest::class)
             ->markAsRead();
         return true;
     }
 
-    /** 
+    /**
      * deletes from the database friendship notification
-    */ 
+    */
     protected function deleteNotification($friendship_id)
     {
         DB::table('notifications')->where('data', '{"id":'.$friendship_id.'}')->delete();
