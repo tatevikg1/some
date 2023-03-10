@@ -5,11 +5,11 @@
             <!-- <img src="/svg/user-plus-solid.svg" alt="Add friend" width="25px"> -->
         </button>
         <div v-else>
-            <button v-if="confirmed" class="btn " @click="deleteRe()"> 
+            <button v-if="confirmed" class="btn " @click="deleteRe()">
                 <i class='fas fa-user-times'></i>
                 <!-- <img src="/svg/user-times-solid.svg" alt="Add friend" width="25px"> -->
             </button>
-                <div v-if="pending"> 
+                <div v-if="pending">
                     <button v-if="toMe"     class="btn btn-secondary" @click="confirm()"> Confirm</button>
                     <button v-if="toMe"     class="btn btn-secondary" @click="deleteRe()">Delete Request</button>
                     <button v-else          class="btn btn-secondary" @click="deleteRe()">Cancel Request</button>
@@ -35,7 +35,7 @@
 
         methods: {
             addFriend() {
-                axios.post('/addfriend/' + this.userId)
+                axios.post('/add-friend/' + this.userId)
                     .then(response => {
                         this.obj = response.data;
                     })
@@ -77,7 +77,7 @@
                     return true;
                 }
                 return false;
-            }, 
+            },
 
             confirmed(){
                 if(this.obj.status == 'confirmed'){
@@ -99,7 +99,7 @@
                 }
                 return false;
             }
-            
+
         }
 
     }

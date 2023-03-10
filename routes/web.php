@@ -1,10 +1,8 @@
 <?php
 
+use App\Http\Controllers\FriendsController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
-
-// DB clean
-Route::get('/clean', 'HomeController@index');
 
 Auth::routes();
 // Route::get('/email', function () { return new NewUserWelcomeMail(); });
@@ -14,22 +12,20 @@ Route::post('follow/{user}',    'FollowsController@store');
 Route::post('like/{post}',      'LikesController@store');
 
 // friendship system routes
-Route::post('addfriend/{user}',         'FriendsController@send_friend_request');
-Route::post('confirm/{friendship}',     'FriendsController@confirm_friend_request');
-Route::post('delete/{friendship}',      'FriendsController@delete_friend_request');
+Route::post('add-friend/{user}',        [FriendsController::class, 'send_friend_request']);
+Route::post('confirm/{friendship}',     [FriendsController::class, 'confirm_friend_request']);
+Route::post('delete/{friendship}',      [FriendsController::class, 'delete_friend_request']);
 // Route::post('block/{user}',      'FriendController@block');
-Route::get  ('/friend',              'FriendsController@index')     ->name('friend.index');
+Route::get  ('/friend',              'FriendsController@index')->name('friend.index');
 Route::post ('/friend',              'FriendsController@markAsRead');
 
 // post routes
 Route::get   ('/',                 'PostsController@index')  ->name('post.index');
-Route::get   ('/popt/create',      'PostsController@create') ->name('post.create')->middleware('auth');
+Route::get   ('/post/create',      'PostsController@create') ->name('post.create')->middleware('auth');
 Route::post  ('/post',             'PostsController@store')  ->name('post.store')->middleware('auth');
-// Route::get   ('/post/{post}',       function () { return back();}) ->name('post.show');
 Route::get   ('/post/{post}',      'PostsController@show')   ->name('post.show');
 Route::delete('/post/{post}',      'PostsController@destroy')->name('post.destroy')->middleware('auth');
 Route::get   ('/post',             'PostsController@liked')  ->name('post.liked')->middleware('auth');
-
 
 // profile
 Route::get  ('/profile',             'ProfilesController@index')    ->name('profile.index');

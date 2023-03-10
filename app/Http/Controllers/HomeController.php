@@ -15,18 +15,4 @@ class HomeController extends Controller
     {
         $this->middleware('auth');
     }
-
-    /**
-     * Clean up database from data that is not useful
-     *
-     * @return array
-     */
-    public function index()
-    {
-        DB::table('notifications')->where('read', true)->delete();
-        return [
-            "Deleted read notifications from the database",
-        ];
-    }
-
 }
