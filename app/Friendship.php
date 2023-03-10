@@ -27,22 +27,26 @@ class Friendship extends Model
     */
     public static function recordRelatedTo($user)
     {
-        /** @var User $user */
-        $authUser =  auth()->user();
         /** @var Friendship $record */
         $record =  DB::table('friendships')
             ->where([
-                ['first_user', $authUser->id],
+                ['first_user', auth()->id()],
                 ['second_user', $user->id]
             ])
             ->orWhere([
                 ['first_user', $user->id],
-                ['second_user', $authUser->id]
+                ['second_user', auth()->id()]
             ])
             ->first();
         if ($record) {
             return Friendship::where('id', $record->id)->first();
         }
         return null;
+    }
+
+    public function delete()
+    {
+        DB::table('notifications')->where('data', "{\"id\":$this->id}")->delete();
+        parent::delete();
     }
 }
