@@ -13,6 +13,6 @@ class DatabaseSeeder extends Seeder
     {
         factory(App\User::class, 15)->create();
         factory(App\Message::class, 150)->create();
-
+        factory(App\Friendship::class, 15)->create();
     }
 }
