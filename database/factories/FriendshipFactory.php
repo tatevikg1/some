@@ -20,8 +20,8 @@ use Illuminate\Support\Str;
 */
 $factory->define(Friendship::class, function (Faker $faker) {
     do{
-        $firstUser = rand(1, 15);
-        $secondUser = rand(1, 15);
+        $firstUser = rand(1, 1500);
+        $secondUser = rand(1, 1500);
     }while($firstUser === $secondUser);
 
     $actedUser = ($firstUser%2 === 1) ? $firstUser : $secondUser;
