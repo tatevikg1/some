@@ -14,11 +14,11 @@ class ProfilePolicy
     /**
      * Determine whether the user can update the profile.
      *
-     * @param  \App\User  $user
-     * @param  \App\Profile  $profile
-     * @return mixed
+     * @param User $user
+     * @param Profile $profile
+     * @return bool
      */
-    public function update(User $user, Profile $profile)
+    public function update(User $user, Profile $profile): bool
     {
         return $user->id == $profile->user_id;
     }

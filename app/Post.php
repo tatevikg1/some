@@ -3,7 +3,14 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
+/**
+ * @property int $id
+ * @property User $user
+ * @property User[] $likers
+*/
 class Post extends Model
 {
     protected $guarded = [];
@@ -11,7 +18,7 @@ class Post extends Model
     /**
      * returns the user who created the post
     */
-    public function user()
+    public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
     }
@@ -19,7 +26,7 @@ class Post extends Model
     /**
      * returns users who liked the post
     */
-    public function likers()
+    public function likers(): BelongsToMany
     {
         return $this->belongsToMany(User::class);
     }

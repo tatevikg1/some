@@ -10,7 +10,6 @@ use Illuminate\Notifications\Notification;
 use Illuminate\Notifications\Messages\BroadcastMessage;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 
-
 class NewFriendRequest extends Notification implements ShouldQueue, ShouldBroadcast
 {
     use Queueable;
@@ -33,7 +32,7 @@ class NewFriendRequest extends Notification implements ShouldQueue, ShouldBroadc
      * @param  mixed  $notifiable
      * @return array
      */
-    public function via($notifiable)
+    public function via($notifiable): array
     {
         return ['database'];
     }
@@ -41,10 +40,10 @@ class NewFriendRequest extends Notification implements ShouldQueue, ShouldBroadc
     /**
      * Get the mail representation of the notification.
      *
-     * @param  mixed  $notifiable
-     * @return 
+     * @param mixed $notifiable
+     * @return array
      */
-    public function toDatabase($notifiable)
+    public function toDatabase($notifiable): array
     {
         return [
             'id' => $this->friendship->id,
@@ -57,7 +56,7 @@ class NewFriendRequest extends Notification implements ShouldQueue, ShouldBroadc
      * @param  mixed  $notifiable
      * @return array
      */
-    public function toArray($notifiable)
+    public function toArray($notifiable): array
     {
         return [
             'id' => $this->friendship->id,
@@ -73,7 +72,7 @@ class NewFriendRequest extends Notification implements ShouldQueue, ShouldBroadc
      * @param  mixed  $notifiable
      * @return BroadcastMessage
      */
-    public function toBroadcast($notifiable)
+    public function toBroadcast($notifiable): BroadcastMessage
     {
         return new BroadcastMessage([
             'id' => $this->friendship->id,
@@ -81,15 +80,13 @@ class NewFriendRequest extends Notification implements ShouldQueue, ShouldBroadc
 
     }
 
-    public function broadcastOn()
+    public function broadcastOn(): PrivateChannel
     {
         return new PrivateChannel('friendRequests.' . $this->friendship->second_user);
     }
 
-    public function broadcastAs()
+    public function broadcastAs(): string
     {
         return "App\Events\NewFriendRequest";
     }
-
-
 }

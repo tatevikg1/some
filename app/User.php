@@ -2,23 +2,51 @@
 
 namespace App;
 
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use App\Traits\Friend;
 use App\Traits\BlockUser;
 
+/**
+ * @property int $id
+ * @property string $name
+ * @property string $email
+ * @property string $username
+ * @property $unreadNotifications
+ * @property Profile $profile
+ * @property Post[] $posts
+ * @property Profile[] $following
+ * @property Message[] $messages
+// * @property User[] $friends
+ * @property Post[] $liking
+ * @property Friendship[] $friend_requests
+ * @property Friendship $friendship
+
+ */
 class User extends Authenticatable
 {
     use Notifiable;
     use Friend; // allowing to call $user->friends
     use BlockUser; // allowing to call $user->blocked_friends
 
+    protected $fillable = [
+        'name',
+        'email',
+        'username',
+        'password',
+    ];
 
-    protected $fillable = ['name', 'email', 'username', 'password',];
+    protected $hidden = [
+        'password',
+        'remember_token',
+    ];
 
-    protected $hidden = ['password', 'remember_token',];
-
-    protected $casts = ['email_verified_at' => 'datetime',];
+    protected $casts = [
+        'email_verified_at' => 'datetime',
+    ];
 
 
     /**
@@ -38,7 +66,7 @@ class User extends Authenticatable
     /**
      * returns user's posts
     */
-    public function posts()
+    public function posts(): HasMany
     {
         return $this->hasMany(Post::class)->orderBy('created_at', 'DESC');
     }
@@ -46,7 +74,7 @@ class User extends Authenticatable
     /**
      * returns all profiles that this user follows
     */
-    public function following()
+    public function following(): BelongsToMany
     {
         return $this->belongsToMany(Profile::class);
     }
@@ -54,7 +82,7 @@ class User extends Authenticatable
     /**
      * returns all posts that this user liked
     */
-    public function liking()
+    public function liking(): BelongsToMany
     {
         return $this->belongsToMany(Post::class);
     }
@@ -62,7 +90,7 @@ class User extends Authenticatable
     /**
      * returns the profile of this user
     */
-    public function profile()
+    public function profile(): HasOne
     {
         return $this->hasOne(Profile::class);
     }
@@ -70,15 +98,15 @@ class User extends Authenticatable
     /**
      * returns messages that this user sent
     */
-    public function messages()
+    public function messages(): HasMany
     {
       return $this->hasMany(Message::class);
     }
 
     /**
-     * returns pending friend requests that this user recieved
+     * returns pending friend requests that this user received
     */
-    public function friend_requests()
+    public function friend_requests(): HasMany
     {
         return $this->hasMany(Friendship::class, 'second_user')->where('status', 'pending');
     }
@@ -86,10 +114,8 @@ class User extends Authenticatable
     /**
      * returns pending friend requests that this user sent
     */
-    public function sent_friend_requests()
+    public function sent_friend_requests(): HasMany
     {
         return $this->hasMany(Friendship::class, 'first_user')->where('status', 'pending');
     }
-
-
 }
