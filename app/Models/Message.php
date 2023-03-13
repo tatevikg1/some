@@ -40,4 +40,10 @@ class Message extends Model
   {
     return $this->hasOne(User::class, 'id', 'sender');
   }
+
+  public function scopeSentAndReceived($query, $user = null)
+  {
+      $authId = $user ?? auth()->id();
+      return $query->where('sender', $authId)->orWhere('receiver', $authId);
+  }
 }

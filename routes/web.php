@@ -42,8 +42,9 @@ Route::post ('/profile/find',        [ProfilesController::class, 'find'])->name(
 
 // routes for the chat part of the app
 Route::get  ('/chats',              [ChatsController::class, 'chat'])->name('chat');
+Route::get  ('/chats/export-messages',[ChatsController::class, 'exportMessages'])->name('export-messages');
 Route::post ('/chat/mark-as-read/', [ChatsController::class, 'markAsRead']);
 Route::post ('/messages/{id}',      [ChatsController::class, 'setRead']);
 Route::post ('/contacts',           [ChatsController::class, 'contacts']);
 Route::post ('/conversation/send',  [ChatsController::class, 'send']);
-Route::post  ('/conversation/{user}',  [ChatsController::class, 'getMessagesWithContact']);
+Route::post ('/conversation/{user}',  [ChatsController::class, 'getMessagesWithContact']);
