@@ -1,22 +1,32 @@
 <template>
     <div class="chat-app">
 
-        <Conversation :contact="selectedContact" :messages="messages" @new="saveNewMassage"/>
-        <Contacts :contacts="contacts" @selected="startConversationWith"/>
-
+        <Conversation :contact="selectedContact" :messages="messages" @new="saveNewMassage" />
+        <div>
+            <Contacts :contacts="contacts" @selected="startConversationWith"/>
+            <ul class="pagination-sm row justify-content-around contact-pagination">
+                <div class="page-item">
+                    <button @click="getPrevContacts()" type="button" class="page-link" :disabled="this.contactsOffset===0">prev page</button>
+                </div>
+                <div class="item">
+                    <button @click="getContacts()" type="button" class="page-link">next page</button>
+                </div>
+            </ul>
+        </div>
     </div>
 </template>
 
 <script>
     import Conversation from './chat/Conversation.vue';
     import Contacts from './chat/Contacts.vue';
+    import {mapGetters, mapMutations} from "vuex";
 
     export default{
 
         props:{
             user:{
                 required: true,
-            }
+            },
         },
 
         data(){
@@ -24,36 +34,35 @@
                 selectedContact : null,
                 messages: [],
                 contacts: [],
+                contactsOffset: -5,
+                contactsLimit: 5,
             }
         },
 
-        mounted(){
+        computed: {
+            ...mapGetters(['messageId'])
+        },
 
+        mounted(){
             Echo.private(`messages.${this.user.id}`)
                 .listen("NewMessage", (e) => {
                     this.handleIncoming(e.message);
                 });
 
-
-
-            axios.post('/contacts')
-                .then((response) =>{
-                    this.contacts = response.data;
-                    // this.startConversationWith(response.data[0]);
-                })
-                .catch(error => {
-                    console.log(error.response);
-                });
+            this.getContacts();
         },
 
         methods:{
+            ...mapMutations(['setMessageId']),
+
             startConversationWith(contact){
                 this.updateUnreadCount(contact, true);
-                axios.get(`/conversation/${contact.id}`)
-                    .then((response) => {
-                        this.messages = response.data;
-                        this.selectedContact = contact;
 
+                axios.post(`/conversation/${contact.id}`)
+                    .then((response) => {
+                        this.selectedContact = contact;
+                        this.setMessageId((response.data.slice(-1))[0]['id']);
+                        this.messages = response.data.reverse();
                     })
             },
 
@@ -73,7 +82,7 @@
             },
 
             updateUnreadCount(contact, zroyacnel){
-                this.contacts = this.contacts.map((single) =>{
+                this.contacts = this.contacts.map((single) => {
                     if (single.id != contact.id){
                         return single;
                     }
@@ -85,7 +94,26 @@
 
                     return single;
                 }
-            )}
+            )},
+
+            getContacts(){
+                this.contactsOffset = this.contactsOffset + this.contactsLimit;
+                axios.post('/contacts', {
+                    offset : this.contactsOffset
+                }).then((response) => {
+                    this.contacts = response.data;
+                    // this.startConversationWith(response.data[0]);
+                });
+            },
+            getPrevContacts(){
+                this.contactsOffset = this.contactsOffset - this.contactsLimit;
+                axios.post('/contacts', {
+                    offset : this.contactsOffset
+                }).then((response) => {
+                    this.contacts = response.data;
+                    // this.startConversationWith(response.data[0]);
+                });
+            },
         },
 
         components:{ Conversation, Contacts }
@@ -98,5 +126,10 @@
     background-color:white;
     padding:15px;
     border-radius:5px;
+
+    .contact-pagination {
+        padding-left: 3px;
+        min-width:50px;
+    }
 }
 </style>

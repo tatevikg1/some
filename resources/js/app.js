@@ -19,6 +19,8 @@ Vue.component('random-4-friend', require('./components/Random4Friend.vue').defau
 Vue.component('chat-app', require('./components/ChatApp.vue').default);
 Vue.component('message-notification', require('./components/chat/MessageNotification.vue').default);
 
+Vue.component('InfiniteLoading', require('vue-infinite-loading'));
+
 
 const app = new Vue({
     el: '#app',

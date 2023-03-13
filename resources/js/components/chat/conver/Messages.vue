@@ -1,6 +1,8 @@
 <template>
     <div class="fon" ref="fon">
         <ul v-if="contact">
+<!--            <infinite-loading @distance="1" @infinite="loadMessages"  ref="infiniteLoading"></infinite-loading>-->
+
             <li v-for='message in messages'
                 :key="message.id"
                 :class="`message${message.receiver == contact.id ? ' sent' : ' received'}`">
@@ -14,35 +16,56 @@
 
 <script>
 
+import {mapGetters, mapMutations} from "vuex";
+
     export default {
 
         props:{
-
             contact:{
                 type:Object
             },
-
             messages: {
                 required:true
-            }
+            },
+        },
+
+        computed: {
+            ...mapGetters(['messageId'])
         },
 
         methods:{
-            scrollToBotttom(){
+            ...mapMutations(['setMessageId']),
+
+            scrollToBottom(){
                 setTimeout(()=>{
                     this.$refs.fon.scrollTop = this.$refs.fon.scrollHeight;
                 }, 50);
-            }
+            },
+            loadMessages($state) {
+
+                axios.post(`/conversation/${this.contact.id}`, { id: this.messageId })
+                    .then((response) => {
+                        if(response.data.length === 0) {
+                            $state.complete();
+                        } else {
+                            response.data.forEach(element => {
+                                this.messages.unshift(element);
+                            });
+                            this.setMessageId((response.data.slice(-1))[0]['id']);
+                            $state.loaded();
+                        }
+                    })
+            },
         },
 
         watch:{
             contact(contact){
-                this.scrollToBotttom();
+                this.scrollToBottom();
             },
             messages(){
-                this.scrollToBotttom();
+                this.scrollToBottom();
             }
-        }
+        },
     }
 </script>
 
