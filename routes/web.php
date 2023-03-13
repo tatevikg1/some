@@ -45,5 +45,5 @@ Route::get  ('/chats',              [ChatsController::class, 'chat'])->name('cha
 Route::post ('/chat/mark-as-read/', [ChatsController::class, 'markAsRead']);
 Route::post ('/messages/{id}',      [ChatsController::class, 'setRead']);
 Route::post ('/contacts',           [ChatsController::class, 'contacts']);
-Route::get  ('/conversation/{id}',  [ChatsController::class, 'getMessagesWithContact']);
 Route::post ('/conversation/send',  [ChatsController::class, 'send']);
+Route::post  ('/conversation/{user}',  [ChatsController::class, 'getMessagesWithContact']);

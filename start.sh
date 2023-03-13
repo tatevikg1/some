@@ -25,4 +25,7 @@ sudo chmod -R ug+rwx storage bootstrap/cache
 # make this file executable
 sudo chmod +x start.sh
 
+nvm use 14
+npm run dev
+
 exit

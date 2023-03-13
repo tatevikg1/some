@@ -21,10 +21,9 @@
             contact: {
                 default:null
             },
-
             messages: {
                 default:[]
-            }
+            },
         },
 
         methods:{
@@ -39,7 +38,6 @@
         },
 
         components:{Messages, MessageComposer}
-
     }
 </script>
 
