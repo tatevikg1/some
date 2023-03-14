@@ -2,12 +2,12 @@
 
 namespace App\Notifications;
 
-use App\Message;
+use App\Models\Message;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Contracts\Queue\ShouldQueue;
-use Illuminate\Notifications\Notification;
 use Illuminate\Notifications\Messages\BroadcastMessage;
+use Illuminate\Notifications\Notification;
 
 class NewMessage extends Notification implements ShouldQueue, ShouldBroadcast
 {

@@ -2,14 +2,14 @@
 
 namespace App\Http\Controllers;
 
-use App\Post;
-use App\User;
+use App\Models\Post;
+use App\Models\User;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\View\View;
 use Intervention\Image\Facades\Image;
-use Illuminate\Support\Facades\Auth;
 
 class PostsController extends Controller
 {

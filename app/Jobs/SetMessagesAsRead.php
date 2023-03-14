@@ -2,7 +2,7 @@
 
 namespace App\Jobs;
 
-use App\Message;
+use App\Models\Message;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Database\Eloquent\Collection;

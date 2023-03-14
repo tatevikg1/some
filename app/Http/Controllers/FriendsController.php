@@ -2,10 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Friendship;
+use App\Models\Friendship;
+use App\Models\User;
 use App\Repositories\FriendshipRepository;
-use App\User;
-use Illuminate\Support\Facades\DB;
 
 class FriendsController extends Controller
 {

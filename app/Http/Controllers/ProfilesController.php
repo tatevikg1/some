@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Friendship;
-use App\User;
+use App\Models\Friendship;
+use App\Models\User;
 use Exception;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Contracts\Foundation\Application;

@@ -2,7 +2,7 @@
 
 namespace App\Events;
 
-use App\Friendship;
+use App\Models\Friendship;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 
