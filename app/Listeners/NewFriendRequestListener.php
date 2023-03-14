@@ -3,8 +3,8 @@
 namespace App\Listeners;
 
 use App\Events\NewFriendRequestEvent;
+use App\Models\User;
 use App\Notifications\NewFriendRequest;
-use App\User;
 
 class NewFriendRequestListener
 {

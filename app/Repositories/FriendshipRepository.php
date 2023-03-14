@@ -3,9 +3,9 @@
 namespace App\Repositories;
 
 use App\Events\NewFriendRequestEvent;
-use App\Friendship;
+use App\Models\Friendship;
+use App\Models\User;
 use App\Notifications\NewFriendRequest;
-use App\User;
 use Illuminate\Support\Facades\DB;
 
 class FriendshipRepository

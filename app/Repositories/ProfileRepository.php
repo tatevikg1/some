@@ -2,8 +2,8 @@
 
 namespace App\Repositories;
 
-use App\Friendship;
-use App\User;
+use App\Models\Friendship;
+use App\Models\User;
 
 class ProfileRepository
 {

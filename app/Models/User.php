@@ -1,14 +1,14 @@
 <?php
 
-namespace App;
+namespace App\Models;
 
+use App\Traits\BlockUser;
+use App\Traits\Friend;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
-use App\Traits\Friend;
-use App\Traits\BlockUser;
 
 /**
  * @property int $id

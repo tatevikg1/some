@@ -2,8 +2,8 @@
 
 namespace App\Policies;
 
-use App\User;
-use App\Profile;
+use App\Models\Profile;
+use App\Models\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
 class ProfilePolicy

@@ -4,9 +4,9 @@ namespace App\Services;
 
 use App\Events\NewMessage;
 use App\Jobs\SetMessagesAsRead;
-use App\Message;
+use App\Models\Message;
+use App\Models\User;
 use App\Notifications\NewMessage as NotificationsNewMessage;
-use App\User;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;

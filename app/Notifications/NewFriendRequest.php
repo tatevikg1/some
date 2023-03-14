@@ -2,13 +2,13 @@
 
 namespace App\Notifications;
 
-use App\Friendship;
-use Illuminate\Bus\Queueable;
-use Illuminate\Contracts\Queue\ShouldQueue;
+use App\Models\Friendship;
 use Illuminate\Broadcasting\PrivateChannel;
-use Illuminate\Notifications\Notification;
-use Illuminate\Notifications\Messages\BroadcastMessage;
+use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
+use Illuminate\Contracts\Queue\ShouldQueue;
+use Illuminate\Notifications\Messages\BroadcastMessage;
+use Illuminate\Notifications\Notification;
 
 class NewFriendRequest extends Notification implements ShouldQueue, ShouldBroadcast
 {
