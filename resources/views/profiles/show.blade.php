@@ -19,7 +19,7 @@
             </li>
             <li class="float-left" style="margin-right:7px;">
             @auth
-                @can('update', $user->profile)
+                @can('update-profile', $user->profile)
                     <a class="btn btn-secondary ml-3" href="{{ route('profile.edit', $user->id) }}">Edit Profile</a>
                 @else
                     <div class="row">
@@ -55,10 +55,8 @@
                 </div>
             </div>
         </div>
-        
-        
         <div class="col-7 ">
-            @can('update', $user->profile)
+            @can('update-profile', $user->profile)
                 <div class="row mb-3">
                     <div class="col-10 mx-5 post_background white">
                     <!-- <small style="color:pink">This feature is not working because administration(that is me) has not paid for simple file upload heroku add-on.</small> -->
