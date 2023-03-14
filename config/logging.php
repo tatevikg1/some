@@ -1,5 +1,6 @@
 <?php
 
+use App\Constants\AppConstants;
 use Monolog\Handler\NullHandler;
 use Monolog\Handler\StreamHandler;
 use Monolog\Handler\SyslogUdpHandler;
@@ -98,6 +99,12 @@ return [
 
         'emergency' => [
             'path' => storage_path('logs/laravel.log'),
+        ],
+
+        AppConstants::CHANNEL_REDIS_READ_WRITE_TEST => [
+            'driver' => 'single',
+            'path' => storage_path("logs/" . AppConstants::CHANNEL_REDIS_READ_WRITE_TEST . ".log"),
+            'level' => 'debug'
         ],
     ],
 

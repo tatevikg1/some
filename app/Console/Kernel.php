@@ -25,6 +25,7 @@ class Kernel extends ConsoleKernel
     protected function schedule(Schedule $schedule)
     {
          $schedule->command('clean:notifications')->monthlyOn(15, '12:00');
+         $schedule->command('telescope:prune --hours=0')->daily();
     }
 
     /**
