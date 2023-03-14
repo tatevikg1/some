@@ -83,7 +83,7 @@ class ChatService
             }
         )->orderBy('created_at', 'DESC')->take(self::PER_PAGE)->get();
 
-        SetMessagesAsRead::dispatchAfterResponse($messages);
+        dispatch(new SetMessagesAsRead($messages))->onQueue('set-message-as-read');
 
         return $messages;
     }

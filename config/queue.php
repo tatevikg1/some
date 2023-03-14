@@ -1,5 +1,7 @@
 <?php
 
+use App\Constants\AppConstants;
+
 return [
 
     /*
@@ -64,6 +66,14 @@ return [
             'connection' => 'default',
             'queue' => env('REDIS_QUEUE', 'default'),
             'retry_after' => 90,
+            'block_for' => null,
+        ],
+
+        'redis-long-running' => [
+            'driver' => 'redis',
+            'connection' => 'default',
+            'queue' => AppConstants::QUEUE_LONG_RUNNING,
+            'retry_after' => (2 * 60 * 60 + 600),   // 2 + t hours; should be > horizon's timeout
             'block_for' => null,
         ],
 

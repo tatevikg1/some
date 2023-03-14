@@ -3,16 +3,16 @@
 namespace App\Jobs;
 
 use App\Models\Message;
+use App\Traits\JobDebugger;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Database\Eloquent\Collection;
-use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 
 class SetMessagesAsRead implements ShouldQueue
 {
-    use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
+    use InteractsWithQueue, Queueable, SerializesModels, InteractsWithQueue, JobDebugger;
 
     private Collection $messages;
 
