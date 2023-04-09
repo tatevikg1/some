@@ -1,14 +1,9 @@
 <template>
     <div  class="row white">
         <div v-for="friend in this.friends" :key="friend.id" class="col-4">
-            <!-- <div class="user" v-if="comment.user.img">
-                <img :src="'uploads/profile/'+comment.user.img">
-            </div> -->
-
             <div class="mt-3" @click="visitFriend(friend.id)">
-                <!-- <img src="http://via.placeholder.com/150x150" :key="friend.id"> -->
-                <img :src="'/storage/' + friend.profile.image">
-                <div class="">{{ friend.username }}</div>
+                <img :src="getprofileImage(friend)">
+                <div class="">{{ friend.name }}</div>
             </div>
         </div>
     </div>
@@ -24,12 +19,18 @@ export default {
             axios.post('/api/get-random-4-friend/' + this.userId)
                 .then(response => {
                     this.friends = response.data;
-                    // console.log(response.data);
                 })
         },
 
         visitFriend(friendId){
             location.href= '/profile/' + friendId;
+        },
+
+        getprofileImage(friend){
+            if (friend.profile.image !== null) {
+                return '/storage/' + friend.profile.image;
+            }
+            return 'http://via.placeholder.com/150x150';
         }
     },
 

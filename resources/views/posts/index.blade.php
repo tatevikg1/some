@@ -15,7 +15,7 @@
                 <div class="row mb-3">
                     <div class="col-10 mx-5 post_background white">
                     <!-- <small style="color:pink">This feature is not working because administration(me) has not paid for simple file upload heroku add-on.</small> -->
-                        <form action="/post" enctype="multipart/form-data" method="post" class="mt-3 mb-3">
+                        <form action="{{ route('post.store') }}" enctype="multipart/form-data" method="post" class="mt-3 mb-3">
                             <input type="hidden" name="_token" value="{{ csrf_token() }}" />
                             <input type="text" name="caption" 
                                 class="form-control focus mb-2 light-background" 
