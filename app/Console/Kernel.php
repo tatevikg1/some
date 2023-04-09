@@ -26,6 +26,7 @@ class Kernel extends ConsoleKernel
     {
          $schedule->command('clean:notifications')->monthlyOn(15, '12:00');
          $schedule->command('telescope:prune --hours=0')->daily();
+         $schedule->command('websockets:clean')->daily();
     }
 
     /**

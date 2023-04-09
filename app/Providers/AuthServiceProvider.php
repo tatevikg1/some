@@ -26,5 +26,11 @@ class AuthServiceProvider extends ServiceProvider
     {
         $this->registerPolicies();
         Gate::define('update-profile', [ProfilePolicy::class, 'update']);
+
+        Gate::define('viewWebSocketsDashboard', function ($user) {
+            return in_array($user->email, [
+                env('ADMIN_USER_EMAIL')
+            ]);
+        });
     }
 }
