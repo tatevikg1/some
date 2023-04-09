@@ -46,20 +46,18 @@ class PostsController extends Controller
             'image' => ['image', 'required'],
         ]);
 
-        // if(!$request->image){
-        //     $imagePath = 'svg/profile.jpeg';
-        // }else{
-            $imagePath = request('image')->store('uploads', 'public');
-            $image = Image::make(public_path("storage/{$imagePath}"))->fit(1200, 1200);
-            $image->save();
-        // }
+        $imagePath = request('image')->store('uploads', 'public');
+        $image = Image::make(public_path("storage/{$imagePath}"))->fit(1200, 1200);
+        $image->save();
 
         $request->user()->posts()->create([
             'caption' => $data['caption'],
             'image' => $imagePath,
         ]);
 
-        return redirect('/profile/' . auth()->user()->id);
+        return redirect()->route('profile.show', [
+            'user' => auth()->user()->id
+        ]);
     }
 
 
@@ -75,7 +73,9 @@ class PostsController extends Controller
     {
         $post->delete();
 
-        return redirect('/profile/' . auth()->user()->id);
+        return redirect()->route('profile.show', [
+            'user' => auth()->user()->id
+        ]);
     }
 
     /**

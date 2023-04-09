@@ -21,11 +21,11 @@ $factory->define(Friendship::class, function (Faker $faker) {
     do{
         $firstUser = rand(1, 1500);
         $secondUser = rand(1, 1500);
-    }while($firstUser === $secondUser);
+    } while ($firstUser === $secondUser);
 
     $actedUser = ($firstUser%2 === 1) ? $firstUser : $secondUser;
 
-    switch($actedUser){
+    switch ($actedUser) {
         case $firstUser:
             $status = 'pending';
             break;

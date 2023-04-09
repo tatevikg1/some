@@ -118,4 +118,9 @@ class User extends Authenticatable
     {
         return $this->hasMany(Friendship::class, 'first_user')->where('status', 'pending');
     }
+
+    public function firstFivePosts()
+    {
+        return $this->posts()->take(5);
+    }
 }
