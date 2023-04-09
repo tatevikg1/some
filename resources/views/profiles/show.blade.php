@@ -74,7 +74,7 @@
                 </div>
             @endcan
 
-            @foreach($user->posts as $post)
+            @foreach($user->firstFivePosts()->get() as $post) 
                 @include('partials.post')
             @endforeach
         </div>

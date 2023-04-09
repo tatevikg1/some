@@ -141,7 +141,9 @@ class ProfilesController extends Controller
             $imageArray ?? []
         ));
 
-        return redirect("/profile/{$user->id}");
+        return redirect()->route('profile.show', [
+            'user' => $user->id,
+        ]);
     }
 
     /**
