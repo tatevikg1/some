@@ -23,7 +23,7 @@
 
         <hr>
 
-        @if(@users)
+        @if($users)
             <hr><h5>{{  $title }}</h5><hr>
             @foreach($users as $friend)
                 <div class="row justify-content-between">

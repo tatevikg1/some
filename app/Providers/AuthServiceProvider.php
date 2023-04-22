@@ -4,7 +4,7 @@ namespace App\Providers;
 
 use App\Policies\ProfilePolicy;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
- use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\Gate;
 
 class AuthServiceProvider extends ServiceProvider
 {
@@ -24,13 +24,10 @@ class AuthServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        $this->registerPolicies();
         Gate::define('update-profile', [ProfilePolicy::class, 'update']);
 
         Gate::define('viewWebSocketsDashboard', function ($user) {
-            return in_array($user->email, [
-                env('ADMIN_USER_EMAIL')
-            ]);
+            return $user->email == env('ADMIN_USER_EMAIL');
         });
     }
 }

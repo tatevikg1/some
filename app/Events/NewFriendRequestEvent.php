@@ -10,7 +10,7 @@ class NewFriendRequestEvent
 {
     use Dispatchable, SerializesModels;
 
-    public $friendship;
+    public Friendship $friendship;
 
     public function __construct(Friendship $friendship)
     {

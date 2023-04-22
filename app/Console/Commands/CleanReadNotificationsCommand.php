@@ -19,7 +19,7 @@ class CleanReadNotificationsCommand extends Command
      *
      * @var string
      */
-    protected $description = 'Delete read notifications from the database';
+    protected $description = 'Remove read notifications from the database';
 
     /**
      * Create a new command instance.

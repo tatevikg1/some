@@ -22,11 +22,12 @@ class Kernel extends ConsoleKernel
      * @param Schedule $schedule
      * @return void
      */
-    protected function schedule(Schedule $schedule)
+    protected function schedule(Schedule $schedule): void
     {
          $schedule->command('clean:notifications')->monthlyOn(15, '12:00');
          $schedule->command('telescope:prune --hours=0')->daily();
          $schedule->command('websockets:clean')->daily();
+         $schedule->command('cache:prune-stale-tags')->hourly();
     }
 
     /**
@@ -34,7 +35,7 @@ class Kernel extends ConsoleKernel
      *
      * @return void
      */
-    protected function commands()
+    protected function commands(): void
     {
         $this->load(__DIR__.'/Commands');
 
