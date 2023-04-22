@@ -106,6 +106,12 @@ return [
             'path' => storage_path("logs/" . AppConstants::CHANNEL_REDIS_READ_WRITE_TEST . ".log"),
             'level' => 'debug'
         ],
+
+        AppConstants::PUSH_NOTIFICATIONS => [
+            'driver' => 'single',
+            'path' => storage_path("logs/" . AppConstants::PUSH_NOTIFICATIONS . ".log"),
+            'level' => 'debug'
+        ],
     ],
 
 ];
