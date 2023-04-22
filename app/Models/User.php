@@ -4,10 +4,16 @@ namespace App\Models;
 
 use App\Traits\BlockUser;
 use App\Traits\Friend;
+use Illuminate\Auth\Authenticatable;
+use Illuminate\Auth\MustVerifyEmail;
+use Illuminate\Auth\Passwords\CanResetPassword;
+use Illuminate\Contracts\Auth\Access\Authorizable as AuthorizableContract;
+use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
+use Illuminate\Contracts\Auth\CanResetPassword as CanResetPasswordContract;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
-use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Foundation\Auth\Access\Authorizable;
 use Illuminate\Notifications\Notifiable;
 
 /**
@@ -15,6 +21,7 @@ use Illuminate\Notifications\Notifiable;
  * @property string $name
  * @property string $email
  * @property string $username
+ * @property string $device_key
  * @property $unreadNotifications
  * @property Profile $profile
  * @property Post[] $posts
@@ -26,17 +33,20 @@ use Illuminate\Notifications\Notifiable;
  * @property Friendship $friendship
 
  */
-class User extends Authenticatable
+class User extends BaseModel  implements
+    AuthenticatableContract,
+    AuthorizableContract,
+    CanResetPasswordContract
 {
-    use Notifiable;
-    use Friend; // allowing to call $user->friends
-    use BlockUser; // allowing to call $user->blocked_friends
+    use Authenticatable, Authorizable, CanResetPassword, MustVerifyEmail;
+    use Notifiable, Friend, BlockUser; // allowing to call $user->blocked_friends
 
     protected $fillable = [
         'name',
         'email',
         'username',
         'password',
+        'device_key',
     ];
 
     protected $hidden = [

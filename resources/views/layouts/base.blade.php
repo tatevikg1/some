@@ -24,7 +24,7 @@
     <!-- <link rel="stylesheet" href="/css/master.css"> -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
-    <script src="https://kit.fontawesome.com/yourcode.js"></script>
+{{--    <script src="https://kit.fontawesome.com/yourcode.js"></script>--}}
 
 </head>
 <body>
@@ -32,4 +32,58 @@
         @yield('layout')
     </div>
 </body>
+
+
+<script src="https://www.gstatic.com/firebasejs/8.3.2/firebase.js"></script>
+<script>
+    const app = firebase.initializeApp({
+        apiKey: "AIzaSyA9YV_C2CEe7JUH0kfOwCfdfEjd-eLEbqI",
+        authDomain: "cookbook-5fdd3.firebaseapp.com",
+        projectId: "cookbook-5fdd3",
+        storageBucket: "cookbook-5fdd3.appspot.com",
+        messagingSenderId: "500719604396",
+        appId: "1:500719604396:web:5041e6221a5667c2a9c509",
+        measurementId: "G-0507867HWH"
+    });
+    const messaging = firebase.messaging();
+    function startFCM() {
+        messaging
+            .requestPermission()
+            .then(function () {
+                return messaging.getToken()
+            })
+            .then(function (response) {
+                $.ajaxSetup({
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    }
+                });
+                $.ajax({
+                    url: '{{ route("store.token") }}',
+                    type: 'POST',
+                    data: {
+                        token: response
+                    },
+                    dataType: 'JSON',
+                    success: function (response) {
+                        alert('Token stored.');
+                    },
+                    error: function (error) {
+                        alert(error);
+                    },
+                });
+            }).catch(function (error) {
+            alert(error);
+        });
+    }
+    messaging.onMessage(function (payload) {
+        const title = payload.notification.title;
+        const options = {
+            body: payload.notification.body,
+            icon: payload.notification.icon,
+        };
+        new Notification(title, options);
+    });
+</script>
+
 </html>

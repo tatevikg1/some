@@ -1,6 +1,6 @@
 <template>
     <span v-if="unreadMessageNotification > 0" class="new">
-        {{ unreadMessageNotification }} 
+        {{ unreadMessageNotification }}
     </span>
 </template>
 
@@ -40,7 +40,7 @@ export default {
         },
 
         markAsRead(){
-            axios.post('/chat/mark-as-read/')
+            axios.post('/chat/mark-as-read/?t=' + Date.now())
                 .then(response => {
                     this.unreadMessageNotification = 0;
                 })

@@ -1,6 +1,6 @@
 <template>
     <span v-if="friendRequestCount > 0" class="new">
-        {{ friendRequestCount }} 
+        {{ friendRequestCount }}
     </span>
 </template>
 
@@ -36,13 +36,11 @@ export default {
             axios.get('/api/get-friend-request-notification/' + this.userId)
                 .then(response => {
                     this.friendRequestCount = response.data;
-                    // console.log(response.data);
                 })
-            
         },
 
         markAsRead(){
-            axios.post('/chat/mark-as-read/')
+            axios.post('/chat/mark-as-read/?t=' + Date.now())
                 .then(response => {
                     this.unreadMessageNotification = 0;
                 })
