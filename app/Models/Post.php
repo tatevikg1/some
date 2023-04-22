@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
@@ -11,7 +10,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
  * @property User $user
  * @property User[] $likers
 */
-class Post extends Model
+class Post extends BaseModel
 {
     protected $guarded = [];
 
