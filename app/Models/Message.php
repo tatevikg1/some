@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 
@@ -14,7 +13,7 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
  * @property bool $read
  * @property User $fromContact
  */
-class Message extends Model
+class Message extends BaseModel
 {
   /**
    * Fields that are mass assignable

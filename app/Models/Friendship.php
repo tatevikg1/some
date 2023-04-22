@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
 
 /**
@@ -13,7 +12,7 @@ use Illuminate\Support\Facades\DB;
  * @property bool $status
  *
 */
-class Friendship extends Model
+class Friendship extends BaseModel
 {
     protected $fillable = [
         'first_user',
