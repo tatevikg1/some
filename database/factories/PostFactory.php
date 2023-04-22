@@ -1,29 +1,25 @@
 <?php
 
-/** @var Factory $factory */
+namespace Database\Factories;
 
-use App\Models\Post;
-use Faker\Generator as Faker;
-use Illuminate\Database\Eloquent\Factory;
 use Illuminate\Support\Str;
+use Illuminate\Database\Eloquent\Factories\Factory;
 
-/*
-|--------------------------------------------------------------------------
-| Model Factories
-|--------------------------------------------------------------------------
-|
-| This directory should contain each of the model factory definitions for
-| your application. Factories provide a convenient way to generate new
-| model instances for testing / seeding your application's database.
-|
-*/
-
-$factory->define(Post::class, function (Faker $faker) {
-    return [
-        'user_id' => Str::random(1500),
-        'caption' => $faker->sentence,
-        'image' => 'profile/profile.jpeg',
-        'created_at' => now(),
-        'updated_at' => now(),
-    ];
-});
+class PostFactory extends Factory
+{
+    /**
+     * Define the model's default state.
+     *
+     * @return array<string, mixed>
+     */
+    public function definition(): array
+    {
+        return [
+            'user_id' => Str::random(1500),
+            'caption' => fake()->sentence,
+            'image' => 'profile/profile.jpeg',
+            'created_at' => now(),
+            'updated_at' => now(),
+        ];
+    }
+}

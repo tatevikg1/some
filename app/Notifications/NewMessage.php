@@ -13,7 +13,7 @@ class NewMessage extends Notification implements ShouldQueue, ShouldBroadcast
 {
     use Queueable;
 
-    public $message;
+    public Message $message;
 
     /**
      * Create a new notification instance.
@@ -84,7 +84,7 @@ class NewMessage extends Notification implements ShouldQueue, ShouldBroadcast
      */
     public function broadcastType(): string
     {
-        return 'NewMessageNotification';
+        return class_basename(NewMessage::class);
     }
 
 }

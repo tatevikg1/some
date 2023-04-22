@@ -33,14 +33,14 @@
                 </li>
 
                 <li class="nav-item">
-                    <a class="dropdown-item topnav-item" href="{{ route('friend.index') }}"> 
+                    <a class="dropdown-item topnav-item" href="{{ route('friend.index') }}">
                         <i class="fas fa-user-friends white"></i>
                         <friend-request-notification user-id="{{ Auth::user()->id }}"></friend-request-notification>
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="dropdown-item topnav-item" href="{{ route('chat') }}"> 
-                        <i class="fab fa-facebook-messenger white"></i> 
+                    <a class="dropdown-item topnav-item" href="{{ route('chat') }}">
+                        <i class="fab fa-facebook-messenger white"></i>
                         <message-notification user-id="{{ Auth::user()->id }}"></message-notification>
                     </a>
                 </li>

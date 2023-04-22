@@ -44,7 +44,7 @@ class RedisReadWriteTestJob implements ShouldQueue
      *
      * @return void
      */
-    public function handle()
+    public function handle(): void
     {
         $keysCount = $this->keysCount;
         for ($i = 0; $i < $keysCount; $i++) {

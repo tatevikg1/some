@@ -1,8 +1,8 @@
 <?php
 
-use App\Models\Post;
-use App\Models\Profile;
-use App\Models\User;
+use App\Http\Controllers\Api\FriendsController;
+use App\Http\Controllers\Api\NotificationController;
+use App\Http\Controllers\Api\PostController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -11,28 +11,10 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::get('/get-like-count/{post}', function(Post $post){
-    return $post->likers()->count();
-});
+Route::get('/get-like-count/{post}', [PostController::class, 'getLikeCount']);
+Route::get('/get-likes/{post}/{user}', [PostController::class, 'isLikedByUser']);
 
-Route::get('/get-likes/{post}/{user}', function(Post $post, User $user){
-    return  ($user->id) ? $user->liking->contains($post->id) : 0;
-});
+Route::get('/get-friend-request-notification/{user}', [NotificationController::class, 'getFriendNotification']);
+Route::get('/get-message-notification/{user}', [NotificationController::class, 'getUnreadCount']);
 
-Route::get('/get-friend-request-notification/{user}', function(User $user){
-    return $user->unreadNotifications->where('type', 'App\Notifications\NewFriendRequest')->count();
-});
-
-Route::get('/get-message-notification/{user}', function(User $user){
-    return $user->unreadNotifications->where('type', 'App\Notifications\NewMessage')->count();
-});
-
-Route::post('/get-random-4-friend/{user}', function(User $user){
-    $friends = $user->friends->shuffle()->take(6);
-
-    foreach($friends as $f){
-        $f->profile = Profile::where('user_id', $f->id)->first();
-    }
-
-    return $friends;
-});
+Route::post('/get-random-4-friend/{user}', [FriendsController::class, 'getRandomFour']);

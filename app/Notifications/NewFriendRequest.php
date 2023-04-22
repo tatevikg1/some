@@ -14,7 +14,7 @@ class NewFriendRequest extends Notification implements ShouldQueue, ShouldBroadc
 {
     use Queueable;
 
-    public $friendship;
+    public Friendship $friendship;
 
     /**
      * Create a new notification instance.
@@ -87,6 +87,6 @@ class NewFriendRequest extends Notification implements ShouldQueue, ShouldBroadc
 
     public function broadcastAs(): string
     {
-        return "App\Events\NewFriendRequest";
+        return NewFriendRequest::class;
     }
 }

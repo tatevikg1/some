@@ -8,7 +8,7 @@ trait JobDebugger
 {
     public ?string $debugHostname = null;
 
-    public function addDebugProperties()
+    public function addDebugProperties(): void
     {
         try {
             $this->debugHostname = exec('hostname -f');

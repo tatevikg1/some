@@ -12,7 +12,7 @@ export default {
     mounted() {
         Echo.private(`friendRequests.${this.userId}`)
             .listen("NewFriendRequest",(notification) => {
-                this.getFrindRequestNotification();
+                this.getFriendRequestNotification();
             });
 
     },
@@ -24,12 +24,12 @@ export default {
     },
 
     beforeMount()  {
-        this.getFrindRequestNotification();
+        this.getFriendRequestNotification();
     },
 
     methods: {
-        getFrindRequestNotification(){
-            if(window.location.pathname == '/friend'){
+        getFriendRequestNotification(){
+            if (window.location.pathname === '/friend'){
                 this.markAsRead();
                 return;
             }

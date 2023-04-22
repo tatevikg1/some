@@ -14,7 +14,7 @@ class NewFriendRequestListener
      * @param NewFriendRequestEvent $event
      * @return void
      */
-    public function handle(NewFriendRequestEvent $event)
+    public function handle(NewFriendRequestEvent $event): void
     {
         $user = User::find($event->friendship->second_user);
         $notification = new NewFriendRequest($event->friendship);

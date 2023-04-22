@@ -1,5 +1,9 @@
 <?php
 
+namespace Database\Seeders;
+
+use App\Models\Message;
+use App\Models\Post;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -9,11 +13,11 @@ class DatabaseSeeder extends Seeder
      *
      * @return void
      */
-    public function run()
+    public function run(): void
     {
-        factory(App\models\User::class, 1500)->create();
-        factory(App\Models\Message::class, 1500000)->create();
-        factory(App\Models\Friendship::class, 15000)->create();
-        factory(\App\Models\Post::class, 1500000)->create();
+        $this->call(UserSeeder::class);
+        Message::factory()->count(1500000)->create();
+        Post::factory()->count(1500000)->create();
+        $this->call(FriendshipSeeder::class);
     }
 }

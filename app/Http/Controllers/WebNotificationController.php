@@ -6,6 +6,7 @@ use App\Http\Requests\SendWebNotificationRequest;
 use App\Services\NotificationServiceInterface;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\View\View;
 
 class WebNotificationController extends Controller
 {
@@ -15,7 +16,7 @@ class WebNotificationController extends Controller
         $this->middleware('auth');
         $this->notificationService = $notificationService;
     }
-    public function index()
+    public function index(): View
     {
         return view('home');
     }

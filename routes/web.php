@@ -10,8 +10,8 @@ use App\Http\Controllers\WebNotificationController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 
-Route::get('/start-server', function (){
-    \Illuminate\Support\Facades\Artisan::call('websockets:serve --host=127.0.0.1');
+Route::get('/test', function (){
+
 });
 Auth::routes();
 // Route::get('/email', function () { return new NewUserWelcomeMail(); });

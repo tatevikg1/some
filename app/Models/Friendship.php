@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Support\Facades\DB;
 
 /**
@@ -9,6 +10,7 @@ use Illuminate\Support\Facades\DB;
  * @property integer $first_user
  * @property integer $second_user
  * @property integer $acted_user
+ * @property User $creator
  * @property bool $status
  *
 */
@@ -43,9 +45,14 @@ class Friendship extends BaseModel
         return null;
     }
 
-    public function delete()
+    public function delete(): void
     {
-        DB::table('notifications')->where('data', "{\"id\":$this->id}")->delete();
+        DB::table('notifications')->where('data', json_encode(['id' => $this->id]))->delete();
         parent::delete();
+    }
+
+    public static function creator($userId): User
+    {
+        return User::find($userId);
     }
 }

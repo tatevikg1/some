@@ -15,19 +15,19 @@ class FriendshipRepository
     {
         $this->markAsRead();
 
-        $users = $user->friends;
-        foreach($users as $u){
-            $u->friendship = Friendship::recordRelatedTo($u);
+        $friends = $user->friends->take(5);
+        foreach($friends as $friend){
+            $friend->friendship = Friendship::recordRelatedTo($friend);
         }
 
         $friendRequests = $user->friend_requests;
 
         foreach($friendRequests as $friendRequest){
-            $friendRequest->creator = User::find($friendRequest->acted_user);
+            $friendRequest->creator = Friendship::creator($friendRequest->acted_user);
         }
 
         return [
-            $users,
+            $friends,
             $friendRequests
         ];
     }

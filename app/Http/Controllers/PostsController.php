@@ -2,66 +2,48 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\PostStoreRequest;
 use App\Models\Post;
 use App\Models\User;
+use App\Repositories\PostRepository;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\View\View;
-use Intervention\Image\Facades\Image;
 
 class PostsController extends Controller
 {
+    private PostRepository $repository;
+    public function __construct(PostRepository $repository)
+    {
+        $this->repository = $repository;
+    }
 
-    /**
-     * @param Request $request
-     * @return View
-     */
     public function index(Request $request): View
     {
         $title = 'Posts';
-
-        if(!Auth::check()){
-            // for not authenticated users show posts of random users
-            $users = User::inRandomOrder()->limit(5)->get('id');
-        }else{
-            $users = $request->user()->following()->pluck('profiles.user_id');
-        }
-
-        $posts = Post::whereIn('user_id', $users)->latest()->paginate(5);
+        list($posts) = $this->repository->index($request);
 
         return view('posts.index', compact('posts', 'title'));
     }
 
-    public function create()
+    public function create(): View
     {
         return view('posts.create');
     }
 
-    public function store(Request $request): RedirectResponse
+    public function store(PostStoreRequest $request): RedirectResponse
     {
-        $data = $request->validate([
-            'caption' => 'required',
-            'image' => ['image', 'required'],
-        ]);
-
-        $imagePath = request('image')->store('uploads', 'public');
-        $image = Image::make(public_path("storage/{$imagePath}"))->fit(1200, 1200);
-        $image->save();
-
-        $request->user()->posts()->create([
-            'caption' => $data['caption'],
-            'image' => $imagePath,
-        ]);
+        $this->repository->store($request);
 
         return redirect()->route('profile.show', [
-            'user' => auth()->user()->id
+            'user' => auth()->user()->getAuthIdentifier()
         ]);
     }
 
 
     public function show(Post $post): View
     {
+        /** @var User $user */
         $user = auth()->user();
         $likes = ($user) ? $user->liking->contains($post->id) : false;
 
@@ -73,14 +55,14 @@ class PostsController extends Controller
         $post->delete();
 
         return redirect()->route('profile.show', [
-            'user' => auth()->user()->id
+            'user' => auth()->user()->getAuthIdentifier()
         ]);
     }
 
     /**
      * show liked posts page
     */
-    public function liked()
+    public function liked(): View
     {
         $posts = auth()->user()->liking;
         $title = 'Liked Posts';
