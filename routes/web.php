@@ -6,6 +6,7 @@ use App\Http\Controllers\FriendsController;
 use App\Http\Controllers\LikesController;
 use App\Http\Controllers\PostsController;
 use App\Http\Controllers\ProfilesController;
+use App\Http\Controllers\WebNotificationController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 
@@ -14,6 +15,10 @@ Route::get('/start-server', function (){
 });
 Auth::routes();
 // Route::get('/email', function () { return new NewUserWelcomeMail(); });
+
+Route::get('/push-notification', [WebNotificationController::class, 'index'])->name('push-notificaiton');
+Route::post('/store-token', [WebNotificationController::class, 'storeToken'])->name('store.token');
+Route::post('/send-web-notification', [WebNotificationController::class, 'sendWebNotification'])->name('send.web-notification');
 
 // follow and like buttons routes
 Route::post('follow/{user}',    [FollowsController::class, 'store']);
