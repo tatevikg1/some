@@ -31,7 +31,7 @@ class SetMessagesAsRead implements ShouldQueue
      *
      * @return void
      */
-    public function handle()
+    public function handle(): void
     {
         $messageIds = $this->messages->pluck('id');
         Message::whereIn('id', $messageIds)->update(['read' => true]);

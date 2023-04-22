@@ -2,7 +2,7 @@
     <div  class="row white">
         <div v-for="friend in this.friends" :key="friend.id" class="col-4">
             <div class="mt-3" @click="visitFriend(friend.id)">
-                <img :src="getprofileImage(friend)">
+                <img :src="getProfileImage(friend)">
                 <div class="">{{ friend.name }}</div>
             </div>
         </div>
@@ -26,7 +26,7 @@ export default {
             location.href= '/profile/' + friendId;
         },
 
-        getprofileImage(friend){
+        getProfileImage(friend){
             if (friend.profile.image !== null) {
                 return '/storage/' + friend.profile.image;
             }
@@ -43,7 +43,7 @@ export default {
     beforeMount(){
         this.getRandom4Friend();
     }
-    
+
 }
 </script>
 

@@ -10,6 +10,7 @@ use Illuminate\Auth\Passwords\CanResetPassword;
 use Illuminate\Contracts\Auth\Access\Authorizable as AuthorizableContract;
 use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
 use Illuminate\Contracts\Auth\CanResetPassword as CanResetPasswordContract;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
@@ -27,7 +28,7 @@ use Illuminate\Notifications\Notifiable;
  * @property Post[] $posts
  * @property Profile[] $following
  * @property Message[] $messages
-// * @property User[] $friends
+ * @property User[] $friends
  * @property Post[] $liking
  * @property Friendship[] $friend_requests
  * @property Friendship $friendship
@@ -38,7 +39,7 @@ class User extends BaseModel  implements
     AuthorizableContract,
     CanResetPasswordContract
 {
-    use Authenticatable, Authorizable, CanResetPassword, MustVerifyEmail;
+    use Authenticatable, Authorizable, CanResetPassword, MustVerifyEmail, HasFactory;
     use Notifiable, Friend, BlockUser; // allowing to call $user->blocked_friends
 
     protected $fillable = [
@@ -57,12 +58,13 @@ class User extends BaseModel  implements
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
-
+//    private mixed $friendsOfThisUser;
+//    private mixed $thisUserFriendOf;
 
     /**
      * creates profile for new user
     */
-    protected static function boot()
+    protected static function boot(): void
     {
         parent::boot();
 
@@ -129,7 +131,7 @@ class User extends BaseModel  implements
         return $this->hasMany(Friendship::class, 'first_user')->where('status', 'pending');
     }
 
-    public function firstFivePosts()
+    public function firstFivePosts(): HasMany
     {
         return $this->posts()->take(5);
     }

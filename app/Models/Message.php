@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 
@@ -15,6 +16,7 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
  */
 class Message extends BaseModel
 {
+    use HasFactory;
   /**
    * Fields that are mass assignable
    *

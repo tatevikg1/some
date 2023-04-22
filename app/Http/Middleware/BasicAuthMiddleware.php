@@ -24,7 +24,7 @@ class BasicAuthMiddleware
      * @param Closure $next
      * @return mixed
      */
-    public function handle(Request $request, Closure $next)
+    public function handle(Request $request, Closure $next): mixed
     {
         if (in_array(App::environment(), $this->environments())) {
             header('Cache-Control: no-cache, must-revalidate, max-age=0');

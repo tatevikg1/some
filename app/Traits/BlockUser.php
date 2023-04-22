@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Traits;
+
 use App\Models\User;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
@@ -37,8 +38,8 @@ trait BlockUser
 			return $this->getRelation('blocked_friends');
 	}
 
-	protected function loadBlockedFriends()
-	{
+	protected function loadBlockedFriends(): void
+    {
 		if ( ! array_key_exists('blocked_friends', $this->relations))
 		{
 			$friends = $this->mergeBlockedFriends();
@@ -48,7 +49,7 @@ trait BlockUser
 
 	protected function mergeBlockedFriends()
 	{
-		if($temp = $this->friendsOfThisUserBlocked())
+		if ($temp = $this->friendsOfThisUserBlocked())
 			return $temp->merge($this->thisUserFriendOfBlocked());
 		else
 			return $this->thisUserFriendOfBlocked();

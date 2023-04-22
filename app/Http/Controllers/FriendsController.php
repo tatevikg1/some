@@ -16,9 +16,6 @@ class FriendsController extends Controller
         $this->middleware('auth');
     }
 
-    /**
-     * shows friends and friend_requests`
-    */
     public function index(): View
     {
         $title = 'Friends';
