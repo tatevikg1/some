@@ -4,8 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Post;
 use App\Models\User;
-use Illuminate\Contracts\Foundation\Application;
-use Illuminate\Contracts\View\Factory;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\View\View;
@@ -16,9 +15,9 @@ class PostsController extends Controller
 
     /**
      * @param Request $request
-     * @return Application|Factory|View
+     * @return View
      */
-    public function index(Request $request)
+    public function index(Request $request): View
     {
         $title = 'Posts';
 
@@ -39,7 +38,7 @@ class PostsController extends Controller
         return view('posts.create');
     }
 
-    public function store(Request $request)
+    public function store(Request $request): RedirectResponse
     {
         $data = $request->validate([
             'caption' => 'required',
@@ -61,7 +60,7 @@ class PostsController extends Controller
     }
 
 
-    public function show(Post $post)
+    public function show(Post $post): View
     {
         $user = auth()->user();
         $likes = ($user) ? $user->liking->contains($post->id) : false;
@@ -69,7 +68,7 @@ class PostsController extends Controller
         return view('posts.show', compact('post', 'likes'));
     }
 
-    public function destroy(Post $post)
+    public function destroy(Post $post): RedirectResponse
     {
         $post->delete();
 

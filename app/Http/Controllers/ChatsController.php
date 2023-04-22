@@ -8,6 +8,8 @@ use App\Http\Requests\SendMessageRequest;
 use App\Models\Message;
 use App\Models\User;
 use App\Services\ChatService;
+use Illuminate\Contracts\View\View;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\JsonResponse;
 
 class ChatsController extends Controller
@@ -19,7 +21,7 @@ class ChatsController extends Controller
         $this->chatService = $chatService;
     }
 
-    public function chat()
+    public function chat(): View
     {
         return view('chat_app.chat');
     }
@@ -29,7 +31,7 @@ class ChatsController extends Controller
         return $this->chatService->getContacts($request->validated());
     }
 
-    public function getMessagesWithContact(GetMessagesRequest $request, User $user)
+    public function getMessagesWithContact(GetMessagesRequest $request, User $user): Collection|array
     {
         return $this->chatService->getMessages($request->validated(), $user->id);
     }

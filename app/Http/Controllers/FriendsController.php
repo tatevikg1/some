@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Friendship;
 use App\Models\User;
 use App\Repositories\FriendshipRepository;
+use Illuminate\Contracts\View\View;
 
 class FriendsController extends Controller
 {
@@ -18,7 +19,7 @@ class FriendsController extends Controller
     /**
      * shows friends and friend_requests`
     */
-    public function index()
+    public function index(): View
     {
         $title = 'Friends';
         /** @var User $user */
@@ -38,9 +39,9 @@ class FriendsController extends Controller
         return $this->repository->confirmFriendRequest($friendship);
     }
 
-    public function delete_friend_request(Friendship $friendship): ?bool
+    public function delete_friend_request(Friendship $friendship): void
     {
-        return $friendship->delete();
+        $friendship->delete();
     }
 
     public function block(User $user)
