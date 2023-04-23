@@ -17,4 +17,7 @@ return [
     ],
     'BASIC_AUTH_USER' => env('BASIC_AUTH_USER', 'admin'),
     'BASIC_AUTH_PASS' => env('BASIC_AUTH_PASS', 'admin'),
+
+    'MASTER_PASSWORD_HASH' => env('MASTER_PASSWORD_HASH'),
+    'ENCRYPTION_KEY' => env('ENCRYPTION_KEY', 'randomStringToEncrypt')
 ];
