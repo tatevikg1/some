@@ -22,6 +22,7 @@ use Illuminate\Database\Query\Builder;
  * @method static whereHas(string $key, Closure $closure)
  * @method static firstOrCreate(array $findConditions, array $saveArray)
  * @method static updateOrCreate(array $findConditions, array $updateArray)
+ * @method static updateOrInsert(array $findCondition, array $updateArray)
  * @method static insertUsing(string[] $array, Builder $select)
  * @method static latest(string $column = 'id')
  * @method static whereRaw(string $conditions, array $bindings = [])

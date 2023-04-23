@@ -28,10 +28,6 @@ sudo chmod +x start.sh
 nvm use 14
 npm run dev
 
-#laravel-echo-server start
-#laravel-echo-server client:add
-#laravel-echo-server client:remove APP_ID
-#npm install --save laravel-echo
-#npm install --save socket.io-client
+# php artisan passport:client --personal
 
 exit
