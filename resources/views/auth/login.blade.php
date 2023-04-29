@@ -64,6 +64,13 @@
                                 @endif
                             </div>
                         </div>
+
+                        <div class="form-group row mt-3">
+                            <div class="col-md d-flex justify-content-center">
+                                <div class="g-recaptcha" data-sitekey="{{env('RE_CAPTCHA_SITE_KEY')}}"></div>
+                            </div>
+                        </div>
+
                     </form>
                 </div>
             </div>

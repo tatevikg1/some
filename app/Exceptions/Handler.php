@@ -133,20 +133,6 @@ class Handler extends ExceptionHandler
                 'errorDetails' => "Too many requests"
             ];
             $statusCode = 429;
-//        } elseif ($exception instanceof CaptchaVerificationRequiredException) {
-//            $errorResponse = [
-//                'error' => !empty($exception->getMessage()) ? $exception->getMessage() : "Bad Request",
-//                'type' => ErrorConstants::TYPE_CAPTCHA_VERIFICATION_REQUIRED_ERROR,
-//                'errorDetails' => "Captcha Verification required."
-//            ];
-//            $statusCode = $exception->getCode();
-//        } elseif ($exception instanceof SocialLoginException) {
-//            $errorResponse = [
-//                'error' => $exception->getMessage(),
-//                'errorDetails' => $exception->getMessage(),
-//                'type' => ErrorConstants::TYPE_SOCIAL_LOGIN_ERROR
-//            ];
-//            $statusCode = $exception->getCode();
         } elseif ($exception instanceof HttpException && $exception->getStatusCode() == 502) {
             $errorResponse = [
                 'error' => $exception->getMessage(),

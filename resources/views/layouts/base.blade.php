@@ -86,4 +86,15 @@
     });
 </script>
 
+<script async src="https://www.google.com/recaptcha/api.js"></script>
+{{--<script>--}}
+{{--    // If reCAPTCHA is still loading, grecaptcha will be undefined.--}}
+{{--    grecaptcha.ready(function(){--}}
+{{--        grecaptcha.render("container", {--}}
+{{--            sitekey: "ABC-123"--}}
+{{--        })--}}
+{{--    });--}}
+{{--</script>--}}
+
+
 </html>
