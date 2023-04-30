@@ -65,6 +65,13 @@ return [
             'endpoint' => env('AWS_ENDPOINT'),
         ],
 
+        'messages' => [
+            'driver' => 'local',
+            'root' => storage_path('app/private/messages'),
+            'url' => env('APP_URL').'/storage',
+            // 'visibility' => 'public',
+        ],
+
     ],
 
     /*

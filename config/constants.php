@@ -17,4 +17,7 @@ return [
     ],
     'BASIC_AUTH_USER' => env('BASIC_AUTH_USER', 'admin'),
     'BASIC_AUTH_PASS' => env('BASIC_AUTH_PASS', 'admin'),
+
+    'MESSAGES_EXPORT_FILE_PATH' => base_path() . '/storage/app/private/messages/',
+
 ];
