@@ -15,7 +15,6 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 use Illuminate\Validation\ValidationException;
 use Laravel\Passport\Exceptions\MissingScopeException;
-use League\OAuth2\Server\Exception\OAuthServerException;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 use Symfony\Component\HttpKernel\Exception\MethodNotAllowedHttpException;
@@ -30,7 +29,10 @@ class Handler extends ExceptionHandler
      * @var array
      */
     protected $dontReport = [
-        //
+        AuthorizationException::class,
+        InvalidCredentialsException::class,
+        ValidationException::class,
+        BadRequestHttpException::class,
     ];
 
     /**
@@ -115,6 +117,13 @@ class Handler extends ExceptionHandler
         } elseif ($exception instanceof AuthorizationException) {
             $errorResponse = [
                 'error' => !empty($exception->getMessage()) ? $exception->getMessage() : "Authorization Failed",
+                'type' => ErrorConstants::TYPE_AUTHORIZATION_ERROR,
+                'errorDetails' => $exception->getMessage()
+            ];
+            $statusCode = 403;
+        } elseif ($exception instanceof InvalidSocialLoginException) {
+            $errorResponse = [
+                'error' => !empty($exception->getMessage()) ? $exception->getMessage() : "Social authentication Failed",
                 'type' => ErrorConstants::TYPE_AUTHORIZATION_ERROR,
                 'errorDetails' => $exception->getMessage()
             ];
