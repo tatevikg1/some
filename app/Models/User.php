@@ -39,7 +39,7 @@ use Laravel\Passport\HasApiTokens;
  * @property int $status
  * @property LoginAttempt $loginAttempt
  * @property UserSetting $userSetting
- * @property SocialConnect[] $socialConnects
+ * @property SocialProfile[] $socialProfiles
  */
 class User extends BaseModel  implements AuthenticatableContract, AuthorizableContract, CanResetPasswordContract
 {
@@ -157,8 +157,8 @@ class User extends BaseModel  implements AuthenticatableContract, AuthorizableCo
         return $this->hasOne(UserSetting::class, 'id');
     }
 
-    public function socialConnects(): HasMany
+    public function socialProfiles(): HasMany
     {
-        return $this->hasMany(SocialConnect::class);
+        return $this->hasMany(SocialProfile::class);
     }
 }

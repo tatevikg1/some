@@ -50,26 +50,6 @@ class AuthenticationController extends BaseApiController
         );
     }
 
-    public function getSocialLoginCredentials(): JsonResponse
-    {
-        $result = [
-            'google' => [
-                'client_id' => config('const.GOOGLE_APP_CLIENT_ID')
-            ],
-            'facebook' => [
-                'app_id' => config('const.FACEBOOK_APP_ID')
-            ],
-            'telegram' => [
-                'bot_name' => config('const.TELEGRAM_BOT_NAME')
-            ],
-            'twitter' => [
-                'app_key' => config('const.TWITTER_APP_KEY')
-            ],
-        ];
-
-        return $this->standardResponse($result);
-    }
-
     /**
      * @throws ReflectionException|Exception
      */
