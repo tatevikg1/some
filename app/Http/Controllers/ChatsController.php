@@ -10,7 +10,9 @@ use App\Models\User;
 use App\Services\ChatService;
 use Illuminate\Contracts\View\View;
 use Illuminate\Database\Eloquent\Collection;
+use App\Services\ExportService;
 use Illuminate\Http\JsonResponse;
+use Symfony\Component\HttpFoundation\BinaryFileResponse;
 
 class ChatsController extends Controller
 {
@@ -49,5 +51,10 @@ class ChatsController extends Controller
         $message->update(['read' => true]);
 
         return $message;
+    }
+
+    public function exportMessages(): BinaryFileResponse
+    {
+        return response()->download((new ExportService())->getMessages());
     }
 }

@@ -20,7 +20,7 @@ Vue.component('chat-app', require('./components/ChatApp.vue').default);
 Vue.component('message-notification', require('./components/chat/MessageNotification.vue').default);
 
 Vue.component('InfiniteLoading', require('vue-infinite-loading'));
-
+Vue.component('excel-button', require('./components/ExcelButton.vue').default);
 
 const app = new Vue({
     el: '#app',
