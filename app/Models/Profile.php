@@ -24,9 +24,7 @@ class Profile extends BaseModel
 
     public function getImageAttribute(?string $value = null): string
     {
-        $imagePath = $value ?: 'profile/profile.jpeg';
-
-        return '/storage/' . $imagePath;
+        return $value ? : 'profile/profile.jpeg';
     }
 
     /**

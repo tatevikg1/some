@@ -7,6 +7,7 @@ use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
 use Intervention\Image\Facades\Image;
+use Throwable;
 
 class ProfileRepository
 {
@@ -88,8 +89,12 @@ class ProfileRepository
         if (request('image')) {
             $imagePath = request('image')->store('profile', 'public');
 
-            $image = Image::make(public_path("storage/{$imagePath}"))->fit(1000, 1000);
-            $image->save();
+            try {
+                $image = Image::make(public_path("storage/{$imagePath}"))->fit(1000, 1000);
+                $image->save();
+            } catch (Throwable $throwable) {
+
+            }
 
             $imageArray = ['image' => $imagePath];
         }

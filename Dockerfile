@@ -17,4 +17,5 @@ COPY . /var/www
 COPY --chown=www:www . /var/www
 USER www
 EXPOSE 8000
+RUN cd /var/www && composer install && php artisan storage:link
 CMD ["php-fpm"]
