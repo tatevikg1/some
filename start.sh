@@ -28,4 +28,6 @@ sudo chmod +x start.sh
 nvm use 14
 npm run dev
 
+# php artisan passport:client --personal
+
 exit
