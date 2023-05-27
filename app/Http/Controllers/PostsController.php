@@ -21,8 +21,7 @@ class PostsController extends Controller
     public function index(Request $request): View
     {
         $title = 'Posts';
-        list($posts) = $this->repository->index($request);
-
+        $posts = $this->repository->index($request);
         return view('posts.index', compact('posts', 'title'));
     }
 

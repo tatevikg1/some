@@ -2,8 +2,6 @@
 
 namespace Database\Seeders;
 
-use App\Models\Message;
-use App\Models\Post;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -16,8 +14,8 @@ class DatabaseSeeder extends Seeder
     public function run(): void
     {
         $this->call(UserSeeder::class);
-        Message::factory()->count(1500000)->create();
-        Post::factory()->count(1500000)->create();
         $this->call(FriendshipSeeder::class);
+        $this->call(MessageSeeder::class);
+        $this->call(PostSeeder::class);
     }
 }

@@ -22,6 +22,13 @@ class Profile extends BaseModel
         return '/storage/' . $imagePath;
     }
 
+    public function getImageAttribute(?string $value = null): string
+    {
+        $imagePath = $value ?: 'profile/profile.jpeg';
+
+        return '/storage/' . $imagePath;
+    }
+
     /**
      * returns users who follow this profile
     */
