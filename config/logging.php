@@ -112,6 +112,12 @@ return [
             'path' => storage_path("logs/" . AppConstants::PUSH_NOTIFICATIONS . ".log"),
             'level' => 'debug'
         ],
+
+        AppConstants::LOGIN => [
+            'driver' => 'single',
+            'path' => storage_path("logs/" . AppConstants::LOGIN . ".log"),
+            'level' => 'debug'
+        ],
     ],
 
 ];

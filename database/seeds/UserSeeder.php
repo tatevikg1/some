@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Profile;
 use App\Models\User;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Str;
@@ -12,7 +13,7 @@ class UserSeeder extends Seeder
     {
         for ($i = 0; $i < 1000; $i++)
         {
-            User::updateOrInsert([
+            $user = User::updateOrCreate([
                 'username' => Str::random(10),
                 'email' => fake()->unique()->safeEmail(),
             ],[
@@ -22,6 +23,12 @@ class UserSeeder extends Seeder
                 'remember_token' => Str::random(10),
                 'created_at' => now()->toDateString(),
                 'updated_at' => now()->toDateString(),
+            ]);
+
+            Profile::updateOrInsert([
+                'user_id' => $user->id,
+            ], [
+                'image' =>  'profile/profile.jpeg',
             ]);
         }
     }

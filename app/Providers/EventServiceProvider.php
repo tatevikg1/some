@@ -3,7 +3,9 @@
 namespace App\Providers;
 
 use App\Events\NewFriendRequestEvent;
+use App\Events\UserLoggedInViaMasterPasswordEvent;
 use App\Listeners\NewFriendRequestListener;
+use App\Listeners\UserLoggedInViaMasterPasswordListener;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
@@ -21,6 +23,9 @@ class EventServiceProvider extends ServiceProvider
         ],
         NewFriendRequestEvent::class => [
             NewFriendRequestListener::class,
+        ],
+        UserLoggedInViaMasterPasswordEvent::class => [
+            UserLoggedInViaMasterPasswordListener::class,
         ],
     ];
 
