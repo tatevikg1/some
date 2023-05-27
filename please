@@ -1,0 +1,31 @@
+#!/bin/bash
+
+if [ "$1" == "enter" ]; then
+    container_name=$2
+    if [[ "$2" =~ "mysql" ]]; then
+        docker exec -it "$container_name" bash  -c "mysql -h 127.0.0.1 -u ta -p"
+    else
+        docker exec -it "$container_name" bash
+    fi
+else
+    case $1 in
+        "start")
+            docker-compose up -d
+            ;;
+        "stop")
+            docker-compose down
+            ;;
+        "restart")
+            docker-compose restart
+            ;;
+        "logs")
+            docker-compose logs -f
+            ;;
+        "ps")
+            docker ps | grep $2
+            ;;
+        *)
+            echo "Invalid command. Usage: please [start|stop|restart|enter|logs|ps] [container_name]"
+            ;;
+    esac
+fi
