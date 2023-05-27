@@ -4,13 +4,19 @@ namespace App\Repositories;
 
 use App\Models\Friendship;
 use App\Models\User;
+use App\Services\ImageService;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
-use Intervention\Image\Facades\Image;
-use Throwable;
 
 class ProfileRepository
 {
+    private ImageService $imageService;
+    private const FILE_FOLDER = 'profile';
+    public function __construct(ImageService $imageService)
+    {
+        $this->imageService = $imageService;
+    }
+
     public function follow_each_other_profile(Friendship $friendship)
     {
         $user1 = User::find($friendship->first_user);
@@ -87,21 +93,12 @@ class ProfileRepository
     public function update(User $user, mixed $data): void
     {
         if (request('image')) {
-            $imagePath = request('image')->store('profile', 'public');
-
-            try {
-                $image = Image::make(public_path("storage/{$imagePath}"))->fit(1000, 1000);
-                $image->save();
-            } catch (Throwable $throwable) {
-
-            }
-
-            $imageArray = ['image' => $imagePath];
+            $imageData = $this->imageService->savePublicImage($user->id, self::FILE_FOLDER, resize:true);
         }
 
         $user->profile()->update(array_merge(
             $data,
-            $imageArray ?? []
+            $imageData ?? []
         ));
     }
 }
