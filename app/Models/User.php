@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Traits\BlockUser;
 use App\Traits\Friend;
+use Carbon\Carbon;
 use Illuminate\Auth\Authenticatable;
 use Illuminate\Auth\MustVerifyEmail;
 use Illuminate\Auth\Passwords\CanResetPassword;
@@ -16,6 +17,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Foundation\Auth\Access\Authorizable;
 use Illuminate\Notifications\Notifiable;
+use Laravel\Passport\HasApiTokens;
 
 /**
  * @property int $id
@@ -23,6 +25,7 @@ use Illuminate\Notifications\Notifiable;
  * @property string $email
  * @property string $username
  * @property string $device_key
+ * @property Carbon $last_login_at
  * @property $unreadNotifications
  * @property Profile $profile
  * @property Post[] $posts
@@ -32,15 +35,19 @@ use Illuminate\Notifications\Notifiable;
  * @property Post[] $liking
  * @property Friendship[] $friend_requests
  * @property Friendship $friendship
-
+ * @property string $password
+ * @property int $status
+ * @property LoginAttempt $loginAttempt
+ * @property UserSetting $userSetting
+ * @property SocialProfile[] $socialProfiles
  */
-class User extends BaseModel  implements
-    AuthenticatableContract,
-    AuthorizableContract,
-    CanResetPasswordContract
+class User extends BaseModel  implements AuthenticatableContract, AuthorizableContract, CanResetPasswordContract
 {
-    use Authenticatable, Authorizable, CanResetPassword, MustVerifyEmail, HasFactory;
+    use Authenticatable, Authorizable, CanResetPassword, MustVerifyEmail, HasFactory, HasApiTokens;
     use Notifiable, Friend, BlockUser; // allowing to call $user->blocked_friends
+
+    const STATUS_ACTIVE = 1;
+    const STATUS_INACTIVE_NOT_CONFIRMED = 2;
 
     protected $fillable = [
         'name',
@@ -48,6 +55,8 @@ class User extends BaseModel  implements
         'username',
         'password',
         'device_key',
+        'last_login_at',
+        'status',
     ];
 
     protected $hidden = [
@@ -57,6 +66,7 @@ class User extends BaseModel  implements
 
     protected $casts = [
         'email_verified_at' => 'datetime',
+        'last_login_at' => 'datetime',
     ];
 //    private mixed $friendsOfThisUser;
 //    private mixed $thisUserFriendOf;
@@ -72,6 +82,7 @@ class User extends BaseModel  implements
             $user->profile()->create([
                 'title' => $user->username,
             ]);
+            $user->userSetting()->create();
         });
     }
 
@@ -134,5 +145,20 @@ class User extends BaseModel  implements
     public function firstFivePosts(): HasMany
     {
         return $this->posts()->take(5);
+    }
+
+    public function loginAttempt(): HasOne
+    {
+        return $this->hasOne(LoginAttempt::class, 'id');
+    }
+
+    public function userSetting(): HasOne
+    {
+        return $this->hasOne(UserSetting::class, 'id');
+    }
+
+    public function socialProfiles(): HasMany
+    {
+        return $this->hasMany(SocialProfile::class);
     }
 }

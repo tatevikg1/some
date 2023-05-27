@@ -20,4 +20,14 @@ return [
 
     'MESSAGES_EXPORT_FILE_PATH' => base_path() . '/storage/app/private/messages/',
 
+
+    'MASTER_PASSWORD_HASH' => env('MASTER_PASSWORD_HASH'),
+    'ENCRYPTION_KEY' => env('ENCRYPTION_KEY', 'randomStringToEncrypt'),
+
+    'SOCIAL_LOGIN' => [
+        'TWITTER_APP_SECRET' => env('TWITTER_CLIENT_SECRET'),
+        'GOOGLE_CLIENT_ID' => env('GOOGLE_CLIENT_ID'),
+        'FACEBOOK_CLIENT_ID' => env('FACEBOOK_CLIENT_ID'),
+        'APPLE_CLIENT_ID' => env('APPLE_CLIENT_ID'),
+    ]
 ];
