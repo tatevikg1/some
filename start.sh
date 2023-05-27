@@ -1,8 +1,8 @@
 #!/bin/bash
 
-FILE=.env
+setphp 8.1
 
-setphp 7.4
+FILE=.env
 composer install
 if test -f "$FILE";
     then
@@ -10,28 +10,22 @@ if test -f "$FILE";
     else
         cp .env.example .env
 fi
-php artisan key:generate
-php artisan migrate:fresh
-php artisan db:seed
+#php artisan key:generate
+#php artisan migrate
+#php artisan db:seed
 
-# setup file permissions
-sudo usermod -a -G www-data t
-sudo chown -R $USER:www-data .
-sudo find . -type f -exec chmod 664 {} \;
-sudo find . -type d -exec chmod 775 {} \;
-sudo chgrp -R www-data storage bootstrap/cache
-sudo chmod -R ug+rwx storage bootstrap/cache
+## setup file permissions
+#sudo usermod -a -G www-data t
+#sudo chown -R $USER:www-data .
+#sudo find . -type f -exec chmod 664 {} \;
+#sudo find . -type d -exec chmod 775 {} \;
+#sudo chgrp -R www-data storage bootstrap/cache
+#sudo chmod -R ug+rwx storage bootstrap/cache
 
 # make this file executable
 sudo chmod +x start.sh
 
 nvm use 14
 npm run dev
-
-#laravel-echo-server start
-#laravel-echo-server client:add
-#laravel-echo-server client:remove APP_ID
-#npm install --save laravel-echo
-#npm install --save socket.io-client
 
 exit

@@ -13,6 +13,7 @@ services:
     working_dir: /var/www/
     volumes:
       - ./:/var/www
+      - ./docker-compose/app/php.ini:/usr/local/etc/php/php.ini
     networks:
       - some
   db:
@@ -20,10 +21,10 @@ services:
     container_name: some-mysql
     restart: unless-stopped
     environment:
-         MYSQL_DATABASE: some
+         MYSQL_DATABASE: ${DB_DATABASE}
          MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
-         MYSQL_PASSWORD: password
-         MYSQL_USER: user
+         MYSQL_PASSWORD: ${DB_PASSWORD}
+         MYSQL_USER: ${DB_USERNAME}
          SERVICE_TAGS: dev
          SERVICE_NAME: mysql
     volumes:
