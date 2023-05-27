@@ -44,6 +44,16 @@ services:
       - ./docker-compose/nginx:/etc/nginx/conf.d
     networks:
       - some
+#  phpmyadmin:
+#    image: phpmyadmin/phpmyadmin
+#    ports:
+#      - 8002:80
+#    environment:
+#      - PMA_HOST=127.0.0.1
+#      - PMA_USER=root
+#      - PMA_PASSWORD=root
+#    networks:
+#      - some
 networks:
   some:
     driver: bridge
