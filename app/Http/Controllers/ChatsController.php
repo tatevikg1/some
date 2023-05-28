@@ -7,6 +7,7 @@ use App\Http\Requests\GetMessagesRequest;
 use App\Http\Requests\SendMessageRequest;
 use App\Models\Message;
 use App\Models\User;
+use App\Services\ChatGptService;
 use App\Services\ChatService;
 use Illuminate\Contracts\View\View;
 use Illuminate\Database\Eloquent\Collection;
@@ -17,10 +18,12 @@ use Symfony\Component\HttpFoundation\BinaryFileResponse;
 class ChatsController extends Controller
 {
     private ChatService $chatService;
-    public function __construct(ChatService $chatService)
+    private ChatGptService $chatGptService;
+    public function __construct(ChatService $chatService, ChatGptService $chatGptService)
     {
         $this->middleware('auth');
         $this->chatService = $chatService;
+        $this->chatGptService = $chatGptService;
     }
 
     public function chat(): View
@@ -40,6 +43,10 @@ class ChatsController extends Controller
 
     public function send(SendMessageRequest $request): JsonResponse
     {
+        $data = $request->validated();
+        if (str_starts_with($data['text'], "/chatgpt")) {
+            return $this->chatGptService->sendMessage($request->validated());
+        }
         return $this->chatService->sendMessage($request->validated());
     }
 
