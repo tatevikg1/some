@@ -6,7 +6,7 @@
 
     <div class="row cover_img">
         <div class="col-3 ">
-            <img src="{{ $user->profile->profileImage() }}" class="rounded-circle profile_img">
+            <img src="/{{ $user->profile->profileImage() }}" class="rounded-circle profile_img">
         </div>
     </div>
     <div class="d-flex">
@@ -74,7 +74,7 @@
                 </div>
             @endcan
 
-            @foreach($user->firstFivePosts()->get() as $post) 
+            @foreach($user->firstFivePosts()->get() as $post)
                 @include('partials.post')
             @endforeach
         </div>

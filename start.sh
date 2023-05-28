@@ -1,8 +1,8 @@
 #!/bin/bash
 
-FILE=.env
+setphp 8.1
 
-setphp 7.4
+FILE=.env
 composer install
 if test -f "$FILE";
     then
@@ -10,9 +10,9 @@ if test -f "$FILE";
     else
         cp .env.example .env
 fi
-php artisan key:generate
-php artisan migrate:fresh
-php artisan db:seed
+#php artisan key:generate
+#php artisan migrate
+#php artisan db:seed
 
 # setup file permissions
 sudo usermod -a -G www-data t
@@ -25,9 +25,10 @@ sudo chmod -R ug+rwx storage bootstrap/cache
 # make this file executable
 sudo chmod +x start.sh
 
-nvm use 14
-npm run dev
+#nvm use 14
+#npm run dev
 
 # php artisan passport:client --personal
+php artisan storage:link
 
 exit
