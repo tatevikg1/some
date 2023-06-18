@@ -4,7 +4,7 @@
             <li v-for="contact  in sortedContacts"
                 :key="contact.id"
                 @click="selectContact(contact)"
-                :class="{ 'selected': contact == selected }">
+                :class="{ 'selected': contact === selected }">
                 <div class="image">
                     <img src="http://via.placeholder.com/150x150"
                         class="rounded-circle"
@@ -25,6 +25,8 @@
 </template>
 
 <script>
+    import {mapMutations} from "vuex";
+
     export default{
 
         props:{
@@ -40,8 +42,11 @@
         },
 
         methods:{
+            ...mapMutations(['setContactId']),
+
             selectContact(contact){
                 this.selected = contact;
+                this.setContactId(contact)
                 this.$emit('selected', contact);
             }
         },
@@ -49,7 +54,7 @@
         computed: {
             sortedContacts() {
                 return _.sortBy(this.contacts, [(contact) => {
-                    if (contact == this.selected) {
+                    if (contact === this.selected) {
                         return Infinity;
                     }
                     return contact.unread;
