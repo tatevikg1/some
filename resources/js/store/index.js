@@ -2,7 +2,7 @@ import Vue from 'vue';
 import Vuex from 'vuex';
 import likeSystem from './modules/likeSystem';
 import messageId from './modules/messageId';
-import contactId from './modules/contactId';
+import selectedContact from './modules/selectedContact';
 
 Vue.use(Vuex);
 
@@ -12,7 +12,7 @@ export default new Vuex.Store({
     modules: {
         likeSystem,
         messageId,
-        contactId
+        selectedContact
     },
     strict: debug,
 })

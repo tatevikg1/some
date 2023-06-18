@@ -1,5 +1,5 @@
 <template>
-    <div v-if="contactId !== 0">
+    <div v-if="selectedContact">
         <div class="card-footer" ref="inputWrapper">
 
             <div class="input-group">
@@ -47,7 +47,7 @@ export default {
         };
     },
     computed: {
-        ...mapGetters(['contactId']),
+        ...mapGetters(['selectedContact']),
 
         filteredSuggestions() {
             return this.suggestions.filter(suggestion =>
