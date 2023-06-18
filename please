@@ -1,5 +1,11 @@
 #!/bin/bash
 
+if (("$1" == "enter" && "$2" == "root")); then
+    container_name=$3
+    docker exec -it -u 0 "$container_name" bash
+    exit
+fi
+
 if [ "$1" == "enter" ]; then
     container_name=$2
     if [[ "$2" =~ "mysql" ]]; then
@@ -30,7 +36,7 @@ else
             docker-compose up -d
             ;;
         *)
-            echo "Invalid command. Usage: please [start|stop|restart|enter|logs|ps] [container_name]"
+            echo "Invalid command. Usage: please [start|stop|restart|enter|logs|ps|enter-root] [container_name]"
             ;;
     esac
 fi

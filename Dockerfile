@@ -1,5 +1,6 @@
 FROM php:8.1-fpm
 COPY composer.lock composer.json /var/www/
+COPY config/supervisord.conf /etc/supervisor/conf.d/
 WORKDIR /var/www
 
 RUN pecl install redis
@@ -7,6 +8,7 @@ RUN docker-php-ext-enable redis
 
 RUN apt-get update
 RUN apt-get install -y build-essential curl zlib1g-dev libzip-dev libpng-dev libonig-dev libxml2-dev libjpeg-dev libfreetype6-dev
+RUN apt-get update && apt-get install -y procps && rm -rf /var/lib/apt/lists/* procps
 
 RUN apt-get clean && rm -rf /var/lib/apt/lists/*
 # Clear cache

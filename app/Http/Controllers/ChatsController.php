@@ -57,4 +57,9 @@ class ChatsController extends Controller
     {
         return response()->download((new ExportService())->getMessages());
     }
+
+    public function markAsRead()
+    {
+        return $this->chatService->markAsRead();
+    }
 }
