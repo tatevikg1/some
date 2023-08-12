@@ -34,7 +34,8 @@ use Illuminate\Database\Query\Builder;
  * @method static firstOrNew(array $array)
  * @method static inRandomOrder()
  * @method static Builder has(string $string)
-
+ *
+ * @property int $id
  */
 class BaseModel extends Model
 {

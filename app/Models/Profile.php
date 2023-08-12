@@ -40,5 +40,4 @@ class Profile extends BaseModel
     {
         return $this->belongsTo(User::class);
     }
-
 }

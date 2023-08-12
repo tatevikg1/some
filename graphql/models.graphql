@@ -1,0 +1,19 @@
+directive @canAccess(requiredRole: String!) on FIELD_DEFINITION
+
+type User {
+    id: ID!
+    name: String!
+    email: Email!
+    status: Status
+    created_at: DateTime!
+    updated_at: DateTime
+    profile: Profile @hasOne
+    password: String @canAccess(requiredRole: "ROLE_ADMIN")
+    role: UserRole
+}
+
+type  Profile {
+    id: ID!
+    image: String
+    user: User @belongsTo
+}
