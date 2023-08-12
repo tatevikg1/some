@@ -94,7 +94,7 @@ abstract class BaseLoginService
     {
         /** @var User $user */
         $user = User::where('id', $user->id)
-            ->with(['profile', 'userSetting', 'loginAttempt', 'socialConnects'])
+            ->with(['profile', 'userSetting', 'loginAttempt'])
             ->first();
 
         if ($generateWebsiteAccessToken) {

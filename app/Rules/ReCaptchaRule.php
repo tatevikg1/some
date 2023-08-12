@@ -2,24 +2,20 @@
 
 namespace App\Rules;
 
-use Illuminate\Contracts\Validation\Rule;
+use Closure;
+use Illuminate\Contracts\Validation\ValidationRule;
 use ReCaptcha\ReCaptcha;
 
-class ReCaptchaRule implements Rule
+class ReCaptchaRule implements ValidationRule
 {
-    public function passes($attribute, $value): bool
+    public function validate(string $attribute, mixed $value, Closure $fail): void
     {
         $recaptcha = new ReCaptcha(env('RE_CAPTCHA_SECRET_KEY'));
         $response = $recaptcha->setExpectedHostname(config('app.host'))
             ->verify($value);
         if ($response->isSuccess()) {
-            return true;
+            return;
         }
-        return false;
-    }
-
-    public function message(): string
-    {
-        return 'The reCAPTCHA verification failed. Please try again.';
+        $fail('The reCAPTCHA verification failed. Please try again');
     }
 }

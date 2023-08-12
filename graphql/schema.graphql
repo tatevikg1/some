@@ -1,0 +1,28 @@
+scalar Email
+scalar DateTime @scalar(class: "Nuwave\\Lighthouse\\Schema\\Types\\Scalars\\DateTime")
+
+enum Status {
+    INACTIVE @enum(value: 0)
+    ACTIVE @enum(value: 1)
+    INACTIVE_NOT_CONFIRMED @enum(value: 2)
+}
+
+enum UserRole {
+    ADMIN @enum(value: 1)
+    USER @enum(value: 0)
+}
+
+type Query {
+    user(id: ID! @eq): User @find
+    me: User! @auth @guard
+    users(input: UserQueryFields, trashed: Trashed @trashed): [User!] @guard @paginate(scopes: ["active", "user"]) @orderBy(column: "name")
+}
+
+type Mutation {
+    createUser(input: CreateUserInput! @spread): User @create
+    updateUser(input: UpdateUserInput! @spread): User @guard @can(ability: "update", injectArgs: true)
+    deleteUser(id: ID! @whereKey, trashed: Trashed @trashed): User @delete @can(ability: "delete", injectArgs: true) @softDeletes
+}
+
+#import inputs.graphql
+#import models.graphql
