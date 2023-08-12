@@ -1,0 +1,21 @@
+input CreateUserInput {
+    name: String! @rules(apply: ["string", "min:2"])
+    username: String! @rules(apply: ["string", "min:2"])
+    email: Email! @rules(apply: ["email"])
+    password: String! @rules(apply: ["App\\Rules\\PasswordRule"])
+}
+
+input UpdateUserInput {
+    id: Int!,
+    name: String
+    username: String! @rules(apply: ["string", "min:2"])
+    email: Email @rules(apply: ["email"])
+    role: UserRole  @rules(apply: ["in:0,1"])
+    password: String
+}
+
+input UserQueryFields {
+    id: Int @eq,
+    email: Email @eq,
+    name: String @like,
+}

@@ -4,7 +4,7 @@
             <li v-for="contact  in sortedContacts"
                 :key="contact.id"
                 @click="selectContact(contact)"
-                :class="{ 'selected': contact == selected }">
+                :class="{ 'selected': contact === selectedContact }">
                 <div class="image">
                     <img src="http://via.placeholder.com/150x150"
                         class="rounded-circle"
@@ -25,6 +25,8 @@
 </template>
 
 <script>
+import {mapGetters, mapMutations} from "vuex";
+
     export default{
 
         props:{
@@ -33,23 +35,21 @@
             }
         },
 
-        data(){
-            return{
-                selected: this.contacts.length ? this.contacts[0] : null
-            };
-        },
-
         methods:{
+            ...mapMutations(['setSelectedContact']),
+
             selectContact(contact){
-                this.selected = contact;
+                this.setSelectedContact(contact)
                 this.$emit('selected', contact);
             }
         },
 
         computed: {
+            ...mapGetters(['selectedContact']),
+
             sortedContacts() {
                 return _.sortBy(this.contacts, [(contact) => {
-                    if (contact == this.selected) {
+                    if (contact === this.selectedContact) {
                         return Infinity;
                     }
                     return contact.unread;
@@ -68,15 +68,15 @@
         max-height:500px;
         overflow:scroll;
 
-        ul{
+        ul {
             list-style-type: none; /* Remove bullets */
-            padding-left:0px;
+            padding-left:0;
 
-            .selected{
+            .selected {
                 background-color:#d1d0d6;
             }
 
-            li{
+            li {
                 display:flex;
                 padding:2px;
                 cursor:pointer;
@@ -84,14 +84,12 @@
                 height:80px;
                 position: relative;
 
-
-
-                .image{
+                .image {
                     flex:1;
                     display:flex;
                     align-items:center;
 
-                    img{
+                    img {
                         width:35px;
                         border-radius:50%;
                         margin:0 auto;
@@ -99,7 +97,7 @@
                 }
             }
 
-            .contact{
+            .contact {
                 flex:2;
                 font-size:12px;
                 display:flex;
@@ -107,15 +105,15 @@
                 flex-direction:column;
                 justify-content:center;
 
-                p{
+                p {
                     margin:0;
                 }
-                .name{
+                .name {
                     font-weight:bold;
                 }
             }
 
-            span.unread{
+            span.unread {
                 background-color: green;
                 color: white;
                 position: absolute;
@@ -127,11 +125,6 @@
                 font-size: 12px;
                 border-radius: 50%;
             }
-
-
         }
-
     }
-
-
 </style>

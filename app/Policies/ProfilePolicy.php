@@ -21,5 +21,4 @@ class ProfilePolicy
     {
         return $user->id == $profile->user_id;
     }
-
 }
