@@ -5,7 +5,7 @@
 
         <Messages :contact="contact" :messages='messages' />
 
-        <MessageComposer @send="sendMessage" />
+        <MessageComposer @send="sendMessage" :contact="contact" />
 
     </div>
 </template>
