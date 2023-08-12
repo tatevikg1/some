@@ -21,17 +21,16 @@
     import Contacts from './chat/Contacts.vue';
     import {mapGetters, mapMutations} from "vuex";
 
-    export default{
+    export default {
 
-        props:{
-            user:{
+        props: {
+            user: {
                 required: true,
             },
         },
 
-        data(){
+        data() {
             return {
-                selectedContact : null,
                 messages: [],
                 contacts: [],
                 contactsOffset: -5,
@@ -40,10 +39,10 @@
         },
 
         computed: {
-            ...mapGetters(['messageId'])
+            ...mapGetters(['messageId', 'selectedContact'])
         },
 
-        mounted(){
+        mounted() {
             Echo.private(`messages.${this.user.id}`)
                 .listen("NewMessage", (e) => {
                     this.handleIncoming(e.message);
@@ -52,27 +51,26 @@
             this.getContacts();
         },
 
-        methods:{
+        methods: {
             ...mapMutations(['setMessageId']),
 
-            startConversationWith(contact){
+            startConversationWith(contact) {
                 this.updateUnreadCount(contact, true);
 
                 axios.post(`/conversation/${contact.id}`)
                     .then((response) => {
-                        this.selectedContact = contact;
                         this.setMessageId((response.data.slice(-1))[0]['id']);
                         this.messages = response.data.reverse();
                     })
             },
 
-            saveNewMassage(message){
+            saveNewMassage(message) {
                 this.messages.push(message);
 
             },
 
-            handleIncoming(message){
-                if(this.selectedContact && message.sender == this.selectedContact.id){
+            handleIncoming(message) {
+                if(this.selectedContact && message.sender === this.selectedContact.id){
                     this.saveNewMassage(message);
                     axios.post(`/messages/${message.id}`)
                     return;
@@ -81,13 +79,13 @@
                 this.updateUnreadCount(message.from_contact, false);
             },
 
-            updateUnreadCount(contact, zroyacnel){
+            updateUnreadCount(contact, zroyacnel) {
                 this.contacts = this.contacts.map((single) => {
-                    if (single.id != contact.id){
+                    if (single.id !== contact.id) {
                         return single;
                     }
 
-                    if(zroyacnel)
+                    if (zroyacnel)
                         single.unread = 0;
                     else
                         single.unread += 1;
@@ -96,7 +94,7 @@
                 }
             )},
 
-            getContacts(){
+            getContacts() {
                 this.contactsOffset = this.contactsOffset + this.contactsLimit;
                 axios.post('/contacts', {
                     offset : this.contactsOffset
@@ -105,7 +103,7 @@
                     // this.startConversationWith(response.data[0]);
                 });
             },
-            getPrevContacts(){
+            getPrevContacts() {
                 this.contactsOffset = this.contactsOffset - this.contactsLimit;
                 axios.post('/contacts', {
                     offset : this.contactsOffset
@@ -116,7 +114,7 @@
             },
         },
 
-        components:{ Conversation, Contacts }
+        components: { Conversation, Contacts }
     }
 </script>
 

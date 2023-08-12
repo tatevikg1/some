@@ -1,11 +1,11 @@
 <template>
     <div class="fon" ref="fon">
-        <ul v-if="contact">
+        <ul v-if="selectedContact">
 <!--            <infinite-loading @distance="1" @infinite="loadMessages"  ref="infiniteLoading"></infinite-loading>-->
 
             <li v-for='message in messages'
                 :key="message.id"
-                :class="`message${message.receiver == contact.id ? ' sent' : ' received'}`">
+                :class="`message${message.receiver === selectedContact.id ? ' sent' : ' received'}`">
                 <div class="text">
                     {{message.text }}
                 </div>
@@ -21,29 +21,26 @@ import {mapGetters, mapMutations} from "vuex";
     export default {
 
         props:{
-            contact:{
-                type:Object
-            },
             messages: {
                 required:true
             },
         },
 
         computed: {
-            ...mapGetters(['messageId'])
+            ...mapGetters(['messageId', 'selectedContact'])
         },
 
-        methods:{
+        methods: {
             ...mapMutations(['setMessageId']),
 
-            scrollToBottom(){
-                setTimeout(()=>{
+            scrollToBottom() {
+                setTimeout(() => {
                     this.$refs.fon.scrollTop = this.$refs.fon.scrollHeight;
                 }, 50);
             },
             loadMessages($state) {
 
-                axios.post(`/conversation/${this.contact.id}`, { id: this.messageId })
+                axios.post(`/conversation/${this.selectedContact.id}`, { id: this.messageId })
                     .then((response) => {
                         if(response.data.length === 0) {
                             $state.complete();
@@ -58,8 +55,8 @@ import {mapGetters, mapMutations} from "vuex";
             },
         },
 
-        watch:{
-            contact(contact){
+        watch: {
+            selectedContact(selectedContact) {
                 this.scrollToBottom();
             },
             messages(){

@@ -15,6 +15,8 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Foundation\Auth\Access\Authorizable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Passport\HasApiTokens;
@@ -26,6 +28,8 @@ use Laravel\Passport\HasApiTokens;
  * @property string $username
  * @property string $device_key
  * @property Carbon $last_login_at
+ * @property int $role
+ * @property Carbon $deleted_at
  * @property $unreadNotifications
  * @property Profile $profile
  * @property Post[] $posts
@@ -45,9 +49,12 @@ class User extends BaseModel  implements AuthenticatableContract, AuthorizableCo
 {
     use Authenticatable, Authorizable, CanResetPassword, MustVerifyEmail, HasFactory, HasApiTokens;
     use Notifiable, Friend, BlockUser; // allowing to call $user->blocked_friends
+    use SoftDeletes;
 
     const STATUS_ACTIVE = 1;
     const STATUS_INACTIVE_NOT_CONFIRMED = 2;
+    const ROLE_USER = 0;
+    const ROLE_ADMIN = 1;
 
     protected $fillable = [
         'name',
@@ -57,6 +64,7 @@ class User extends BaseModel  implements AuthenticatableContract, AuthorizableCo
         'device_key',
         'last_login_at',
         'status',
+        'role',
     ];
 
     protected $hidden = [
@@ -67,6 +75,9 @@ class User extends BaseModel  implements AuthenticatableContract, AuthorizableCo
     protected $casts = [
         'email_verified_at' => 'datetime',
         'last_login_at' => 'datetime',
+        'deleted-at' => 'datetime',
+        'role' => 'int',
+        'password' => 'hashed', // todo - check if it is working OK
     ];
 //    private mixed $friendsOfThisUser;
 //    private mixed $thisUserFriendOf;
@@ -160,5 +171,15 @@ class User extends BaseModel  implements AuthenticatableContract, AuthorizableCo
     public function socialProfiles(): HasMany
     {
         return $this->hasMany(SocialProfile::class);
+    }
+
+    public function scopeActive(Builder $query): Builder
+    {
+        return $query->where('status', self::STATUS_ACTIVE);
+    }
+
+    public function scopeUser(Builder $query): Builder
+    {
+        return $query->where('role', self::ROLE_USER);
     }
 }

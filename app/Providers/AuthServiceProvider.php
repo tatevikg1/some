@@ -3,7 +3,6 @@
 namespace App\Providers;
 
 use App\Constants\AppConstants;
-use App\Constants\SpecialFeedConstants;
 use App\Policies\ProfilePolicy;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 use Illuminate\Support\Facades\Gate;
