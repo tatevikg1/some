@@ -52,16 +52,17 @@ services:
       - "6380:6379"
     networks:
       - some
-#  phpmyadmin:
-#    image: phpmyadmin/phpmyadmin
-#    ports:
-#      - 8002:80
-#    environment:
-#      - PMA_HOST=127.0.0.1
-#      - PMA_USER=root
-#      - PMA_PASSWORD=root
-#    networks:
-#      - some
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    container_name: some-phpmyadmin
+    ports:
+      - "8002:80"
+    environment:
+      - PMA_HOST=db
+      - PMA_USER=${DB_USERNAME}
+      - PMA_PASSWORD=${DB_PASSWORD}
+    networks:
+      - some
 networks:
   some:
     driver: bridge
