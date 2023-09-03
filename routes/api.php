@@ -1,8 +1,11 @@
 <?php
 
+declare(strict_types=1);
+
 use App\Http\Controllers\Api\FriendsController;
 use App\Http\Controllers\Api\NotificationController;
 use App\Http\Controllers\Api\PostController;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 
@@ -13,3 +16,10 @@ Route::get('/get-friend-request-notification/{user}', [NotificationController::c
 Route::get('/get-message-notification/{user}', [NotificationController::class, 'getUnreadCount']);
 
 Route::post('/get-random-4-friend/{user}', [FriendsController::class, 'getRandomFour']);
+
+Route::post('/message', function (Request $request) {
+        $message = $request->get('message');
+        $mqService = new \App\Services\RabbitMQService();
+        $mqService->publish($message);
+        return 'Success';
+});
