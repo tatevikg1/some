@@ -30,10 +30,5 @@ sudo chmod +x start.sh
 
 # php artisan passport:client --personal
 php artisan storage:link
-
+# php artisan passport:install
 exit
-
-# execute from rabbitmq container or wherever is rabbitmq
-# rabbitmqctl add_vhost some
-# rabbitmqctl set_user_tags guest administrator management
-# rabbitmqctl set_permissions -p some guest ".*" ".*" ".*"
