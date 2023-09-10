@@ -28,6 +28,7 @@ class Kernel extends ConsoleKernel
          $schedule->command('telescope:prune --hours=0')->daily();
          $schedule->command('websockets:clean')->daily();
          $schedule->command('cache:prune-stale-tags')->hourly();
+         $schedule->command('rabbitmq:consumer test-queue-job')->everyMinute();
     }
 
     /**

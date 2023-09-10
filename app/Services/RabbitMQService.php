@@ -4,66 +4,85 @@ declare(strict_types=1);
 
 namespace App\Services;
 
-use PhpAmqpLib\Connection\AMQPStreamConnection;
+use Exception;
+use PhpAmqpLib\Channel\AbstractChannel;
+use PhpAmqpLib\Channel\AMQPChannel;
 use PhpAmqpLib\Connection\AMQPSSLConnection;
 use PhpAmqpLib\Message\AMQPMessage;
 
 class RabbitMQService
 {
-    public function publish($message): void
+    private AMQPSSLConnection $connection;
+    private const TYPE_DIRECT_EXCHANGE = 'direct';
+
+    public function publish(string $jobKey, array $message): void
     {
-        $connection = new AMQPStreamConnection(
-            env('MQ_HOST'),
-            env('MQ_PORT'),
-            env('MQ_USER'),
-            env('MQ_PASS'),
-            env('MQ_VHOST'),
-        );
-        $channel = $connection->channel();
-        $channel->exchange_declare('test_exchange', 'direct', false, false, false);
-        $channel->queue_declare('test_queue', false, false, false, false);
-        $channel->queue_bind('test_queue', 'test_exchange', 'test_key');
-        $msg = new AMQPMessage($message);
-        $channel->basic_publish($msg, 'test_exchange', 'test_key');
-        echo " [x] Sent $message to test_exchange / test_queue.\n";
-        $channel->close();
-        $connection->close();
+        $channel = $this->getConnectionAndChannel();
+        $this->setUpQueue($channel, $jobKey);
+        $msg = new AMQPMessage(json_encode($message));
+        $channel->basic_publish($msg, $jobKey, $jobKey);
+        $this->close($channel);
     }
 
-    public function consume(): void
+    public function consume(string $jobKey): void
     {
-        $connection = new AMQPStreamConnection(
-            env('MQ_HOST'),
-            env('MQ_PORT'),
-            env('MQ_USER'),
-            env('MQ_PASS'),
-            env('MQ_VHOST')
-        );
-        $channel = $connection->channel();
-        $callback = function ($msg) {
-            echo ' [x] Received ', $msg->body, "\n";
-        };
+        $channel = $this->getConnectionAndChannel();
+        $class = config('rabbitmq.class_mapping.' . $jobKey);
         $channel->queue_declare(
-            'test_queue',
+            $jobKey,
             false,
             false,
             false,
             false,
         );
         $channel->basic_consume(
-            'test_queue',
+            $jobKey,
             '',
             false,
             true,
             false,
             false,
-            $callback
+            (new $class)
         );
-        echo 'Waiting for new message on test_queue' . PHP_EOL;
         while ($channel->is_consuming()) {
             $channel->wait();
         }
+        $this->close($channel);
+    }
+
+    /**
+     * @return AbstractChannel|AMQPChannel
+     * @throws Exception
+     */
+    private function getConnectionAndChannel(): AbstractChannel|AMQPChannel
+    {
+        $this->connection = new AMQPSSLConnection(
+            config('rabbitmq.connections.default.host'),
+            config('rabbitmq.connections.default.port'),
+            config('rabbitmq.connections.default.login'),
+            config('rabbitmq.connections.default.password'),
+            config('rabbitmq.connections.default.vhost'),
+//            config('rabbitmq.sslOptions')
+        );
+
+        return $this->connection->channel();
+    }
+
+    /**
+     * @param mixed $channel
+     * @return void
+     * @throws Exception
+     */
+    private function close(mixed $channel): void
+    {
         $channel->close();
-        $connection->close();
+        $this->connection->close();
+    }
+
+    private function setUpQueue(AMQPChannel $channel, $jobKey): void
+    {
+        $channel->exchange_declare($jobKey, self::TYPE_DIRECT_EXCHANGE, false, false, false);
+        $channel->queue_declare($jobKey, false, false, false, false);
+        $channel->queue_bind($jobKey, $jobKey, $jobKey);
     }
 }

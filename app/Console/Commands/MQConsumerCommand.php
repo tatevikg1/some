@@ -14,7 +14,7 @@ class MQConsumerCommand extends Command
      *
      * @var string
      */
-    protected $signature = 'app:m-q-consumer-command';
+    protected $signature = 'rabbitmq:consumer {job-key}';
 
     /**
      * The console command description.
@@ -22,13 +22,19 @@ class MQConsumerCommand extends Command
      * @var string
      */
     protected $description = 'Command description';
+    private RabbitMQService $rabbitMQService;
+
+    public function __construct(RabbitMQService $mqService)
+    {
+        parent::__construct();
+        $this->rabbitMQService = $mqService;
+    }
 
     /**
      * Execute the console command.
      */
     public function handle(): void
     {
-        $mqService = new RabbitMQService();
-        $mqService->consume();
+        $this->rabbitMQService->consume($this->argument('job-key'));
     }
 }
