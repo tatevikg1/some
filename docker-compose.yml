@@ -76,12 +76,13 @@ services:
     volumes:
       - ./docker-compose/rabbitmq/rabbitmq.conf:/etc/rabbitmq/rabbitmq.conf
       - ./docker-compose/rabbitmq/definitions.json:/etc/rabbitmq/definitions.json
-    #      - ./rabbitmq-data:/var/lib/rabbitmq
+      - ./rabbitmq-data:/var/lib/rabbitmq
     networks:
       - some
 networks:
   some:
     driver: bridge
 volumes:
+  rabbitmq-data:
   data:
     driver: local

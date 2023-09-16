@@ -31,7 +31,7 @@ class RabbitMQService
         $channel->queue_declare(
             $jobKey,
             false,
-            false,
+            true,
             false,
             false,
         );
@@ -82,7 +82,7 @@ class RabbitMQService
     private function setUpQueue(AMQPChannel $channel, $jobKey): void
     {
         $channel->exchange_declare($jobKey, self::TYPE_DIRECT_EXCHANGE, false, false, false);
-        $channel->queue_declare($jobKey, false, false, false, false);
+        $channel->queue_declare($jobKey, false, true, false, false);
         $channel->queue_bind($jobKey, $jobKey, $jobKey);
     }
 }
