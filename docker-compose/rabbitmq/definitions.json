@@ -8,6 +8,13 @@
             "name": "some"
         }
     ],
+    "users": [
+        {
+            "name": "guest",
+            "password": "guest",
+            "tags": ["administrator"]
+        }
+    ],
     "permissions": [
         {
             "user": "guest",
