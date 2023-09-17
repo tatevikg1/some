@@ -6,17 +6,28 @@ services:
         user: ta
         uid: 1000
       context: ./
-      dockerfile: Dockerfile
+      dockerfile: docker-compose/app/Dockerfile
     image: some
     container_name: some-app
     restart: unless-stopped
     working_dir: /var/www/
     volumes:
       - ./:/var/www
+      - ./storage/app/config/:/etc/nginx/ssl/
       - ./docker-compose/app/php.ini:/usr/local/etc/php/php.ini
-#      - /storage/logs:/var/www/html/storage/logs
     networks:
       - some
+#  horizon:
+#    image: some
+#    container_name: some-horizon
+#    volumes:
+#      - ./:/var/www/html
+#    depends_on:
+#      - redis
+#      - app
+#    command: php artisan horizon
+#    networks:
+#        - some
   db:
     image: mysql:8.0.33
     container_name: some-mysql
@@ -40,45 +51,80 @@ services:
     restart: unless-stopped
     ports:
       - "8001:80"
+      - "444:443"
+      - "6002:6001"
     volumes:
       - ./:/var/www
+      - ./storage/app/config/:/etc/nginx/ssl/
       - ./docker-compose/nginx:/etc/nginx/conf.d
+      - ./storage/logs/nginx/:/var/log/nginx/
+    networks:
+      - some
+#  apache:
+#    image: httpd:latest
+#    container_name: some-apache
+#    ports:
+#      - "8005:80"
+#      - "444:443"
+#      - "6001:6001"
+#    volumes:
+#      - ./:/var/www
+#      - ./storage/app/config/:/etc/apache2/ssl/
+#      - ./docker-compose/apache/:/usr/local/apache2/conf/ <not correct place>
+##    restart: always
+#    networks:
+#      - some
+  websocket:
+    build:
+      args:
+        user: www
+        uid: 1000
+      context: ./
+      dockerfile: docker-compose/websocket/Dockerfile
+    image: websocket
+    container_name: some-websocket
+    restart: unless-stopped
+    working_dir: /var/www/
+    volumes:
+      - ./:/var/www
+    ports:
+      - "6001:6001"
     networks:
       - some
   redis:
-    image: redis:latest
+    image: redis:7.2.1
     container_name: some-redis
     restart: unless-stopped
     ports:
       - "6380:6379"
     networks:
       - some
-  phpmyadmin:
-    image: phpmyadmin/phpmyadmin
-    container_name: some-phpmyadmin
-    ports:
-      - "8002:80"
-    environment:
-      - PMA_HOST=db
-      - PMA_USER=${DB_USERNAME}
-      - PMA_PASSWORD=${DB_PASSWORD}
-    networks:
-      - some
-  rabbitmq:
-    image: "rabbitmq:management"
-    container_name: some-rabbitmq
-    ports:
-      - "5672:5672"  # RabbitMQ standard port
-      - "15672:15672"  # RabbitMQ management UI
-    environment:
-      RABBITMQ_DEFAULT_USER: guest
-      RABBITMQ_DEFAULT_PASS: guest
-    volumes:
-      - ./docker-compose/rabbitmq/rabbitmq.conf:/etc/rabbitmq/rabbitmq.conf
-      - ./docker-compose/rabbitmq/definitions.json:/etc/rabbitmq/definitions.json
-      - ./rabbitmq-data:/var/lib/rabbitmq
-    networks:
-      - some
+#  phpmyadmin:
+#    image: phpmyadmin/phpmyadmin
+#    container_name: some-phpmyadmin
+#    ports:
+#      - "8002:80"
+#    environment:
+#      - PMA_HOST=db
+#      - PMA_USER=${DB_USERNAME}
+#      - PMA_PASSWORD=${DB_PASSWORD}
+#    networks:
+#      - some
+#  rabbitmq:
+#    image: "rabbitmq:management"
+#    container_name: some-rabbitmq
+#    ports:
+#      - "5672:5672"  # RabbitMQ standard port
+#      - "15672:15672"  # RabbitMQ management UI
+#    environment:
+#      RABBITMQ_DEFAULT_USER: guest
+#      RABBITMQ_DEFAULT_PASS: guest
+#    volumes:
+#      - ./docker-compose/rabbitmq/rabbitmq.conf:/etc/rabbitmq/rabbitmq.conf
+#      - ./docker-compose/rabbitmq/definitions.json:/etc/rabbitmq/definitions.json
+#      - ./rabbitmq-data:/var/lib/rabbitmq
+#    networks:
+#      - some
 networks:
   some:
     driver: bridge
