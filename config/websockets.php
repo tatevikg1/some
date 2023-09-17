@@ -47,6 +47,9 @@ return [
      * Leave this empty if you want to accept requests from all hosts.
      */
     'allowed_origins' => [
+        'localhost',
+        'http://127.0.0.1',
+        'https://127.0.0.1',
         'some.loc',
         'https://some.loc/',
     ],
