@@ -15,6 +15,7 @@ services:
       - ./:/var/www
       - ./storage/app/config/:/etc/nginx/ssl/
       - ./docker-compose/app/php.ini:/usr/local/etc/php/php.ini
+      - ./storage/logs/php/xdebug.log:/var/log/php/xdebug.log
     networks:
       - some
 #  horizon:
@@ -60,20 +61,6 @@ services:
       - ./storage/logs/nginx/:/var/log/nginx/
     networks:
       - some
-#  apache:
-#    image: httpd:latest
-#    container_name: some-apache
-#    ports:
-#      - "8005:80"
-#      - "444:443"
-#      - "6001:6001"
-#    volumes:
-#      - ./:/var/www
-#      - ./storage/app/config/:/etc/apache2/ssl/
-#      - ./docker-compose/apache/:/usr/local/apache2/conf/ <not correct place>
-##    restart: always
-#    networks:
-#      - some
   websocket:
     build:
       args:
@@ -99,17 +86,17 @@ services:
       - "6380:6379"
     networks:
       - some
-#  phpmyadmin:
-#    image: phpmyadmin/phpmyadmin
-#    container_name: some-phpmyadmin
-#    ports:
-#      - "8002:80"
-#    environment:
-#      - PMA_HOST=db
-#      - PMA_USER=${DB_USERNAME}
-#      - PMA_PASSWORD=${DB_PASSWORD}
-#    networks:
-#      - some
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    container_name: some-phpmyadmin
+    ports:
+      - "8002:80"
+    environment:
+      - PMA_HOST=db
+      - PMA_USER=${DB_USERNAME}
+      - PMA_PASSWORD=${DB_PASSWORD}
+    networks:
+      - some
 #  rabbitmq:
 #    image: "rabbitmq:management"
 #    container_name: some-rabbitmq

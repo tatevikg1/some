@@ -1,7 +1,6 @@
 <?php
 
-use BeyondCode\LaravelWebSockets\Dashboard\Http\Middleware\Authorize;
-use \BeyondCode\LaravelWebSockets\WebSockets\Channels\ChannelManagers\ArrayChannelManager;
+use BeyondCode\LaravelWebSockets\WebSockets\Channels\ChannelManagers\ArrayChannelManager;
 
 return [
 
@@ -47,11 +46,7 @@ return [
      * Leave this empty if you want to accept requests from all hosts.
      */
     'allowed_origins' => [
-        'localhost',
-        'http://127.0.0.1',
-        'https://127.0.0.1',
-        'some.loc',
-        'https://some.loc/',
+
     ],
 
     /*
@@ -74,7 +69,7 @@ return [
     'middleware' => [
         // 'web',
         // Authorize::class,
-       'basic.auth'
+//       'basic.auth'
     ],
 
     'statistics' => [
