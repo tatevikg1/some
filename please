@@ -1,8 +1,8 @@
 #!/bin/bash
 
-if [["$1" == "enter" && "$2" == "root"]]; then
+if [[("$1" == "enter") && ("$2" == "root")]]; then
     container_name=$3
-    docker exec -it -u 0 "$container_name" bash
+    docker exec -it -u root "$container_name" bash
     exit
 fi
 

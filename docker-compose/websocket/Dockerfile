@@ -32,4 +32,4 @@ COPY --chown=www:www . /var/www
 USER www
 EXPOSE 6001
 RUN cd /var/www && composer install
-CMD ["php", "artisan", "websockets:serve", "--host=127.0.0.1"]
+CMD ["php", "artisan", "websockets:serve"]

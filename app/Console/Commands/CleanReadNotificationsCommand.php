@@ -38,7 +38,7 @@ class CleanReadNotificationsCommand extends Command
      */
     public function handle(): int
     {
-        DB::table('notifications')->where('read', true)->delete();
+        DB::table('notifications')->where('read_at', '!=', null)->delete();
 
         return 0;
     }
