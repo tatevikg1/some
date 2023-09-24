@@ -37,8 +37,8 @@ window.Echo = new Echo({
     broadcaster: 'pusher',
     key: process.env.MIX_PUSHER_APP_KEY,
     wsHost: window.location.hostname,
-    wsPort: 6001,
-    wssPort: 6001,
+    wsPort: process.env.MIX_PUSHER_APP_PORT,
+    wssPort: process.env.MIX_PUSHER_APP_PORT,
     enableStats: false,
     forceTLS: true
 });
