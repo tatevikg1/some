@@ -14,10 +14,13 @@ services:
     volumes:
       - ./:/var/www
       - ./storage/app/config/:/etc/nginx/ssl/
-      - ./docker-compose/app/php.ini:/usr/local/etc/php/php.ini
       - ./storage/logs/php/xdebug.log:/var/log/php/xdebug.log
+      - ./docker-compose/app/php.ini:/usr/local/etc/php/php.ini
+      - ./docker-compose/app/fpt-pool.conf:/usr/local/etc/php-fpm.d/www.conf
     networks:
       - some
+    ports:
+      - "8003:9000"
 #  horizon:
 #    image: some
 #    container_name: some-horizon
