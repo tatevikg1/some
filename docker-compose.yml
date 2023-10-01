@@ -14,24 +14,24 @@ services:
     volumes:
       - ./:/var/www
       - ./storage/app/config/:/etc/nginx/ssl/
-      - ./storage/logs/php/xdebug.log:/var/log/php/xdebug.log
+      - ./storage/logs/php/:/storage/logs/php/
       - ./docker-compose/app/php.ini:/usr/local/etc/php/php.ini
       - ./docker-compose/app/fpt-pool.conf:/usr/local/etc/php-fpm.d/www.conf
+    ports:
+      - "127.0.0.1:9000:9000"
     networks:
       - some
-    ports:
-      - "8003:9000"
-#  horizon:
-#    image: some
-#    container_name: some-horizon
-#    volumes:
-#      - ./:/var/www/html
-#    depends_on:
-#      - redis
-#      - app
-#    command: php artisan horizon
-#    networks:
-#        - some
+  horizon:
+    image: some
+    container_name: some-horizon
+    volumes:
+      - ./:/var/www/html
+    depends_on:
+      - redis
+      - app
+    command: php artisan horizon
+    networks:
+        - some
   db:
     image: mysql:8.0.33
     container_name: some-mysql
@@ -45,8 +45,6 @@ services:
          SERVICE_NAME: mysql
     volumes:
       - ./mysql-data:/var/lib/mysql
-    ports:
-      - "3307:3306"
     networks:
      - some
   nginx:
@@ -54,9 +52,9 @@ services:
     container_name: some-nginx
     restart: unless-stopped
     ports:
-      - "8001:80"
-      - "444:443"
-      - "6002:6001"
+      - "127.0.0.1:80:80"
+      - "127.0.0.1:443:443"
+      - "127.0.0.1:6002:6001"
     volumes:
       - ./:/var/www
       - ./storage/app/config/:/etc/nginx/ssl/
@@ -78,7 +76,8 @@ services:
     volumes:
       - ./:/var/www
     ports:
-      - "6001:6001"
+      - "127.0.0.1:8001:80"
+      - "127.0.0.1:6001:6001"
     networks:
       - some
   redis:
