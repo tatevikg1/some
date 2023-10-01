@@ -38,13 +38,9 @@ return [
             'options' => [
                 'cluster' => env('PUSHER_APP_CLUSTER'),
                 'encrypted' => true,
-                'host' => env('WEBSOCKET_APP_URL', 'some.loc'),
-                'port' => env('whatever', 6001), // todo whatever?
+                'host' => env('WEBSOCKET_APP_HOST', 'websocket'),
+                'port' => env('LARAVEL_WEBSOCKETS_PORT', 6001),
                 'scheme' => 'https',
-                'curl_options' => [
-                    CURLOPT_SSL_VERIFYHOST => false,
-                    CURLOPT_SSL_VERIFYPEER => false,
-                ]
             ],
         ],
 

@@ -11,3 +11,9 @@ openssl pkcs12 -export -in localhost.crt -inkey localhost.key -out localhost.p12
 
 ### connect to wss from outside of containers
 wscat -n -c "wss://localhost:6002/app/some-pusher-app-key?protocol=7&client=js&version=4.3.1&flash=false"
+
+
+### for testing with self-signed certificate
+vendor/guzzlehttp/guzzle/src/Handler/CurlFactory.php:70  add
+- $conf[CURLOPT_SSL_VERIFYHOST] = 0;
+- $conf[CURLOPT_SSL_VERIFYPEER] = 0;
