@@ -1,0 +1,5 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="docker-app-config" type="PhpRemoteDebugRunConfigurationType" factoryName="PHP Remote Debug" editBeforeRun="true" filter_connections="FILTER" server_name="docker-app-server" session_id="docker">
+    <method v="2" />
+  </configuration>
+</component>
