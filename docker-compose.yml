@@ -17,8 +17,6 @@ services:
       - ./storage/logs/php/:/storage/logs/php/
       - ./docker-compose/app/php.ini:/usr/local/etc/php/php.ini
       - ./docker-compose/app/fpt-pool.conf:/usr/local/etc/php-fpm.d/www.conf
-    ports:
-      - "127.0.0.1:9000:9000"
     networks:
       - some
   horizon:
@@ -76,7 +74,7 @@ services:
     volumes:
       - ./:/var/www
     ports:
-      - "127.0.0.1:8001:80"
+#      - "127.0.0.1:8001:80"
       - "127.0.0.1:6001:6001"
     networks:
       - some
@@ -99,21 +97,21 @@ services:
       - PMA_PASSWORD=${DB_PASSWORD}
     networks:
       - some
-#  rabbitmq:
-#    image: "rabbitmq:management"
-#    container_name: some-rabbitmq
-#    ports:
-#      - "5672:5672"  # RabbitMQ standard port
-#      - "15672:15672"  # RabbitMQ management UI
-#    environment:
-#      RABBITMQ_DEFAULT_USER: guest
-#      RABBITMQ_DEFAULT_PASS: guest
-#    volumes:
-#      - ./docker-compose/rabbitmq/rabbitmq.conf:/etc/rabbitmq/rabbitmq.conf
-#      - ./docker-compose/rabbitmq/definitions.json:/etc/rabbitmq/definitions.json
-#      - ./rabbitmq-data:/var/lib/rabbitmq
-#    networks:
-#      - some
+  rabbitmq:
+    image: "rabbitmq:management"
+    container_name: some-rabbitmq
+    ports:
+      - "5672:5672"  # RabbitMQ standard port
+      - "15672:15672"  # RabbitMQ management UI
+    environment:
+      RABBITMQ_DEFAULT_USER: guest
+      RABBITMQ_DEFAULT_PASS: guest
+    volumes:
+      - ./docker-compose/rabbitmq/rabbitmq.conf:/etc/rabbitmq/rabbitmq.conf
+      - ./docker-compose/rabbitmq/definitions.json:/etc/rabbitmq/definitions.json
+      - ./rabbitmq-data:/var/lib/rabbitmq
+    networks:
+      - some
 networks:
   some:
     driver: bridge
