@@ -16,31 +16,27 @@ build-job:       # This job runs in the build stage, which runs first.
     - mkdir vendor
     - mkdir node_modules
     - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
-    - docker build -t $CI_REGISTRY/tatevikg1/some/$CI_DEFAULT_BRANCH:latest -f docker-compose/app/Dockerfile .
-    - docker push $CI_REGISTRY/tatevikg1/some/$CI_DEFAULT_BRANCH:latest
+    - docker build -t $CI_REGISTRY/$CI_REGISTRY_IMAGE:${CI_COMMIT_SHORT_SHA} -f docker-compose/app/Dockerfile .
+    - docker push $CI_REGISTRY/$CI_REGISTRY_IMAGE:${CI_COMMIT_SHORT_SHA}
 
 unit-test-job:   # This job runs in the test stage.
   stage: test    # It only starts when the job in the build stage completes successfully.
-  image: registry.gitlab.com/tatevikg1/some/$CI_DEFAULT_BRANCH:latest
   script:
     - echo "Running unit tests..."
     - cp .env.example .env
-    - echo "APP_ENV=prod" >> .env
-    - echo "APP_KEY=base64:something" >> .env
     - composer install --no-scripts --no-interaction --prefer-dist --optimize-autoloader --quiet
+    - ls -la
     - php artisan test
-  cache:
-    key: ${CI_COMMIT_SHORT_SHA}
-    paths:
-      - app/
-      - vendor/
-    policy: push
+    - php artisan optimize:clear
+    - rm .env
+    - rm -rf vendor
   only:
     - master
 
 lint-test-job:   # This job also runs in the test stage.
   stage: test    # It can run at the same time as unit-test-job (in parallel).
   script:
+    - pwd
     - echo "No lint tests."
 
 deploy-job:      # This job runs in the deployment stage.

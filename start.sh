@@ -23,7 +23,7 @@ sudo chgrp -R www-data storage bootstrap/cache
 sudo chmod -R ug+rwx storage bootstrap/cache
 
 # make this file executable
-sudo chmod +x start.sh
+sudo chmod +x help
 
 #nvm use 14
 #npm run dev

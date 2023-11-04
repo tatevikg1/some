@@ -1,10 +1,8 @@
 FROM php:8.1-fpm
 COPY composer.lock composer.json /var/www/
-
 WORKDIR /var/www
 
 RUN pecl install redis && docker-php-ext-enable redis
-
 RUN apt-get update
 RUN apt-get install -y build-essential \
     curl  \
@@ -25,13 +23,11 @@ RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local
 
 RUN pecl install xdebug && docker-php-ext-enable xdebug
 
-RUN apt update
-RUN apt install -y software-properties-common
-RUN apt install -y gnupg
-RUN curl -fsSL https://deb.nodesource.com/gpgkey/nodesource.gpg.key | gpg --dearmor -o /usr/share/keyrings/nodesource-archive-keyring.gpg
-RUN curl -sL https://deb.nodesource.com/setup_14.x | bash -
-RUN apt install -y nodejs
-RUN apt install -y  npm
+#RUN apt install -y software-properties-common
+#RUN apt install -y gnupg
+#RUN curl -fsSL https://deb.nodesource.com/gpgkey/nodesource.gpg.key | gpg --dearmor -o /usr/share/keyrings/nodesource-archive-keyring.gpg
+#RUN apt install -y nodejs
+#RUN apt install -y  npm
 
 RUN groupadd -g 1000 www
 RUN useradd -u 1000 -ms /bin/bash -g www www
@@ -39,7 +35,7 @@ COPY . /var/www
 COPY --chown=www:www . /var/www
 USER www
 
-RUN composer install # && php artisan storage:link
-RUN npm install && npm run dev
+RUN cd /var/www && composer install #&& php artisan storage:link
+#RUN npm install && npm run dev
 
 CMD ["php-fpm"]
