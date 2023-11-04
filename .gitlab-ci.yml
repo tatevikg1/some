@@ -1,0 +1,51 @@
+stages:          # List of stages for jobs, and their order of execution
+  - build
+  - test
+  - deploy
+image: tatevikg1/some-app:1.0
+
+services:
+  - name: docker:dind
+
+build-job:       # This job runs in the build stage, which runs first.
+  stage: build
+  image: docker:stable
+  services:
+    - docker:dind
+  script:
+    - mkdir vendor
+    - mkdir node_modules
+    - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
+    - docker build -t $CI_REGISTRY/tatevikg1/some/$CI_DEFAULT_BRANCH:latest -f docker-compose/app/Dockerfile .
+    - docker push $CI_REGISTRY/tatevikg1/some/$CI_DEFAULT_BRANCH:latest
+
+unit-test-job:   # This job runs in the test stage.
+  stage: test    # It only starts when the job in the build stage completes successfully.
+  image: registry.gitlab.com/tatevikg1/some/$CI_DEFAULT_BRANCH:latest
+  script:
+    - echo "Running unit tests..."
+    - cp .env.example .env
+    - echo "APP_ENV=prod" >> .env
+    - echo "APP_KEY=base64:something" >> .env
+    - composer install --no-scripts --no-interaction --prefer-dist --optimize-autoloader --quiet
+    - php artisan test
+  cache:
+    key: ${CI_COMMIT_SHORT_SHA}
+    paths:
+      - app/
+      - vendor/
+    policy: push
+  only:
+    - master
+
+lint-test-job:   # This job also runs in the test stage.
+  stage: test    # It can run at the same time as unit-test-job (in parallel).
+  script:
+    - echo "No lint tests."
+
+deploy-job:      # This job runs in the deployment stage.
+  stage: deploy  # It only runs when *both* jobs in the test stage complete successfully.
+  environment: production
+  script:
+    - echo "Deploying application..."
+    - echo "Application deployment not set up yet."
