@@ -11,6 +11,7 @@ use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use PDO;
 
 class ChatService
 {
@@ -23,14 +24,21 @@ class ChatService
         $userId = auth()->id();
         DB::statement("SET SESSION sql_mode=(SELECT REPLACE(@@sql_mode,'ONLY_FULL_GROUP_BY',''));");
 
-        $userIds = DB::SELECT(
+        $query = DB::getPdo()->prepare(
             "SELECT contact from
-                (SELECT receiver as contact, created_at from messages WHERE sender={$userId} GROUP BY receiver
+                (SELECT receiver as contact, created_at from messages WHERE sender=:senderId GROUP BY receiver
                 UNION
-                SELECT sender, created_at from messages WHERE  receiver={$userId}  GROUP BY sender
-                ORDER BY created_at DESC LIMIT {$limit} OFFSET {$offset})
+                SELECT sender, created_at from messages WHERE  receiver=:receiverId  GROUP BY sender
+                ORDER BY created_at DESC LIMIT :limit OFFSET :offset)
                 as icasca"
         );
+        $query->execute([
+            'senderId' => $userId,
+            'receiverId' => $userId,
+            'limit' => $limit,
+            'offset' => $offset,
+        ]);
+        $userIds = $query->fetchAll(PDO::FETCH_OBJ);
         $contacts = User::whereIn('id', array_column($userIds,'contact'))->take($limit)->get();
 
         // get the count of unread messages group by contact
