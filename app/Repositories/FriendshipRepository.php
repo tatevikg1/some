@@ -63,7 +63,7 @@ class FriendshipRepository
             'status' => 'confirmed',
             'acted_user' => auth()->id(),
         ]);
-        $profileRepository = new ProfileRepository();
+        $profileRepository = app(ProfileRepository::class);
         $profileRepository->follow_each_other_profile($friendship);
 
         return $friendship;

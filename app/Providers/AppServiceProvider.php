@@ -2,7 +2,9 @@
 
 namespace App\Providers;
 
+use App\Repositories\ProfileRepository;
 use App\Services\FirebaseNotificationService;
+use App\Services\ImageService;
 use App\Services\NotificationServiceInterface;
 use Illuminate\Support\ServiceProvider;
 
@@ -18,6 +20,12 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(NotificationServiceInterface::class, function () {
             return new FirebaseNotificationService();
         });
+        $this->app->bind(
+            ProfileRepository::class,
+            function ($app) {
+                return new ProfileRepository($app->make(ImageService::class));
+            }
+        );
     }
 
     /**
